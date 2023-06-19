@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="link_create_complete">링크 등록 완료!</string>
+    <string name="link_create">링크 추가하기</string>
+</resources>

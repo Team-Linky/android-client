@@ -1,0 +1,31 @@
+package com.linky.link_url_input.component
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.linky.design_system.ui.component.text.LinkyText
+import com.linky.design_system.ui.theme.ClipBoardPasteBackgroundColor
+import com.linky.design_system.ui.theme.ClipBoardPasteTextColor
+import com.linky.design_system.util.clickableRipple
+import com.linky.link_url_input.R
+
+@Composable
+internal fun ClipBoardPaste(onClick: () -> Unit) {
+    LinkyText(
+        text = stringResource(R.string.link_clipboard_paste),
+        fontSize = 12.sp,
+        color = ClipBoardPasteTextColor,
+        fontWeight = FontWeight.Medium,
+        modifier = Modifier
+            .padding(top = 16.dp)
+            .background(ClipBoardPasteBackgroundColor, RoundedCornerShape(4.dp))
+            .padding(horizontal = 10.dp, vertical = 6.dp)
+            .clickableRipple(radius = 100.dp, onClick = onClick)
+    )
+}

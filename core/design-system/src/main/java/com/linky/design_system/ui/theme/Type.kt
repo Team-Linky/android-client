@@ -1,6 +1,6 @@
 package com.linky.design_system.ui.theme
 
-import androidx.compose.material3.Typography
+import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -17,7 +17,7 @@ val Pretendard = FontFamily(
 )
 
 val Typography = Typography(
-    bodyLarge = TextStyle(
+    body1 = TextStyle(
         fontFamily = Pretendard,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
