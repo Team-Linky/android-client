@@ -16,5 +16,14 @@ dependencyResolutionManagement {
 rootProject.name = "linky"
 include(
     ":app",
-    ":core:design-system"
+    ":common:intercation",
+    ":core:design-system",
+    ":feature:navigation",
+    ":feature:timeline",
+    ":feature:tag",
+    ":feature:more",
+    ":feature:link",
+    ":feature:link-url-input",
+    ":feature:link-detail-input",
+    ":feature:link-input-complete",
 )

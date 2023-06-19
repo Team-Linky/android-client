@@ -22,5 +22,4 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.lottie)
     implementation(libs.system.ui.controller)
-    implementation(libs.androidx.compose.navigation)
 }

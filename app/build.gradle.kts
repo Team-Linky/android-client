@@ -1,4 +1,6 @@
 import com.linky.convention.VersionConstants
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     id("linky.android.application")
@@ -17,19 +19,19 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
-//    signingConfigs {
-//        val releaseSigningConfig by creating {
-//            val properties = Properties().apply {
-//                load(FileInputStream("${rootDir}/local.properties"))
-//            }
-//            storeFile = file("${rootDir}/${properties["keystore"]}")
-//            keyAlias = "${properties["key_alias"]}"
-//            keyPassword = "${properties["key_password"]}"
-//            storePassword = "${properties["store_password"]}"
-//            enableV1Signing = true
-//            enableV2Signing = true
-//        }
-//    }
+    signingConfigs {
+        val releaseSigningConfig by creating {
+            val properties = Properties().apply {
+                load(FileInputStream("${rootDir}/local.properties"))
+            }
+            storeFile = file("${rootDir}/${properties["keystore"]}")
+            keyAlias = "${properties["key_alias"]}"
+            keyPassword = "${properties["key_password"]}"
+            storePassword = "${properties["store_password"]}"
+            enableV1Signing = true
+            enableV2Signing = true
+        }
+    }
 
     buildTypes {
         release {
@@ -38,11 +40,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-//            signingConfig = signingConfigs.getByName("releaseSigningConfig")
+            signingConfig = signingConfigs.getByName("releaseSigningConfig")
         }
         debug {
             isMinifyEnabled = false
-//            signingConfig = signingConfigs.getByName("releaseSigningConfig")
+            signingConfig = signingConfigs.getByName("releaseSigningConfig")
         }
     }
 
@@ -56,6 +58,11 @@ android {
 
 dependencies {
     implementation(projects.core.designSystem)
+    implementation(projects.feature.navigation)
+    implementation(projects.feature.timeline)
+    implementation(projects.feature.tag)
+    implementation(projects.feature.more)
+    implementation(projects.feature.link)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.lifecycle.runtime)

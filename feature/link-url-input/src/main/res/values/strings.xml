@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="complete">완료</string>
+    <string name="link_add">링크 추가</string>
+    <string name="link_add_placeholder">추가할 링크를 입력해 주세요.</string>
+    <string name="link_clipboard_paste">복사한 링크 붙여넣기</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_timeline">타임라인</string>
+    <string name="nav_tag">태그</string>
+    <string name="nav_more">더보기</string>
+</resources>
