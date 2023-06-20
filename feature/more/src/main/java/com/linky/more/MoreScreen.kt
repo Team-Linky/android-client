@@ -15,21 +15,21 @@ import com.linky.more.component.MoreContent
 import com.linky.more.component.MoreHeader
 import com.linky.navigation.MainNavType
 
-fun NavGraphBuilder.moreScreen() {
+fun NavGraphBuilder.moreScreen(onShowMoreActivity: (String) -> Unit) {
     composable(
         route = MainNavType.More.route,
         enterTransition = { enterTransition },
         exitTransition = { exitTransition }
-    ) { MoreRoute() }
+    ) { MoreRoute(onShowMoreActivity) }
 }
 
 @Composable
-private fun MoreRoute() {
-    MoreScreen()
+private fun MoreRoute(onShowMoreActivity: (String) -> Unit) {
+    MoreScreen(onShowMoreActivity)
 }
 
 @Composable
-private fun MoreScreen() {
+private fun MoreScreen(onShowMoreActivity: (String) -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -37,6 +37,6 @@ private fun MoreScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MoreHeader()
-        MoreContent()
+        MoreContent(onClick = onShowMoreActivity)
     }
 }

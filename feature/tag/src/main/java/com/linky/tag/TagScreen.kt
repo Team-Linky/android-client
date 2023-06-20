@@ -15,21 +15,21 @@ import com.linky.tag.animation.exitTransition
 import com.linky.tag.component.TagHeader
 import com.linky.tag.component.TagLinkCreateScreen
 
-fun NavGraphBuilder.tagScreen(showLinkActivity: () -> Unit) {
+fun NavGraphBuilder.tagScreen(onShowLinkActivity: () -> Unit) {
     composable(
         route = MainNavType.Tag.route,
         enterTransition = { enterTransition },
         exitTransition = { exitTransition }
-    ) { TagRoute(showLinkActivity) }
+    ) { TagRoute(onShowLinkActivity) }
 }
 
 @Composable
-private fun TagRoute(showLinkActivity: () -> Unit) {
-    TagScreen(showLinkActivity)
+private fun TagRoute(onShowLinkActivity: () -> Unit) {
+    TagScreen(onShowLinkActivity)
 }
 
 @Composable
-private fun TagScreen(showLinkActivity: () -> Unit = {}) {
+private fun TagScreen(onShowLinkActivity: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -37,6 +37,6 @@ private fun TagScreen(showLinkActivity: () -> Unit = {}) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TagHeader()
-        TagLinkCreateScreen(showLinkActivity)
+        TagLinkCreateScreen(onShowLinkActivity)
     }
 }

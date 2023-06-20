@@ -5,13 +5,14 @@ plugins {
 }
 
 android {
-    namespace = "com.linky.link_input_complete"
+    namespace = "com.linky.more_activity"
 }
 
 dependencies {
     implementation(projects.core.designSystem)
     implementation(projects.feature.navigation)
-    implementation(projects.feature.linkUrlInput)
+    implementation(projects.feature.tip)
+    implementation(projects.feature.link)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.lifecycle.runtime)
@@ -27,5 +28,4 @@ dependencies {
     implementation(libs.system.ui.controller)
     implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.compose.hilt.navigation)
-    implementation(libs.navigation.animation)
 }

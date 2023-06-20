@@ -13,6 +13,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.linky.design_system.ui.component.floating.LinkyFloatingActionButton
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
 import com.linky.link.extension.launchLinkActivity
+import com.linky.more_activity.extension.launchMoreActivity
 import com.linky.navigation.LinkyBottomNavigation
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,7 +37,8 @@ class MainActivity : ComponentActivity() {
                     ) {
                         MainNavHost(
                             navHostController = navHostController,
-                            showLinkActivity = ::launchLinkActivity
+                            onShowLinkActivity = ::launchLinkActivity,
+                            onShowMoreActivity = ::launchMoreActivity
                         )
                     }
                 }

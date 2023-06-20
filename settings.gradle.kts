@@ -26,4 +26,6 @@ include(
     ":feature:link-url-input",
     ":feature:link-detail-input",
     ":feature:link-input-complete",
+    ":feature:tip",
+    ":feature:more-activity",
 )

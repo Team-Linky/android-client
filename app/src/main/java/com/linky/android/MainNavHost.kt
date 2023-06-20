@@ -11,14 +11,15 @@ import com.linky.timeline.timelineScreen
 @Composable
 fun MainNavHost(
     navHostController: NavHostController,
-    showLinkActivity: () -> Unit
+    onShowLinkActivity: () -> Unit,
+    onShowMoreActivity: (String) -> Unit
 ) {
     AnimatedNavHost(
         navController = navHostController,
         startDestination = MainNavType.TimeLine.route
     ) {
-        timelineScreen(showLinkActivity)
-        tagScreen(showLinkActivity)
-        moreScreen()
+        timelineScreen(onShowLinkActivity)
+        tagScreen(onShowLinkActivity)
+        moreScreen(onShowMoreActivity)
     }
 }

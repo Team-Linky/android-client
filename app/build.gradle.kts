@@ -63,6 +63,7 @@ dependencies {
     implementation(projects.feature.tag)
     implementation(projects.feature.more)
     implementation(projects.feature.link)
+    implementation(projects.feature.moreActivity)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.lifecycle.runtime)

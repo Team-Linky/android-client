@@ -17,21 +17,21 @@ import com.linky.timeline.animation.exitTransition
 import com.linky.timeline.component.TimeLineHeader
 import com.linky.timeline.component.TimeLineLinkCreateScreen
 
-fun NavGraphBuilder.timelineScreen(showLinkActivity: () -> Unit) {
+fun NavGraphBuilder.timelineScreen(onShowLinkActivity: () -> Unit) {
     composable(
         route = MainNavType.TimeLine.route,
         enterTransition = { enterTransition },
         exitTransition = { exitTransition }
-    ) { TimeLineRoute(showLinkActivity) }
+    ) { TimeLineRoute(onShowLinkActivity) }
 }
 
 @Composable
-private fun TimeLineRoute(showLinkActivity: () -> Unit) {
-    TimeLineScreen(showLinkActivity)
+private fun TimeLineRoute(onShowLinkActivity: () -> Unit) {
+    TimeLineScreen(onShowLinkActivity)
 }
 
 @Composable
-private fun TimeLineScreen(showLinkActivity: () -> Unit = {}) {
+private fun TimeLineScreen(onShowLinkActivity: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,7 +39,7 @@ private fun TimeLineScreen(showLinkActivity: () -> Unit = {}) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TimeLineHeader()
-        TimeLineLinkCreateScreen(showLinkActivity)
+        TimeLineLinkCreateScreen(onShowLinkActivity)
     }
 }
 
