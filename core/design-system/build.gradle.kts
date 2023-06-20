@@ -20,6 +20,5 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material.compose)
     implementation(libs.coil)
-    implementation(libs.lottie)
     implementation(libs.system.ui.controller)
 }

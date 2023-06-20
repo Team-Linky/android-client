@@ -25,9 +25,13 @@ import com.linky.design_system.ui.theme.LinkyDefaultBackgroundColor
 import com.linky.design_system.ui.theme.LinkyMoreContentLineColor
 import com.linky.design_system.util.clickableRipple
 import com.linky.more.R
+import com.linky.navigation.more.MoreNavType
 
 @Composable
-internal fun MoreContent(modifier: Modifier = Modifier) {
+internal fun MoreContent(
+    modifier: Modifier = Modifier,
+    onClick: (String) -> Unit
+) {
     Card(
         shape = RoundedCornerShape(12.dp),
         backgroundColor = LinkyDefaultBackgroundColor,
@@ -42,17 +46,34 @@ internal fun MoreContent(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MoreContentItem(
-                R.drawable.icon_content_notification,
-                R.string.more_content_notification
+                iconResource = R.drawable.icon_content_notification,
+                textResource = R.string.more_content_notification,
+                onClick = { onClick.invoke(MoreNavType.Notification.route) }
             )
             MoreContentItemLine()
-            MoreContentItem(R.drawable.icon_content_tip, R.string.more_content_tip)
+            MoreContentItem(
+                iconResource = R.drawable.icon_content_tip,
+                textResource = R.string.more_content_tip,
+                onClick = { onClick.invoke(MoreNavType.Tip.route) }
+            )
             MoreContentItemLine()
-            MoreContentItem(R.drawable.icon_content_lock, R.string.more_content_lock)
+            MoreContentItem(
+                iconResource = R.drawable.icon_content_lock,
+                textResource = R.string.more_content_lock,
+                onClick = { onClick.invoke(MoreNavType.Lock.route) }
+            )
             MoreContentItemLine()
-            MoreContentItem(R.drawable.icon_content_tag, R.string.more_content_tag)
+            MoreContentItem(
+                iconResource = R.drawable.icon_content_tag,
+                textResource = R.string.more_content_tag,
+                onClick = { onClick.invoke(MoreNavType.Tag.route) }
+            )
             MoreContentItemLine()
-            MoreContentItem(R.drawable.icon_content_link, R.string.more_content_link)
+            MoreContentItem(
+                iconResource = R.drawable.icon_content_link,
+                textResource = R.string.more_content_link,
+                onClick = { onClick.invoke(MoreNavType.Link.route) }
+            )
         }
     }
 }
@@ -85,7 +106,6 @@ private fun MoreContentItem(
             modifier = Modifier.padding(start = 8.dp)
         )
     }
-
 }
 
 @Composable

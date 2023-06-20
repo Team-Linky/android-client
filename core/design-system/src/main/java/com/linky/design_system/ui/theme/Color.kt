@@ -20,6 +20,7 @@ val Gray300 = Color(0xFFE7E8EB)
 val Gray100 = Color(0xFFF5F6F8)
 val White = Color(0xFFFFFFFF)
 
+val Nav900 = Color(0xFF222B3F)
 val Nav700 = Color(0xFF61728A)
 val Nav500 = Color(0xFFC4CBDA)
 val Nav300 = Color(0xFFECEFF4)
@@ -38,6 +39,7 @@ private val ColorFamilyGray100AndGray900 = ColorFamily(Gray100, Gray900)
 private val ColorFamilyGray300AndGray800 = ColorFamily(Gray300, Gray800)
 private val ColorFamilyNav300AndNav700 = ColorFamily(Nav300, Nav700)
 private val ColorFamilyNav700AndNav300 = ColorFamily(Nav700, Nav300)
+private val ColorFamilyGray100AndNav900 = ColorFamily(Gray100, Nav900)
 
 val LinkyDefaultBackgroundColor
     @Composable get() = ColorFamilyWhiteAndGray999.color
@@ -66,6 +68,8 @@ val WebContentLineColor
     @Composable get() = ColorFamilyGray300AndGray800.color
 val WebContentTitleColor
     @Composable get() = ColorFamilyGray600AndGray400.color
+val LinkyTipBackgroundColor
+    @Composable get() = ColorFamilyGray100AndNav900.color
 
 val MainColor
     @Composable get() = ColorFamily(MainColorLight, MainColorDark).color

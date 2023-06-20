@@ -20,7 +20,7 @@ import com.linky.design_system.ui.theme.LinkyDescriptionColor
 import com.linky.timeline.R
 
 @Composable
-internal fun ColumnScope.TimeLineLinkCreateScreen(showLinkActivity: () -> Unit) {
+internal fun ColumnScope.TimeLineLinkCreateScreen(onShowLinkActivity: () -> Unit) {
     Column(
         modifier = Modifier.weight(1f),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -42,7 +42,7 @@ internal fun ColumnScope.TimeLineLinkCreateScreen(showLinkActivity: () -> Unit) 
         LinkyButton(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = stringResource(R.string.link_create_text),
-            onClick = showLinkActivity
+            onClick = onShowLinkActivity
         )
         Spacer(modifier = Modifier.weight(0.4f))
     }
