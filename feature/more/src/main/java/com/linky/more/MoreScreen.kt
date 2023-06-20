@@ -1,18 +1,26 @@
 package com.linky.more
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.composable
+import com.linky.more.animation.enterTransition
+import com.linky.more.animation.exitTransition
 import com.linky.more.component.MoreContent
 import com.linky.more.component.MoreHeader
-import com.linky.navigation.NavType
+import com.linky.navigation.MainNavType
 
 fun NavGraphBuilder.moreScreen() {
-    composable(NavType.More.route) { MoreRoute() }
+    composable(
+        route = MainNavType.More.route,
+        enterTransition = { enterTransition },
+        exitTransition = { exitTransition }
+    ) { MoreRoute() }
 }
 
 @Composable
@@ -23,7 +31,9 @@ private fun MoreRoute() {
 @Composable
 private fun MoreScreen() {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MoreHeader()

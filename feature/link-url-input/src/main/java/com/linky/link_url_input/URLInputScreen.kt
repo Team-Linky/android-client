@@ -3,7 +3,6 @@ package com.linky.link_url_input
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -30,7 +29,6 @@ import com.linky.link_url_input.component.URLInputContent
 import com.linky.link_url_input.component.URLInputHeader
 import com.linky.navigation.link.LinkNavType
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.urlInputScreen(navController: NavController) {
     composable(LinkNavType.URLInput.route) {
         val activity = LocalContext.current as ComponentActivity

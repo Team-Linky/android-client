@@ -1,7 +1,6 @@
 package com.linky.link_detail_input
 
 import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -22,11 +21,11 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
 import com.linky.design_system.ui.component.textfield.addFocusCleaner
+import com.linky.link_detail_input.animation.exitTransition
 import com.linky.link_detail_input.component.DetailInputContent
 import com.linky.link_detail_input.component.DetailInputHeader
 import com.linky.navigation.link.LinkNavType
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.detailInputScreen(navController: NavController) {
     composable(
         route = LinkNavType.DetailInput.route,
@@ -36,12 +35,7 @@ fun NavGraphBuilder.detailInputScreen(navController: NavController) {
                 animationSpec = tween(300)
             )
         },
-        exitTransition = {
-            slideOutOfContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = tween(300)
-            )
-        }
+        exitTransition = { exitTransition }
     ) {
         DetailInputRoute(
             onComplete = {

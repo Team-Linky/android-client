@@ -2,7 +2,6 @@ package com.linky.link_input_complete
 
 import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,11 +13,11 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
+import com.linky.link_input_complete.animation.exitTransition
 import com.linky.link_input_complete.component.InputCompleteContent
 import com.linky.link_input_complete.component.InputCompleteHeader
 import com.linky.navigation.link.LinkNavType
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.inputCompleteInputScreen(navController: NavController) {
     composable(
         route = LinkNavType.Complete.route,
@@ -28,12 +27,7 @@ fun NavGraphBuilder.inputCompleteInputScreen(navController: NavController) {
                 animationSpec = tween(300)
             )
         },
-        exitTransition = {
-            slideOutOfContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = tween(300)
-            )
-        }
+        exitTransition = { exitTransition }
     ) {
         val activity = LocalContext.current as ComponentActivity
 
