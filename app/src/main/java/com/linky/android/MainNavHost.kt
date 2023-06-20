@@ -2,9 +2,9 @@ package com.linky.android
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
+import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.linky.more.moreScreen
-import com.linky.navigation.NavType
+import com.linky.navigation.MainNavType
 import com.linky.tag.tagScreen
 import com.linky.timeline.timelineScreen
 
@@ -13,9 +13,9 @@ fun MainNavHost(
     navHostController: NavHostController,
     showLinkActivity: () -> Unit
 ) {
-    NavHost(
+    AnimatedNavHost(
         navController = navHostController,
-        startDestination = NavType.TimeLine.route
+        startDestination = MainNavType.TimeLine.route
     ) {
         timelineScreen(showLinkActivity)
         tagScreen(showLinkActivity)

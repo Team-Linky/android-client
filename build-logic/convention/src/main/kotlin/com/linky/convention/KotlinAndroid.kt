@@ -47,7 +47,8 @@ private fun Project.configureKotlin() {
             allWarningsAsErrors = warningsAsErrors.toBoolean()
 
             freeCompilerArgs = freeCompilerArgs + listOf(
-                "-opt-in=kotlin.RequiresOptIn"
+                "-opt-in=kotlin.RequiresOptIn",
+                "-opt-in=androidx.compose.animation.ExperimentalAnimationApi"
             )
         }
     }

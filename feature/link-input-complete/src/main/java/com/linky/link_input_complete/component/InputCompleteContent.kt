@@ -38,7 +38,7 @@ internal fun ColumnScope.InputCompleteContent(onCreate: () -> Unit) {
         )
         Spacer(modifier = Modifier.weight(0.2f))
         LinkyButton(
-            text = stringResource(R.string.link_create),
+            text = stringResource(R.string.link_create_text),
             modifier = Modifier.padding(horizontal = 24.dp),
             onClick = onCreate
         )
