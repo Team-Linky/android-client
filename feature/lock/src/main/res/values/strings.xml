@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lock_header">화면 잠금 설정</string>
+    <string name="lock_text">화면 잠금</string>
+    <string name="lock_password_change_text">비밀번호 변경</string>
+    <string name="lock_biometrics_recognition_text">생체인증 사용</string>
+</resources>

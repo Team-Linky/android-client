@@ -37,6 +37,7 @@ private val ColorFamilyGray400AndGray600 = ColorFamily(Gray400, Gray600)
 private val ColorFamilyGray100AndGray800 = ColorFamily(Gray100, Gray800)
 private val ColorFamilyGray100AndGray900 = ColorFamily(Gray100, Gray900)
 private val ColorFamilyGray300AndGray800 = ColorFamily(Gray300, Gray800)
+private val ColorFamilyGray400AndGray800 = ColorFamily(Gray400, Gray800)
 private val ColorFamilyNav300AndNav700 = ColorFamily(Nav300, Nav700)
 private val ColorFamilyNav700AndNav300 = ColorFamily(Nav700, Nav300)
 private val ColorFamilyGray100AndNav900 = ColorFamily(Gray100, Nav900)
@@ -58,6 +59,9 @@ val LinkInputCompleteTextButtonDisableColor
     @Composable get() = ColorFamilyGray400AndGray600.color
 val LinkyMoreContentLineColor
     @Composable get() = ColorFamilyGray100AndGray800.color
+val LinkySwitchUnCheckTrackColor
+    @Composable get() = ColorFamilyGray400AndGray800.color
+
 val ClipBoardPasteBackgroundColor
     @Composable get() = ColorFamilyNav300AndNav700.color
 val ClipBoardPasteTextColor
@@ -70,6 +74,12 @@ val WebContentTitleColor
     @Composable get() = ColorFamilyGray600AndGray400.color
 val LinkyTipBackgroundColor
     @Composable get() = ColorFamilyGray100AndNav900.color
+val LockContentLineColor
+    @Composable get() = ColorFamilyGray300AndGray800.color
+val LockContentBackgroundColor
+    @Composable get() = ColorFamilyGray100AndGray900.color
+val CertificationDescriptionColor
+    @Composable get() = ColorFamilyGray800AndGray300.color
 
 val MainColor
     @Composable get() = ColorFamily(MainColorLight, MainColorDark).color

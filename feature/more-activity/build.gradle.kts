@@ -13,6 +13,7 @@ dependencies {
     implementation(projects.feature.navigation)
     implementation(projects.feature.tip)
     implementation(projects.feature.link)
+    implementation(projects.feature.lock)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.lifecycle.runtime)

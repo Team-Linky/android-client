@@ -58,12 +58,16 @@ android {
 
 dependencies {
     implementation(projects.core.designSystem)
+    implementation(projects.core.di)
+    implementation(projects.core.data)
     implementation(projects.feature.navigation)
     implementation(projects.feature.timeline)
     implementation(projects.feature.tag)
     implementation(projects.feature.more)
     implementation(projects.feature.link)
     implementation(projects.feature.moreActivity)
+    implementation(projects.feature.certification)
+    implementation(projects.common.processLifecycle)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.lifecycle.runtime)
@@ -77,6 +81,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material.compose)
+    implementation(libs.androidx.lifecycle.process)
     implementation(libs.coil)
 
     testImplementation(libs.junit)

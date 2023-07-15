@@ -88,7 +88,7 @@ private fun MoreContentItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .height(48.dp)
+            .height(60.dp)
             .clickableRipple(
                 radius = 1000.dp,
                 onClick = onClick
@@ -101,7 +101,7 @@ private fun MoreContentItem(
         )
         LinkyText(
             text = stringResource(textResource),
-            fontSize = 14.sp,
+            fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
             modifier = Modifier.padding(start = 8.dp)
         )

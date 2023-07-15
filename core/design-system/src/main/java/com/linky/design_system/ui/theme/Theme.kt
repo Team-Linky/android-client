@@ -4,9 +4,11 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
+import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -30,6 +32,14 @@ object NoRippleTheme : RippleTheme {
     override fun defaultColor(): Color = Color.Unspecified
     @Composable
     override fun rippleAlpha(): RippleAlpha = RippleAlpha(0f, 0f, 0f, 0f)
+}
+
+@Composable
+fun NoRippleTheme(content: @Composable () -> Unit) {
+    CompositionLocalProvider(
+        values = arrayOf(LocalRippleTheme provides NoRippleTheme),
+        content = content
+    )
 }
 
 @Composable

@@ -10,9 +10,7 @@ import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.LocalContentColor
-import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,7 +50,7 @@ fun LinkyBottomNavigation(navController: NavHostController) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
 
-            CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+            NoRippleTheme {
                 NavList.forEach { navItem ->
                     val selected = currentRoute == navItem.route
 

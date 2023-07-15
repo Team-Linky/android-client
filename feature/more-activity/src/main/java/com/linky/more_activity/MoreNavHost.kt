@@ -3,6 +3,7 @@ package com.linky.more_activity
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.linky.lock.lockScreen
 import com.linky.tip.tipScreen
 
 @Composable
@@ -19,6 +20,9 @@ internal fun MoreNavHost(
         tipScreen(
             onClose = onClose,
             onLinkCreate = onLinkCreate
+        )
+        lockScreen(
+            onBack = onClose
         )
     }
 }

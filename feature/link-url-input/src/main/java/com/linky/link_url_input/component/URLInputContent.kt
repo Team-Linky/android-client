@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
@@ -42,7 +40,7 @@ internal fun ColumnScope.URLInputContent(
         Spacer(modifier = Modifier.padding(top = 58.dp))
         StableURLInputContent()
         Spacer(modifier = Modifier.padding(top = 56.dp))
-        CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+        NoRippleTheme {
             LinkyBasicTextField(
                 value = value,
                 onValueChange = onValueChange,

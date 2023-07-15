@@ -17,7 +17,11 @@ rootProject.name = "linky"
 include(
     ":app",
     ":common:intercation",
+    ":common:process-lifecycle",
     ":core:design-system",
+    ":core:data-store",
+    ":core:di",
+    ":core:data",
     ":feature:navigation",
     ":feature:timeline",
     ":feature:tag",
@@ -28,4 +32,7 @@ include(
     ":feature:link-input-complete",
     ":feature:tip",
     ":feature:more-activity",
+    ":feature:lock",
+    ":feature:certification",
+    ":feature:certification-registration",
 )
