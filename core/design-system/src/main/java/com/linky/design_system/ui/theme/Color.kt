@@ -41,6 +41,8 @@ private val ColorFamilyGray400AndGray800 = ColorFamily(Gray400, Gray800)
 private val ColorFamilyNav300AndNav700 = ColorFamily(Nav300, Nav700)
 private val ColorFamilyNav700AndNav300 = ColorFamily(Nav700, Nav300)
 private val ColorFamilyGray100AndNav900 = ColorFamily(Gray100, Nav900)
+private val ColorFamilyGray800AndGray400 = ColorFamily(Gray800, Gray400)
+private val ColorFamilyGray100AndGray999 = ColorFamily(Gray100, Gray999)
 
 val LinkyDefaultBackgroundColor
     @Composable get() = ColorFamilyWhiteAndGray999.color
@@ -61,6 +63,8 @@ val LinkyMoreContentLineColor
     @Composable get() = ColorFamilyGray100AndGray800.color
 val LinkySwitchUnCheckTrackColor
     @Composable get() = ColorFamilyGray400AndGray800.color
+val LinkyTimelineTextLineColor
+    @Composable get() = ColorFamilyGray600AndGray400.color
 
 val ClipBoardPasteBackgroundColor
     @Composable get() = ColorFamilyNav300AndNav700.color
@@ -80,6 +84,12 @@ val LockContentBackgroundColor
     @Composable get() = ColorFamilyGray100AndGray900.color
 val CertificationDescriptionColor
     @Composable get() = ColorFamilyGray800AndGray300.color
+val LinkyInputChipBackgroundColor
+    @Composable get() = ColorFamilyGray800AndGray400.color
+val LinkyInputChipUnSelectTextColor
+    @Composable get() = ColorFamilyGray800AndGray300.color
+val LinkyInputChipSelectTextColor
+    @Composable get() = ColorFamilyGray100AndGray999.color
 
 val MainColor
     @Composable get() = ColorFamily(MainColorLight, MainColorDark).color

@@ -28,14 +28,18 @@ import com.linky.design_system.ui.theme.LinkyLinkTheme
 import com.linky.link_url_input.component.URLInputContent
 import com.linky.link_url_input.component.URLInputHeader
 import com.linky.navigation.link.LinkNavType
+import okio.ByteString.Companion.encodeUtf8
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 fun NavGraphBuilder.urlInputScreen(navController: NavController) {
     composable(LinkNavType.URLInput.route) {
         val activity = LocalContext.current as ComponentActivity
 
         URLInputRoute(
-            onNext = {
-                navController.navigate(route = LinkNavType.DetailInput.route) {
+            onNext = { url ->
+                val encodedUrl = URLEncoder.encode(url, StandardCharsets.UTF_8.toString())
+                navController.navigate(route = LinkNavType.DetailInput.route.replace("{url}", encodedUrl)) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = true
                     }
@@ -50,7 +54,7 @@ fun NavGraphBuilder.urlInputScreen(navController: NavController) {
 
 @Composable
 private fun URLInputRoute(
-    onNext: () -> Unit,
+    onNext: (String) -> Unit,
     onBack: () -> Unit
 ) {
     URLInputScreen(
@@ -61,7 +65,7 @@ private fun URLInputRoute(
 
 @Composable
 private fun URLInputScreen(
-    onNext: () -> Unit = {},
+    onNext: (String) -> Unit = {},
     onBack: () -> Unit = {}
 ) {
     var text by rememberSaveable { mutableStateOf("") }
@@ -93,7 +97,7 @@ private fun URLInputScreen(
     ) {
         URLInputHeader(
             isNextActive = !isFocus && text.isNotEmpty(),
-            onNext = onNext,
+            onNext = { onNext.invoke(text) },
             onBack = onBack,
         )
         URLInputContent(

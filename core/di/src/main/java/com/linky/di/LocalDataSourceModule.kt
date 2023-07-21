@@ -1,5 +1,9 @@
 package com.linky.di
 
+import com.linky.data_base.link.data_source.LinkDataSource
+import com.linky.data_base.link.data_source.LinkDataSourceImpl
+import com.linky.data_base.tag.data_source.TagDataSource
+import com.linky.data_base.tag.data_source.TagDataSourceImpl
 import com.linky.data_store.data_source.certification.CertificationDataSource
 import com.linky.data_store.data_source.certification.CertificationDataSourceImpl
 import com.linky.data_store.data_source.lock.LockDataSource
@@ -22,5 +26,15 @@ interface LocalDataSourceModule {
     fun bindsLockDataSource(
         lockDataSource: LockDataSourceImpl
     ): LockDataSource
+
+    @Binds
+    fun bindsTagDataSource(
+        tagDataSourceImpl: TagDataSourceImpl
+    ): TagDataSource
+
+    @Binds
+    fun bindsLinkDataSource(
+        linkDataSourceImpl: LinkDataSourceImpl
+    ): LinkDataSource
 
 }

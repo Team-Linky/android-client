@@ -3,8 +3,11 @@ package com.linky.link_detail_input.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,9 +34,15 @@ import com.linky.design_system.ui.theme.WebContentBackgroundColor
 import com.linky.design_system.ui.theme.WebContentLineColor
 import com.linky.design_system.ui.theme.WebContentTitleColor
 import com.linky.link_detail_input.R
+import com.linky.link_detail_input.State
+import com.linky.model.Tag
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun ColumnScope.DetailInputContent(
+    state: State,
+    tags: List<Tag>,
+    selectTags: List<Long>,
     memoValue: String,
     memoOnValueChange: (String) -> Unit,
     memoOnClear: () -> Unit,
@@ -45,6 +54,10 @@ internal fun ColumnScope.DetailInputContent(
     tagOnFocusChanged: (FocusState) -> Unit = {},
     tagFocusRequester: FocusRequester,
     focusManager: FocusManager,
+    onCreateTag: (String) -> Unit,
+    onSelectTag: (Tag) -> Unit,
+    onUnSelectTag: (Tag) -> Unit,
+    onDeleteTag: (Tag) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -83,6 +96,7 @@ internal fun ColumnScope.DetailInputContent(
             )
             Spacer(modifier = Modifier.padding(top = 8.dp))
             LinkyTextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = tagValue,
                 placeholder = stringResource(R.string.tag_add_placeholder),
                 onValueChange = tagOnValueChange,
@@ -90,9 +104,42 @@ internal fun ColumnScope.DetailInputContent(
                 onFocusChanged = tagOnFocusChanged,
                 focusRequester = tagFocusRequester,
                 focusManager = focusManager,
-                modifier = Modifier.fillMaxWidth()
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        onCreateTag.invoke(tagValue)
+                        focusManager.clearFocus()
+                    }
+                )
             )
+            Spacer(modifier = Modifier.padding(top = 16.dp))
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Center
+            ) {
+                tags.forEach { tag ->
+                    Box(
+                        modifier = Modifier.padding(end = 4.dp, bottom = 8.dp),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        LinkyTagChip(
+                            text = tag.name,
+                            isSelected = selectTags.contains(tag.id),
+                            onDelete = { onDeleteTag.invoke(tag) },
+                            onClick = {
+                                if (tag.id != null) {
+                                    if (selectTags.contains(tag.id)) {
+                                        onUnSelectTag.invoke(tag)
+                                    } else {
+                                        onSelectTag.invoke(tag)
+                                    }
+                                }
+                            }
+                        )
+                    }
+                }
+            }
         }
+
         Spacer(modifier = Modifier.padding(top = 36.dp))
         Spacer(
             modifier = Modifier
@@ -107,44 +154,47 @@ internal fun ColumnScope.DetailInputContent(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .padding(top = 16.dp),
-                horizontalArrangement = Arrangement.Start
-            ) {
+            if (state is State.Success) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        .padding(top = 16.dp),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    LinkyText(
+                        text = state.openGraphData.siteName ?: "null",
+                        color = SubColor,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    LinkyText(
+                        text = state.openGraphData.title ?: "null",
+                        color = WebContentTitleColor,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(start = 4.dp)
+                    )
+                }
                 LinkyText(
-                    text = "네이버 지도",
-                    color = SubColor,
+                    text = state.openGraphData.url ?: "null",
                     fontSize = 13.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-                LinkyText(
-                    text = "나나방콕 상무점",
-                    color = WebContentTitleColor,
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.padding(start = 4.dp)
+                    fontWeight = FontWeight.Normal,
+                    color = LinkyDescriptionColor,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        .padding(bottom = 16.dp)
                 )
             }
-            LinkyText(
-                text = "https://www.url.zz",
-                fontSize = 13.sp,
-                fontWeight = FontWeight.Normal,
-                color = LinkyDescriptionColor,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .padding(bottom = 16.dp)
-            )
         }
     }
 }
 
 @Composable
 private fun LinkyTextField(
+    modifier: Modifier = Modifier,
     value: String,
     placeholder: String,
     onValueChange: (String) -> Unit,
@@ -152,7 +202,9 @@ private fun LinkyTextField(
     onFocusChanged: (FocusState) -> Unit = {},
     focusManager: FocusManager,
     focusRequester: FocusRequester,
-    modifier: Modifier = Modifier
+    keyboardActions: KeyboardActions = KeyboardActions(
+        onDone = { focusManager.clearFocus() }
+    ),
 ) {
     NoRippleTheme {
         LinkyBasicTextField(
@@ -162,9 +214,7 @@ private fun LinkyTextField(
             placeholder = placeholder,
             focusRequester = focusRequester,
             onFocusChanged = onFocusChanged,
-            keyboardActions = KeyboardActions(
-                onDone = { focusManager.clearFocus() }
-            ),
+            keyboardActions = keyboardActions,
             modifier = modifier.clickable { focusRequester.requestFocus() }
         )
     }

@@ -10,6 +10,7 @@ import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.linky.certification.extension.launchCertificationActivity
@@ -50,11 +51,7 @@ class MainActivity : ComponentActivity() {
                     floatingActionButtonPosition = FabPosition.End,
                     isFloatingActionButtonDocked = true
                 ) { paddingValues ->
-                    Surface(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(paddingValues)
-                    ) {
+                    Surface(modifier = Modifier.fillMaxSize()) {
                         MainNavHost(
                             navHostController = navHostController,
                             onShowLinkActivity = ::launchLinkActivity,

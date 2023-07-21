@@ -10,6 +10,9 @@ android {
 
 dependencies {
     implementation(projects.core.designSystem)
+    implementation(projects.core.data)
+    implementation(projects.core.model)
+    implementation(projects.core.dataBase)
     implementation(projects.feature.navigation)
 
     implementation(libs.androidx.core.ktx)
@@ -27,4 +30,6 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.compose.hilt.navigation)
     implementation(libs.navigation.animation)
+    implementation(libs.androidx.paging)
+    implementation(libs.androidx.paging.compose)
 }

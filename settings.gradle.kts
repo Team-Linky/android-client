@@ -4,6 +4,7 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven("https://jitpack.io")
     }
 }
 dependencyResolutionManagement {
@@ -11,6 +12,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://jitpack.io")
     }
 }
 rootProject.name = "linky"
@@ -22,6 +24,8 @@ include(
     ":core:data-store",
     ":core:di",
     ":core:data",
+    ":core:data-base",
+    ":core:model",
     ":feature:navigation",
     ":feature:timeline",
     ":feature:tag",

@@ -8,14 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.navigation.animation.composable
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
 import com.linky.navigation.MainNavType
 import com.linky.timeline.animation.enterTransition
 import com.linky.timeline.animation.exitTransition
 import com.linky.timeline.component.TimeLineHeader
-import com.linky.timeline.component.TimeLineLinkCreateScreen
+import com.linky.timeline.component.TimeLineContent
 
 fun NavGraphBuilder.timelineScreen(onShowLinkActivity: () -> Unit) {
     composable(
@@ -31,7 +33,12 @@ private fun TimeLineRoute(onShowLinkActivity: () -> Unit) {
 }
 
 @Composable
-private fun TimeLineScreen(onShowLinkActivity: () -> Unit = {}) {
+private fun TimeLineScreen(
+    onShowLinkActivity: () -> Unit = {},
+    viewModel: TimeLineViewModel = hiltViewModel()
+) {
+    val links = viewModel.linkList.collectAsLazyPagingItems()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,7 +46,11 @@ private fun TimeLineScreen(onShowLinkActivity: () -> Unit = {}) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TimeLineHeader()
-        TimeLineLinkCreateScreen(onShowLinkActivity)
+        TimeLineContent(
+            onShowLinkActivity = onShowLinkActivity,
+            onClick = { viewModel.incrementReadCount(it.id!!) },
+            links = links
+        )
     }
 }
 

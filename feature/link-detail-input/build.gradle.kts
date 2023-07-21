@@ -10,6 +10,8 @@ android {
 
 dependencies {
     implementation(projects.core.designSystem)
+    implementation(projects.core.model)
+    implementation(projects.core.data)
     implementation(projects.feature.navigation)
     implementation(projects.feature.linkUrlInput)
 
@@ -28,4 +30,7 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.compose.hilt.navigation)
     implementation(libs.navigation.animation)
+    implementation(libs.opengraph)
+    implementation(libs.orbit.compose)
+    implementation(libs.orbit.viewmodel)
 }

@@ -1,9 +1,18 @@
 plugins {
-    id("linky.kotlin.library")
+    id("linky.android.library")
+    id("linky.android.hilt")
 }
+
+android {
+    namespace = "com.linky.data"
+}
+
 
 dependencies {
     implementation(projects.core.dataStore)
-    implementation(libs.javax)
+    implementation(projects.core.dataBase)
+    implementation(projects.core.model)
+
     implementation(libs.coroutine.core)
+    implementation(libs.androidx.room.paging)
 }
