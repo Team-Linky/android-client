@@ -17,4 +17,7 @@ class LinkDataSourceImpl @Inject constructor(
 
     override suspend fun incrementReadCount(id: Long) = linkDao.incrementReadCount(id)
 
+    override suspend fun setIsRemoveLink(id: Long, isRemove: Boolean) =
+        linkDao.setIsRemoveLink(id, isRemove)
+
 }

@@ -14,4 +14,6 @@ interface LinkRepository {
 
     suspend fun incrementReadCount(id: Long)
 
+    suspend fun setIsRemoveLink(id: Long, isRemove: Boolean)
+
 }

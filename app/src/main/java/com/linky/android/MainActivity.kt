@@ -4,11 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Snackbar
+import androidx.compose.material.SnackbarHost
 import androidx.compose.material.Surface
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
@@ -44,15 +49,18 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navHostController = rememberAnimatedNavController()
+            val scaffoldState = rememberScaffoldState()
             LinkyDefaultTheme {
                 Scaffold(
                     bottomBar = { LinkyBottomNavigation(navHostController) },
                     floatingActionButton = { LinkyFloatingActionButton(::launchLinkActivity) },
                     floatingActionButtonPosition = FabPosition.End,
-                    isFloatingActionButtonDocked = true
+                    isFloatingActionButtonDocked = true,
+                    scaffoldState = scaffoldState,
                 ) { paddingValues ->
                     Surface(modifier = Modifier.fillMaxSize()) {
                         MainNavHost(
+                            scaffoldState = scaffoldState,
                             navHostController = navHostController,
                             onShowLinkActivity = ::launchLinkActivity,
                             onShowMoreActivity = ::launchMoreActivity

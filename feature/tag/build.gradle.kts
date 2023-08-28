@@ -10,6 +10,8 @@ android {
 
 dependencies {
     implementation(projects.core.designSystem)
+    implementation(projects.core.data)
+    implementation(projects.core.model)
     implementation(projects.feature.navigation)
 
     implementation(libs.androidx.core.ktx)

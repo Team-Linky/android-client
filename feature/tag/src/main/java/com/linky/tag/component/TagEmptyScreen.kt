@@ -20,7 +20,7 @@ import com.linky.design_system.ui.theme.LinkyDescriptionColor
 import com.linky.tag.R
 
 @Composable
-internal fun ColumnScope.TagLinkCreateScreen(onShowLinkActivity: () -> Unit = {}) {
+internal fun ColumnScope.TagEmptyScreen(onShowLinkActivity: () -> Unit = {}) {
     Column(
         modifier = Modifier.weight(1f),
         horizontalAlignment = Alignment.CenterHorizontally

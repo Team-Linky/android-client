@@ -1,5 +1,6 @@
 package com.linky.android
 
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -10,6 +11,7 @@ import com.linky.timeline.timelineScreen
 
 @Composable
 fun MainNavHost(
+    scaffoldState: ScaffoldState,
     navHostController: NavHostController,
     onShowLinkActivity: () -> Unit,
     onShowMoreActivity: (String) -> Unit
@@ -18,7 +20,7 @@ fun MainNavHost(
         navController = navHostController,
         startDestination = MainNavType.TimeLine.route
     ) {
-        timelineScreen(onShowLinkActivity)
+        timelineScreen(scaffoldState, onShowLinkActivity)
         tagScreen(onShowLinkActivity)
         moreScreen(onShowMoreActivity)
     }

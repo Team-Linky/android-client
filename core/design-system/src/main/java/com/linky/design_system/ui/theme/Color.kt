@@ -2,6 +2,7 @@ package com.linky.design_system.ui.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import java.util.Random
 
 val MainColorLight = Color(0xFF4777EE)
 val MainColorDark = Color(0xFF5B9DFF)
@@ -29,7 +30,15 @@ val ShadowGray = Color(0x33B5B5B5)
 val ShadowBlue = Color(0x4D98ACD3)
 val ShadowBlack = Color(0x99303030)
 
+val RandomColor: Color
+    get() = Color(
+        red = Random().nextFloat() * (0.9f - 0.6f) + 0.6f,
+        green = Random().nextFloat() * (0.9f - 0.6f) + 0.6f,
+        blue = Random().nextFloat() * (0.9f - 0.6f) + 0.6f
+    )
+
 private val ColorFamilyWhiteAndGray999 = ColorFamily(White, Gray999)
+private val ColorFamilyWhiteAndGray900 = ColorFamily(White, Gray900)
 private val ColorFamilyGray800AndGray300 = ColorFamily(Gray800, Gray300)
 private val ColorFamilyGray900AndGray100 = ColorFamily(Gray900, Gray100)
 private val ColorFamilyGray600AndGray400 = ColorFamily(Gray600, Gray400)
@@ -90,6 +99,8 @@ val LinkyInputChipUnSelectTextColor
     @Composable get() = ColorFamilyGray800AndGray300.color
 val LinkyInputChipSelectTextColor
     @Composable get() = ColorFamilyGray100AndGray999.color
+val TimelineMenuBackgroundColor
+    @Composable get() = ColorFamilyWhiteAndGray900.color
 
 val MainColor
     @Composable get() = ColorFamily(MainColorLight, MainColorDark).color

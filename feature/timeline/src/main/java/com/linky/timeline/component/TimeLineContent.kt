@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,13 +19,19 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -35,19 +42,31 @@ import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import com.linky.design_system.ui.component.button.LinkyButton
 import com.linky.design_system.ui.component.text.LinkyText
+import com.linky.design_system.ui.theme.ErrorColor
+import com.linky.design_system.ui.theme.Gray300
 import com.linky.design_system.ui.theme.Gray400
 import com.linky.design_system.ui.theme.LinkyDefaultBackgroundColor
 import com.linky.design_system.ui.theme.LinkyDescriptionColor
 import com.linky.design_system.ui.theme.LinkyTextDefaultColor
 import com.linky.design_system.ui.theme.LinkyTimelineTextLineColor
+import com.linky.design_system.ui.theme.LockContentLineColor
+import com.linky.design_system.ui.theme.TimelineMenuBackgroundColor
+import com.linky.design_system.ui.theme.White
 import com.linky.design_system.util.clickableRipple
 import com.linky.model.Link
 import com.linky.timeline.R
+import com.skydoves.balloon.compose.Balloon
+import com.skydoves.balloon.compose.rememberBalloonBuilder
+import com.skydoves.balloon.compose.setBackgroundColor
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun ColumnScope.TimeLineContent(
     onShowLinkActivity: () -> Unit,
     onClick: (Link) -> Unit,
+    onEdit: (Long) -> Unit,
+    onRemove: (Long) -> Unit,
+    onCopyLink: (Link) -> Unit,
     links: LazyPagingItems<Link>
 ) {
     Column(
@@ -55,7 +74,13 @@ internal fun ColumnScope.TimeLineContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (links.itemCount > 0) {
-            TimeLineLinkScreen(links, onClick)
+            TimeLineLinkScreen(
+                links = links,
+                onEdit = onEdit,
+                onRemove = onRemove,
+                onClick = onClick,
+                onCopyLink = onCopyLink,
+            )
         } else {
             TimeLineEmptyScreen(onShowLinkActivity)
         }
@@ -65,7 +90,10 @@ internal fun ColumnScope.TimeLineContent(
 @Composable
 private fun TimeLineLinkScreen(
     links: LazyPagingItems<Link>,
-    onClick: (Link) -> Unit
+    onEdit: (Long) -> Unit,
+    onRemove: (Long) -> Unit,
+    onClick: (Link) -> Unit,
+    onCopyLink: (Link) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -116,12 +144,9 @@ private fun TimeLineLinkScreen(
                                 fontWeight = FontWeight.Medium
                             )
                         }
-                        Image(
-                            painter = painterResource(R.drawable.ima_sandwich_button),
-                            contentDescription = "more",
-                            modifier = Modifier
-                                .padding(end = 10.dp)
-                                .clickableRipple(radius = 10.dp) { }
+                        MenuButton(
+                            onEdit = { onEdit.invoke(link!!.id!!) },
+                            onRemove = { onRemove.invoke(link!!.id!!) }
                         )
                     }
                     Row(
@@ -196,12 +221,13 @@ private fun TimeLineLinkScreen(
                                     modifier = Modifier.weight(0.7f),
                                 )
                                 Spacer(modifier = Modifier.weight(0.2f))
+
                                 Image(
                                     painter = painterResource(R.drawable.ico_tag_copy),
                                     contentDescription = "copy",
                                     modifier = Modifier
                                         .weight(0.1f)
-                                        .clickableRipple(radius = 10.dp) { },
+                                        .clickableRipple(radius = 10.dp) { onCopyLink.invoke(link!!) },
                                 )
                             }
                         }
@@ -210,6 +236,101 @@ private fun TimeLineLinkScreen(
             }
         }
         item { Spacer(modifier = Modifier.padding(bottom = 90.dp)) }
+    }
+}
+
+@Composable
+private fun RowScope.MenuButton(
+    onEdit: () -> Unit,
+    onRemove: () -> Unit
+) {
+    val builder = rememberBalloonBuilder {
+        arrowSize = 0
+        setPadding(4)
+        setBackgroundColor(Color.Transparent)
+    }
+    Balloon(
+        modifier = Modifier
+            .align(Alignment.CenterVertically)
+            .padding(end = 10.dp),
+        builder = builder,
+        balloonContent = {
+            Card(
+                modifier = Modifier.padding(10.dp),
+                shape = RoundedCornerShape(12.dp),
+                backgroundColor = TimelineMenuBackgroundColor,
+                elevation = 3.dp,
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.size(170.dp, 96.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp)
+                            .clickableRipple(
+                                radius = 100.dp,
+                                onClick = onEdit
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        LinkyText(
+                            text = "수정하기",
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 14.sp,
+                            modifier = Modifier.padding(start = 20.dp)
+                        )
+                        Image(
+                            painter = painterResource(R.drawable.image_menu_edit),
+                            contentDescription = "edit",
+                            modifier = Modifier.padding(end = 14.dp)
+                        )
+                    }
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(LockContentLineColor)
+                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp)
+                            .clickableRipple(
+                                radius = 100.dp,
+                                onClick = onRemove
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        LinkyText(
+                            text = "삭제하기",
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 14.sp,
+                            color = ErrorColor,
+                            modifier = Modifier.padding(start = 20.dp)
+                        )
+                        Image(
+                            painter = painterResource(R.drawable.image_menu_delete),
+                            contentDescription = "edit",
+                            modifier = Modifier.padding(end = 14.dp)
+                        )
+                    }
+                }
+            }
+        }
+    ) { balloonWindow ->
+        Image(
+            painter = painterResource(R.drawable.ima_sandwich_button),
+            contentDescription = "more",
+            modifier = Modifier
+                .clickableRipple(radius = 10.dp) {
+                    balloonWindow.showAlignLeft()
+                }
+        )
     }
 }
 

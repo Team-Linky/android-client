@@ -19,4 +19,7 @@ class LinkRepositoryImpl @Inject constructor(
 
     override suspend fun incrementReadCount(id: Long) = linkDataSource.incrementReadCount(id)
 
+    override suspend fun setIsRemoveLink(id: Long, isRemove: Boolean) =
+        linkDataSource.setIsRemoveLink(id, isRemove)
+
 }

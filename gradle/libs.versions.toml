@@ -29,7 +29,7 @@ retrofit = "2.9.0"
 moshi = "1.14.0"
 moshiConverter = "2.9.0"
 coil = "2.2.2"
-lottie = "6.0.0"
+balloon = "1.5.4"
 json = "20230227"
 orbit = "6.0.0"
 firebaseBom = "32.0.0"
@@ -93,7 +93,6 @@ system-ui-controller = { module = "com.google.accompanist:accompanist-systemuico
 data-store = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
 data-store-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "dataStore" }
 flow-layout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "flowLayout" }
-lottie = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
 
 android-play-services = { module = "com.google.gms:google-services", version.ref = "androidPlayServices" }
 
@@ -102,6 +101,7 @@ firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx"
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
 
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+balloon = { module = "com.github.skydoves:balloon-compose", version.ref = "balloon" }
 
 javax = { module = "javax.inject:javax.inject", version.ref = "javax" }
 json = { module = "org.json:json", version.ref = "json" }

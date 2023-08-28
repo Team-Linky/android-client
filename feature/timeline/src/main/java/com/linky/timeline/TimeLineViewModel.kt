@@ -9,6 +9,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.linky.data.usecase.link.GetLinksUseCase
 import com.linky.data.usecase.link.IncrementLinkReadCountUseCase
+import com.linky.data.usecase.link.LinkSetIsRemoveUseCase
 import com.linky.data.usecase.tag.GetTagByIdsUseCase
 import com.linky.data_base.link.entity.LinkEntity
 import com.linky.data_base.link.entity.LinkEntity.Companion.toLink
@@ -28,6 +29,7 @@ class TimeLineViewModel @Inject constructor(
     private val getLinksUseCase: GetLinksUseCase,
     private val getTagByIdsUseCase: GetTagByIdsUseCase,
     private val incrementLinkReadCountUseCase: IncrementLinkReadCountUseCase,
+    private val linkSetIsRemoveUseCase: LinkSetIsRemoveUseCase
 ) : ViewModel() {
 
     val linkList = Pager(
@@ -49,6 +51,12 @@ class TimeLineViewModel @Inject constructor(
     fun incrementReadCount(id: Long) {
         viewModelScope.launch {
             incrementLinkReadCountUseCase.invoke(id)
+        }
+    }
+
+    fun setIsRemoveUseCase(id: Long, isRemove: Boolean) {
+        viewModelScope.launch {
+            linkSetIsRemoveUseCase.invoke(id, isRemove)
         }
     }
 
