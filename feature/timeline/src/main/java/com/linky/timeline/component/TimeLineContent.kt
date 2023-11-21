@@ -19,19 +19,15 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -39,11 +35,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.disk.DiskCache
+import coil.memory.MemoryCache
 import com.linky.design_system.ui.component.button.LinkyButton
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.ErrorColor
-import com.linky.design_system.ui.theme.Gray300
 import com.linky.design_system.ui.theme.Gray400
 import com.linky.design_system.ui.theme.LinkyDefaultBackgroundColor
 import com.linky.design_system.ui.theme.LinkyDescriptionColor
@@ -51,14 +49,12 @@ import com.linky.design_system.ui.theme.LinkyTextDefaultColor
 import com.linky.design_system.ui.theme.LinkyTimelineTextLineColor
 import com.linky.design_system.ui.theme.LockContentLineColor
 import com.linky.design_system.ui.theme.TimelineMenuBackgroundColor
-import com.linky.design_system.ui.theme.White
 import com.linky.design_system.util.clickableRipple
 import com.linky.model.Link
 import com.linky.timeline.R
 import com.skydoves.balloon.compose.Balloon
 import com.skydoves.balloon.compose.rememberBalloonBuilder
 import com.skydoves.balloon.compose.setBackgroundColor
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun ColumnScope.TimeLineContent(
@@ -155,10 +151,25 @@ private fun TimeLineLinkScreen(
                             .padding(top = 10.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        val context = LocalContext.current
+                        val imageLoader = ImageLoader.Builder(context)
+                            .memoryCache {
+                                MemoryCache.Builder(context)
+                                    .maxSizePercent(0.25)
+                                    .build()
+                            }
+                            .diskCache {
+                                DiskCache.Builder()
+                                    .directory(context.cacheDir.resolve("linky_image_cache"))
+                                    .maxSizePercent(0.02)
+                                    .build()
+                            }
+                            .build()
                         AsyncImage(
                             modifier = Modifier
                                 .size(98.dp)
                                 .clip(RoundedCornerShape(4.dp)),
+                            imageLoader = imageLoader,
                             model = link?.openGraphData?.image,
                             contentScale = ContentScale.Crop,
                             contentDescription = null

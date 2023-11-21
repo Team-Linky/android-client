@@ -34,6 +34,7 @@ json = "20230227"
 orbit = "6.0.0"
 firebaseBom = "32.0.0"
 firebaseCrashlyticsGradle = "2.9.5"
+webview = "0.33.2-alpha"
 
 androidPlayServices = "4.3.15"
 
@@ -118,6 +119,7 @@ orbit-compose = { module = "org.orbit-mvi:orbit-compose", version.ref = "orbit" 
 orbit-viewmodel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbit" }
 
 opengraph = { module = "com.github.Priyansh-Kedia:OpenGraphParser", version.ref = "openGraph" }
+webview = { module = "com.google.accompanist:accompanist-webview", version.ref = "webview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradle" }

@@ -10,11 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.component.text.LinkyText
+import com.linky.design_system.ui.theme.LinkyDefaultTheme
 import com.linky.design_system.ui.theme.LinkyDescriptionColor
 import com.linky.design_system.ui.theme.ShadowGray
 
@@ -38,7 +41,20 @@ internal fun TimeLineTagChip(
             fontSize = 11.sp,
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
+            lineHeight = 11.sp,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun TimeLineTagChipPreview() {
+    LinkyDefaultTheme {
+        TimeLineTagChip(
+            modifier = Modifier.padding(end = 3.dp),
+            tagName = "test",
+            onClick = {}
         )
     }
 }

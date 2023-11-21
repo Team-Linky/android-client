@@ -39,4 +39,5 @@ include(
     ":feature:lock",
     ":feature:certification",
     ":feature:certification-registration",
+    ":feature:webview",
 )

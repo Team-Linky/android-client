@@ -1,5 +1,6 @@
 package com.linky.timeline
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,6 +25,7 @@ import com.linky.timeline.animation.enterTransition
 import com.linky.timeline.animation.exitTransition
 import com.linky.timeline.component.TimeLineContent
 import com.linky.timeline.component.TimeLineHeader
+import com.linky.webview.extension.launchWebViewActivity
 import kotlinx.coroutines.launch
 
 fun NavGraphBuilder.timelineScreen(
@@ -51,6 +54,7 @@ private fun TimeLineScreen(
     viewModel: TimeLineViewModel = hiltViewModel()
 ) {
     val links = viewModel.linkList.collectAsLazyPagingItems()
+    val activity = LocalContext.current as ComponentActivity
     val clipboard = LocalClipboardManager.current
     val coroutineScope = rememberCoroutineScope()
 
@@ -63,8 +67,13 @@ private fun TimeLineScreen(
         TimeLineHeader()
         TimeLineContent(
             onShowLinkActivity = onShowLinkActivity,
-            onClick = { viewModel.incrementReadCount(it.id!!) },
-            onEdit = { },
+            onClick = { link ->
+                link.openGraphData.url?.also { url ->
+                    activity.launchWebViewActivity(url)
+                    viewModel.incrementReadCount(link.id!!)
+                }
+            },
+            onEdit = {  },
             onRemove = { viewModel.setIsRemoveUseCase(it, true) },
             onCopyLink = { link ->
                 coroutineScope.launch {

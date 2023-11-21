@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.core.model)
     implementation(projects.core.dataBase)
     implementation(projects.feature.navigation)
+    implementation(projects.feature.webview)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.lifecycle.runtime)
