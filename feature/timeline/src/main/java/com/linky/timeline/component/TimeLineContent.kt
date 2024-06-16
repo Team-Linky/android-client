@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +19,13 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,18 +33,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
-import com.linky.design_system.ui.component.button.LinkyButton
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.ErrorColor
 import com.linky.design_system.ui.theme.Gray400
@@ -51,39 +55,55 @@ import com.linky.design_system.ui.theme.TimelineMenuBackgroundColor
 import com.linky.design_system.util.clickableRipple
 import com.linky.model.Link
 import com.linky.timeline.R
+import com.linky.timeline.TimeLineEmptyScreen
 import com.skydoves.balloon.compose.Balloon
 import com.skydoves.balloon.compose.rememberBalloonBuilder
 import com.skydoves.balloon.compose.setBackgroundColor
 
 @Composable
-internal fun ColumnScope.TimeLineContent(
+internal fun TimeLineContent(
+    modifier: Modifier = Modifier,
+    links: LazyPagingItems<Link>,
     onShowLinkActivity: () -> Unit,
     onClick: (Link) -> Unit,
     onEdit: (Long) -> Unit,
     onRemove: (Long) -> Unit,
     onCopyLink: (Link) -> Unit,
-    links: LazyPagingItems<Link>
 ) {
-    Column(
-        modifier = Modifier.weight(1f),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.TopCenter
     ) {
-        if (links.itemCount > 0) {
-            TimeLineLinkScreen(
-                links = links,
-                onEdit = onEdit,
-                onRemove = onRemove,
-                onClick = onClick,
-                onCopyLink = onCopyLink,
-            )
-        } else {
-            TimeLineEmptyScreen(onShowLinkActivity)
+        when (links.loadState.refresh) {
+            is LoadState.Loading -> {
+                LinearProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+
+            is LoadState.NotLoading -> {
+                if (links.itemCount > 0) {
+                    TimeLineLinkScreen(
+                        links = links,
+                        onEdit = onEdit,
+                        onRemove = onRemove,
+                        onClick = onClick,
+                        onCopyLink = onCopyLink,
+                    )
+                } else {
+                    TimeLineEmptyScreen(onShowLinkActivity)
+                }
+            }
+
+            is LoadState.Error -> {
+
+            }
         }
     }
 }
 
 @Composable
-private fun TimeLineLinkScreen(
+internal fun TimeLineLinkScreen(
     links: LazyPagingItems<Link>,
     onEdit: (Long) -> Unit,
     onRemove: (Long) -> Unit,
@@ -255,10 +275,14 @@ private fun RowScope.MenuButton(
     onEdit: () -> Unit,
     onRemove: () -> Unit
 ) {
+    var balloonEvent by remember { mutableStateOf(TimeLineMenuEvent.NONE) }
     val builder = rememberBalloonBuilder {
         arrowSize = 0
         setPadding(4)
         setBackgroundColor(Color.Transparent)
+        setOnBalloonDismissListener {
+            balloonEvent = TimeLineMenuEvent.NONE
+        }
     }
     Balloon(
         modifier = Modifier
@@ -312,7 +336,10 @@ private fun RowScope.MenuButton(
                             .height(48.dp)
                             .clickableRipple(
                                 radius = 100.dp,
-                                onClick = onRemove
+                                onClick = {
+                                    onRemove.invoke()
+                                    balloonEvent = TimeLineMenuEvent.CLOSE
+                                }
                             ),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
@@ -332,41 +359,26 @@ private fun RowScope.MenuButton(
                     }
                 }
             }
-        }
-    ) { balloonWindow ->
-        Image(
-            painter = painterResource(R.drawable.ima_sandwich_button),
-            contentDescription = "more",
-            modifier = Modifier
-                .clickableRipple(radius = 10.dp) {
-                    balloonWindow.showAlignLeft()
+        },
+        content = { balloonWindow ->
+            LaunchedEffect(balloonEvent) {
+                when (balloonEvent) {
+                    TimeLineMenuEvent.NONE -> Unit
+                    TimeLineMenuEvent.OPEN -> balloonWindow.showAlignLeft()
+                    TimeLineMenuEvent.CLOSE -> balloonWindow.dismiss()
                 }
-        )
-    }
+            }
+            Image(
+                painter = painterResource(R.drawable.ima_sandwich_button),
+                contentDescription = "more",
+                modifier = Modifier.clickableRipple(radius = 10.dp) {
+                    balloonEvent = TimeLineMenuEvent.OPEN
+                }
+            )
+        }
+    )
 }
 
-@Composable
-private fun ColumnScope.TimeLineEmptyScreen(
-    onShowLinkActivity: () -> Unit
-) {
-    Spacer(modifier = Modifier.weight(0.4f))
-    Image(
-        painter = painterResource(R.drawable.image_clock),
-        contentDescription = "link create"
-    )
-    LinkyText(
-        text = stringResource(R.string.link_create_description),
-        fontSize = 15.sp,
-        fontWeight = FontWeight.Medium,
-        textAlign = TextAlign.Center,
-        color = LinkyDescriptionColor,
-        modifier = Modifier.padding(top = 16.dp),
-    )
-    Spacer(modifier = Modifier.weight(0.2f))
-    LinkyButton(
-        modifier = Modifier.padding(horizontal = 24.dp),
-        text = stringResource(R.string.link_create_text),
-        onClick = onShowLinkActivity
-    )
-    Spacer(modifier = Modifier.weight(0.4f))
+internal enum class TimeLineMenuEvent {
+    NONE, OPEN, CLOSE
 }

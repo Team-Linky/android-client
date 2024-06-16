@@ -2,8 +2,6 @@ package com.linky.timeline
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
@@ -14,14 +12,14 @@ import com.linky.data.usecase.tag.GetTagByIdsUseCase
 import com.linky.data_base.link.entity.LinkEntity
 import com.linky.data_base.link.entity.LinkEntity.Companion.toLink
 import com.linky.model.Link
+import com.linky.timeline.state.TimeLineSideEffect
+import com.linky.timeline.state.TimeLineState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,37 +28,43 @@ class TimeLineViewModel @Inject constructor(
     private val getTagByIdsUseCase: GetTagByIdsUseCase,
     private val incrementLinkReadCountUseCase: IncrementLinkReadCountUseCase,
     private val linkSetIsRemoveUseCase: LinkSetIsRemoveUseCase
-) : ViewModel() {
+) : ViewModel(), ContainerHost<TimeLineState, TimeLineSideEffect> {
 
-    val linkList = Pager(
-        config = PagingConfig(
-            pageSize = 20,
-            enablePlaceholders = false
-        ),
-        pagingSourceFactory = { getLinksUseCase.invoke() }
-    ).flow.toLinkList().map { pagingData ->
-        pagingData.map { link ->
-            link.copy(tagList = getTagByIdsUseCase.invoke(link.tags))
-        }
-    }.cachedIn(viewModelScope).stateIn(
-        scope = viewModelScope.plus(Dispatchers.IO),
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = PagingData.empty()
-    )
+    override val container = container<TimeLineState, TimeLineSideEffect>(TimeLineState.Init)
 
-    fun incrementReadCount(id: Long) {
-        viewModelScope.launch {
-            incrementLinkReadCountUseCase.invoke(id)
+    val linksState = getLinksUseCase.invoke()
+        .toLinkList()
+        .cachedIn(viewModelScope)
+
+    fun doAction(action: TimeLineAction) {
+        when (action) {
+            is TimeLineAction.IncrementReadCount -> incrementReadCount(action.id)
+            is TimeLineAction.RemoveTimeLine -> removeTimeLine(action.id)
         }
     }
 
-    fun setIsRemoveUseCase(id: Long, isRemove: Boolean) {
+    private fun incrementReadCount(id: Long?) {
         viewModelScope.launch {
-            linkSetIsRemoveUseCase.invoke(id, isRemove)
+            incrementLinkReadCountUseCase.invoke(id!!)
+        }
+    }
+
+    private fun removeTimeLine(id: Long?) {
+        viewModelScope.launch {
+            linkSetIsRemoveUseCase.invoke(id!!, true)
         }
     }
 
     private fun Flow<PagingData<LinkEntity>>.toLinkList(): Flow<PagingData<Link>> =
-        map { list -> list.map { it.toLink() } }
+        map { pagingData ->
+            pagingData.map { linkEntity ->
+                linkEntity.toLink().copy(tagList = getTagByIdsUseCase.invoke(linkEntity.tags))
+            }
+        }
 
+}
+
+sealed interface TimeLineAction {
+    data class IncrementReadCount(val id: Long?) : TimeLineAction
+    data class RemoveTimeLine(val id: Long?) : TimeLineAction
 }

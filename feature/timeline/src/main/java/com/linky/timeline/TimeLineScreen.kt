@@ -2,11 +2,12 @@ package com.linky.timeline
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -17,15 +18,21 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.navigation.animation.composable
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
+import com.linky.model.Link
 import com.linky.navigation.MainNavType
 import com.linky.timeline.animation.enterTransition
 import com.linky.timeline.animation.exitTransition
 import com.linky.timeline.component.TimeLineContent
 import com.linky.timeline.component.TimeLineHeader
+import com.linky.timeline.component.TimeLineLinkScreen
 import com.linky.webview.extension.launchWebViewActivity
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 
 fun NavGraphBuilder.timelineScreen(
@@ -36,28 +43,57 @@ fun NavGraphBuilder.timelineScreen(
         route = MainNavType.TimeLine.route,
         enterTransition = { enterTransition },
         exitTransition = { exitTransition }
-    ) { TimeLineRoute(scaffoldState, onShowLinkActivity) }
+    ) {
+        TimeLineRoute(
+            scaffoldState = scaffoldState,
+            onShowLinkActivity = onShowLinkActivity
+        )
+    }
 }
 
 @Composable
 private fun TimeLineRoute(
+    viewModel: TimeLineViewModel = hiltViewModel(),
     scaffoldState: ScaffoldState,
     onShowLinkActivity: () -> Unit
 ) {
-    TimeLineScreen(scaffoldState, onShowLinkActivity)
+    val activity = LocalContext.current as ComponentActivity
+    val coroutineScope = rememberCoroutineScope()
+    val links = viewModel.linksState.collectAsLazyPagingItems()
+    val clipboard = LocalClipboardManager.current
+
+    TimeLineScreen(
+        links = links,
+        onShowLinkActivity = onShowLinkActivity,
+        onShowWebView = { link ->
+            link.openGraphData.url?.also { url ->
+                activity.launchWebViewActivity(url)
+                viewModel.doAction(TimeLineAction.IncrementReadCount(link.id))
+            }
+        },
+        onRemoveTimeLine = { viewModel.doAction(TimeLineAction.RemoveTimeLine(it)) },
+        onCopyLink = { link ->
+            coroutineScope.launch {
+                clipboard.setText(
+                    AnnotatedString
+                        .Builder()
+                        .append(link.openGraphData.url)
+                        .toAnnotatedString()
+                )
+                scaffoldState.snackbarHostState.showSnackbar("링크가 복사되었습니다.")
+            }
+        }
+    )
 }
 
 @Composable
 private fun TimeLineScreen(
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
-    onShowLinkActivity: () -> Unit = {},
-    viewModel: TimeLineViewModel = hiltViewModel()
+    links: LazyPagingItems<Link>,
+    onShowLinkActivity: () -> Unit,
+    onShowWebView: (Link) -> Unit,
+    onRemoveTimeLine: (Long) -> Unit,
+    onCopyLink: (Link) -> Unit,
 ) {
-    val links = viewModel.linkList.collectAsLazyPagingItems()
-    val activity = LocalContext.current as ComponentActivity
-    val clipboard = LocalClipboardManager.current
-    val coroutineScope = rememberCoroutineScope()
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -65,29 +101,40 @@ private fun TimeLineScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TimeLineHeader()
-        TimeLineContent(
-            onShowLinkActivity = onShowLinkActivity,
-            onClick = { link ->
-                link.openGraphData.url?.also { url ->
-                    activity.launchWebViewActivity(url)
-                    viewModel.incrementReadCount(link.id!!)
+        Box(
+            modifier = Modifier.weight(1f),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            when (links.loadState.refresh) {
+                is LoadState.Loading -> {
+                    if (links.itemSnapshotList.isEmpty()) {
+                        LinearProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
                 }
-            },
-            onEdit = {  },
-            onRemove = { viewModel.setIsRemoveUseCase(it, true) },
-            onCopyLink = { link ->
-                coroutineScope.launch {
-                    clipboard.setText(
-                        AnnotatedString
-                            .Builder()
-                            .append(link.openGraphData.url)
-                            .toAnnotatedString()
-                    )
-                    scaffoldState.snackbarHostState.showSnackbar("링크가 복사되었습니다.")
+
+                is LoadState.NotLoading -> {
+                    if (links.itemSnapshotList.isEmpty()) {
+                        TimeLineEmptyScreen(onShowLinkActivity)
+                    }
                 }
-            },
-            links = links
-        )
+
+                is LoadState.Error -> {
+
+                }
+            }
+
+            if (links.itemSnapshotList.isNotEmpty()) {
+                TimeLineLinkScreen(
+                    links = links,
+                    onEdit = { },
+                    onRemove = onRemoveTimeLine,
+                    onClick = onShowWebView,
+                    onCopyLink = onCopyLink,
+                )
+            }
+        }
     }
 }
 
@@ -95,6 +142,16 @@ private fun TimeLineScreen(
 @Composable
 private fun TimeLinePreview() {
     LinkyDefaultTheme {
-        TimeLineScreen()
+        TimeLineScreen(
+            links = defaultLinks,
+            onShowLinkActivity = {},
+            onShowWebView = {},
+            onRemoveTimeLine = {},
+            onCopyLink = {},
+        )
     }
 }
+
+private val defaultLinks
+    @Composable
+    get() = flowOf(PagingData.empty<Link>()).collectAsLazyPagingItems()

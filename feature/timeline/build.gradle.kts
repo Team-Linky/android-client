@@ -27,6 +27,8 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material.compose)
     implementation(libs.coil)
+    implementation(libs.orbit.compose)
+    implementation(libs.orbit.viewmodel)
     implementation(libs.balloon)
     implementation(libs.system.ui.controller)
     implementation(libs.androidx.compose.navigation)
