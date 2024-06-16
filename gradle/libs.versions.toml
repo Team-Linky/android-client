@@ -1,48 +1,47 @@
 [versions]
-kotlin = "1.8.10"
-hilt = "2.44"
+kotlin = "2.0.0"
+hilt = "2.51.1"
 
-androidDesugarJdkLibs = "1.2.2"
+androidDesugarJdkLibs = "2.0.4"
 androidGradle = "8.0.2"
-androidxCoreKtx = "1.9.0"
-androidxComposeBom = "2023.01.00"
-androidxLifecycleCompose = "2.6.0-alpha05"
-androidxLifecycle = "2.6.1"
+androidxCoreKtx = "1.13.1"
+androidxComposeBom = "2024.06.00"
+androidxLifecycle = "2.8.2"
 androidxBiometric = "1.2.0-alpha05"
-androidxActivityCompose = "1.7.0"
-androidxComposeCompiler = "1.4.4"
-androidxMaterialCompose = "1.5.0-beta02"
-androidxComposeNavigation = "2.5.3"
+androidxActivityCompose = "1.9.0"
+androidxComposeCompiler = "1.5.14"
+androidxMaterialCompose = "1.6.8"
+androidxComposeNavigation = "2.7.7"
 navigationAnimation = "0.31.3-beta"
-androidxComposeHiltNavigation = "1.0.0"
-androidxPaging = "3.1.1"
-androidxPagingCompose = "1.0.0-alpha18"
+androidxComposeHiltNavigation = "1.2.0"
+androidxPaging = "3.3.0"
+androidxPagingCompose = "3.3.0"
 androidxAppCompat = "1.6.1"
-androidxRoom = "2.5.0"
+androidxRoom = "2.6.1"
 accompanistPager = "0.30.1"
 systemUiController = "0.28.0"
 flowLayout = "0.31.0-alpha"
-dataStore = "1.0.0"
-coroutine = "1.6.4"
-okhttp = "4.10.0"
-retrofit = "2.9.0"
+dataStore = "1.1.1"
+coroutine = "1.8.0"
+okhttp = "4.12.0"
+retrofit = "2.11.0"
 moshi = "1.14.0"
 moshiConverter = "2.9.0"
-coil = "2.2.2"
+coil = "2.6.0"
 balloon = "1.5.4"
 json = "20230227"
 orbit = "6.0.0"
-firebaseBom = "32.0.0"
-firebaseCrashlyticsGradle = "2.9.5"
+firebaseBom = "33.1.0"
+firebaseCrashlyticsGradle = "3.0.1"
 webview = "0.33.2-alpha"
 
-androidPlayServices = "4.3.15"
+androidPlayServices = "4.4.2"
 
 javax = "1"
 
 junit = "4.13.2"
-androidxJunit = "1.1.3"
-androidxEspressoCore = "3.4.0"
+androidxJunit = "1.1.5"
+androidxEspressoCore = "3.5.1"
 
 openGraph = "2.5.5"
 
@@ -72,10 +71,11 @@ androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+compose-compiler-extension = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCoreKtx" }
-androidx-compose-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycleCompose" }
-androidx-compose-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycleCompose" }
+androidx-compose-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+androidx-compose-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidxLifecycle" }
 androidx-biometric = { module = "androidx.biometric:biometric-ktx", version.ref = "androidxBiometric" }
 androidx-compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "androidxComposeNavigation" }
@@ -127,3 +127,4 @@ android-library = { id = "com.android.library", version.ref = "androidGradle" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

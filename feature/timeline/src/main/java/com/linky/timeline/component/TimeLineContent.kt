@@ -34,7 +34,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.items
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.disk.DiskCache
@@ -96,7 +95,8 @@ private fun TimeLineLinkScreen(
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        items(links) { link ->
+        items(links.itemCount) { index ->
+            val link = links[index]
             Card(
                 modifier = Modifier
                     .fillMaxWidth()

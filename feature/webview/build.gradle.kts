@@ -1,34 +1,11 @@
 plugins {
     id("linky.android.library")
-    id("linky.android.library.compose")
+    id("linky.android.compose")
     id("linky.android.hilt")
 }
 
 android {
     namespace = "com.linky.webview"
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
-    }
-    defaultConfig {
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {

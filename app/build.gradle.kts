@@ -4,9 +4,8 @@ import java.util.Properties
 
 plugins {
     id("linky.android.application")
-    id("linky.android.application.compose")
+    id("linky.android.compose")
     id("linky.android.hilt")
-    id("org.jetbrains.kotlin.android")
 }
 
 android {

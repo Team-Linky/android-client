@@ -1,23 +1,21 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     `kotlin-dsl`
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
 }
 
-tasks.withType(KotlinCompile::class.java).configureEach {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
     compileOnly(libs.android.gradle.plugin)
     compileOnly(libs.kotlin.gradle.plugin)
+    compileOnly(libs.compose.compiler.extension)
 }
 
 gradlePlugin {
@@ -27,8 +25,8 @@ gradlePlugin {
             implementationClass = "AndroidApplicationConventionPlugin"
         }
         register("androidApplicationCompose") {
-            id = "linky.android.application.compose"
-            implementationClass = "AndroidApplicationComposeConventionPlugin"
+            id = "linky.android.compose"
+            implementationClass = "AndroidComposeConventionPlugin"
         }
         register("androidHilt") {
             id = "linky.android.hilt"
@@ -37,10 +35,6 @@ gradlePlugin {
         register("androidLibrary") {
             id = "linky.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
-        }
-        register("androidLibraryCompose") {
-            id = "linky.android.library.compose"
-            implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
         register("kotlinLibraryCompose") {
             id = "linky.kotlin.library"

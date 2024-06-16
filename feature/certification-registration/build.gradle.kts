@@ -1,6 +1,6 @@
 plugins {
     id("linky.android.library")
-    id("linky.android.library.compose")
+    id("linky.android.compose")
     id("linky.android.hilt")
 }
 

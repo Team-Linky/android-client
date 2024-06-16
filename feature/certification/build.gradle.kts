@@ -1,6 +1,6 @@
 plugins {
     id("linky.android.library")
-    id("linky.android.library.compose")
+    id("linky.android.compose")
     id("linky.android.hilt")
 }
 
@@ -29,6 +29,7 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.compose.hilt.navigation)
     implementation(libs.navigation.animation)
+    implementation(libs.androidx.biometric)
 
     implementation(libs.orbit.compose)
     implementation(libs.orbit.viewmodel)

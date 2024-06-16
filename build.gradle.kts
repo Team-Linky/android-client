@@ -4,10 +4,6 @@ buildscript {
         google()
         mavenCentral()
     }
-//    dependencies {
-//        classpath(libs.firebase.crashlytics.gradle)
-//        classpath(libs.android.play.services)
-//    }
 }
 
 plugins {
@@ -16,4 +12,5 @@ plugins {
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
