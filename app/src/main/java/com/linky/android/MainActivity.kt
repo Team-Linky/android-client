@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
                     isFloatingActionButtonDocked = true,
                     scaffoldState = scaffoldState,
                 ) { paddingValues ->
-                    Surface(modifier = Modifier.fillMaxSize()) {
+                    Surface(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
                         MainNavHost(
                             scaffoldState = scaffoldState,
                             navHostController = navHostController,

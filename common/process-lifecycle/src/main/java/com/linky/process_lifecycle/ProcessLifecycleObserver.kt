@@ -34,8 +34,8 @@ class ProcessLifecycleObserver @Inject constructor() {
 }
 
 sealed interface ProcessLifecycle {
-    object Background : ProcessLifecycle
-    object Foreground : ProcessLifecycle
+    data object Background : ProcessLifecycle
+    data object Foreground : ProcessLifecycle
 }
 
 private class InternalProcessLifecycleObserver(

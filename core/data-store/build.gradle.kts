@@ -1,5 +1,5 @@
 plugins {
-    id("linky.kotlin.library")
+    id("linky.java.library")
 }
 
 dependencies {

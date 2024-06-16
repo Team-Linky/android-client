@@ -16,6 +16,7 @@ dependencies {
     compileOnly(libs.android.gradle.plugin)
     compileOnly(libs.kotlin.gradle.plugin)
     compileOnly(libs.compose.compiler.extension)
+    compileOnly(libs.ksp.gradle.plugin)
 }
 
 gradlePlugin {
@@ -36,9 +37,9 @@ gradlePlugin {
             id = "linky.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
-        register("kotlinLibraryCompose") {
-            id = "linky.kotlin.library"
-            implementationClass = "KotlinLibraryConventionPlugin"
+        register("javaLibrary") {
+            id = "linky.java.library"
+            implementationClass = "JavaLibraryConventionPlugin"
         }
     }
 }
