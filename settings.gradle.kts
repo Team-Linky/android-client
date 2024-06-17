@@ -41,3 +41,4 @@ include(
     ":feature:certification-registration",
     ":feature:webview",
 )
+include(":common:safe-coroutine")

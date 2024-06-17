@@ -32,8 +32,8 @@ import com.linky.timeline.animation.exitTransition
 import com.linky.timeline.component.TimeLineHeader
 import com.linky.timeline.component.TimeLineList
 import com.linky.webview.extension.launchWebViewActivity
+import com.sun5066.common.safe_coroutine.builder.safeLaunch
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
 
 fun NavGraphBuilder.timelineScreen(
@@ -75,7 +75,7 @@ private fun TimeLineRoute(
         },
         onRemoveTimeLine = { viewModel.doAction(TimeLineAction.RemoveTimeLine(it)) },
         onCopyLink = { link ->
-            coroutineScope.launch {
+            coroutineScope.safeLaunch {
                 clipboard.setText(
                     AnnotatedString
                         .Builder()

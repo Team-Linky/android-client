@@ -6,11 +6,11 @@ import com.linky.data.usecase.lock.IsEnableBiometricUseCase
 import com.linky.data.usecase.lock.IsEnableLockUseCase
 import com.linky.data.usecase.lock.SetEnableBiometricUseCase
 import com.linky.data.usecase.lock.SetEnableLockUseCase
+import com.sun5066.common.safe_coroutine.builder.safeLaunch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.zip
-import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -43,19 +43,19 @@ class LinkyLockViewModel @Inject constructor(
     }
 
     fun enableLock() {
-        viewModelScope.launch {
+        viewModelScope.safeLaunch {
             setEnableLockUseCase.invoke(true)
         }
     }
 
     fun disableLock() {
-        viewModelScope.launch {
+        viewModelScope.safeLaunch {
             setEnableLockUseCase.invoke(false)
         }
     }
 
     fun setBiometricUse(isUse: Boolean) {
-        viewModelScope.launch {
+        viewModelScope.safeLaunch {
             setEnableBiometricUseCase.invoke(isUse)
         }
     }

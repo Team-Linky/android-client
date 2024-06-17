@@ -4,18 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
 import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.linky.certification.extension.launchCertificationActivity
@@ -25,12 +20,12 @@ import com.linky.link.extension.launchLinkActivity
 import com.linky.more_activity.extension.launchMoreActivity
 import com.linky.navigation.LinkyBottomNavigation
 import com.linky.process_lifecycle.ProcessLifecycle
+import com.sun5066.common.safe_coroutine.builder.safeLaunch
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -77,7 +72,7 @@ class MainActivity : ComponentActivity() {
     private fun checkLock() {
         lockJob?.takeIf { it.isActive }?.cancel()
 
-        lifecycleScope.launch {
+        lifecycleScope.safeLaunch {
             if (lockTimerCnt >= 3) {
                 if (viewModel.getEnableLock()) {
                     launchCertificationActivity()
@@ -88,7 +83,7 @@ class MainActivity : ComponentActivity() {
 
     private fun lockTimerStart() {
         lockTimerCnt = 0
-        lockJob = lifecycleScope.launch {
+        lockJob = lifecycleScope.safeLaunch {
             (0..4).onEach {
                 lockTimerCnt++
                 delay(1000)

@@ -18,12 +18,15 @@ import com.linky.link_detail_input.model.toOpenGraphData
 import com.linky.model.Link
 import com.linky.model.Tag
 import com.linky.model.open_graph.OpenGraphData
+import com.sun5066.common.safe_coroutine.builder.safeLaunch
+import com.sun5066.common.safe_coroutine.dispatchers.Dispatcher
+import com.sun5066.common.safe_coroutine.dispatchers.LinkyDispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -42,12 +45,13 @@ class DetailInputViewModel @Inject constructor(
     private val tagDeleteUseCase: TagDeleteUseCase,
     private val linkInsertUseCase: LinkInsertUseCase,
     private val updateLinkIdsUseCase: UpdateLinkIdsUseCase,
+    @Dispatcher(LinkyDispatchers.IO) private val ioDispatcher: CoroutineDispatcher
 ) : AndroidViewModel(application), ContainerHost<State, SideEffect> {
 
     override val container: Container<State, SideEffect> = container(State.Loading)
 
     val tagsState = getTagsUseCase.invoke().stateIn(
-        scope = viewModelScope.plus(Dispatchers.IO),
+        scope = viewModelScope.plus(ioDispatcher),
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = emptyList()
     )
@@ -77,20 +81,20 @@ class DetailInputViewModel @Inject constructor(
     }
 
     fun addTag(name: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.safeLaunch(ioDispatcher) {
             tagInsertUseCase.invoke(Tag(name = name))
         }
     }
 
     fun deleteTag(id: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.safeLaunch(ioDispatcher) {
             tagDeleteUseCase.invoke(id)
         }
     }
 
     fun addLink(link: Link) {
-        viewModelScope.launch(
-            Dispatchers.IO + CoroutineExceptionHandler { _, throwable ->
+        viewModelScope.safeLaunch(
+            ioDispatcher + CoroutineExceptionHandler { _, throwable ->
                 intent { postSideEffect(SideEffect.LinkInsertFail) }
             }
         ) {

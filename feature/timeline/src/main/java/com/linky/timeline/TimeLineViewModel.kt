@@ -14,10 +14,10 @@ import com.linky.data_base.link.entity.LinkEntity.Companion.toLink
 import com.linky.model.Link
 import com.linky.timeline.state.TimeLineSideEffect
 import com.linky.timeline.state.TimeLineState
+import com.sun5066.common.safe_coroutine.builder.safeLaunch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
@@ -42,13 +42,13 @@ class TimeLineViewModel @Inject constructor(
     }
 
     private fun incrementReadCount(id: Long?) {
-        viewModelScope.launch {
+        viewModelScope.safeLaunch {
             incrementLinkReadCountUseCase.invoke(id!!)
         }
     }
 
     private fun removeTimeLine(id: Long?) {
-        viewModelScope.launch {
+        viewModelScope.safeLaunch {
             linkSetIsRemoveUseCase.invoke(id!!, true)
         }
     }

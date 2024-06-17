@@ -3,8 +3,8 @@ package com.linky.certification_registration
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.linky.data.usecase.certification.SetPasswordUseCase
+import com.sun5066.common.safe_coroutine.builder.safeLaunch
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -32,7 +32,7 @@ class CertificationRegistrationViewModel @Inject constructor(
     }
 
     fun setPassword(password: String) {
-        viewModelScope.launch {
+        viewModelScope.safeLaunch {
             intent {
                 if (tempPassword == password) {
                     setPasswordUseCase.invoke(password)
