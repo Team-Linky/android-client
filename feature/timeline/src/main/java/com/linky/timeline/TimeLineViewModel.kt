@@ -19,6 +19,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
@@ -31,10 +33,6 @@ class TimeLineViewModel @Inject constructor(
 ) : ViewModel(), ContainerHost<TimeLineState, TimeLineSideEffect> {
 
     override val container = container<TimeLineState, TimeLineSideEffect>(TimeLineState.Init)
-
-    val linksState = getLinksUseCase.invoke()
-        .toLinkList()
-        .cachedIn(viewModelScope)
 
     fun doAction(action: TimeLineAction) {
         when (action) {
@@ -62,6 +60,15 @@ class TimeLineViewModel @Inject constructor(
             }
         }
 
+    init {
+        intent {
+            val links = getLinksUseCase.invoke()
+                .toLinkList()
+                .cachedIn(viewModelScope)
+
+            reduce { state.copy(links = links) }
+        }
+    }
 }
 
 sealed interface TimeLineAction {

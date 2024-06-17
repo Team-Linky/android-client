@@ -9,6 +9,7 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,12 +29,12 @@ import com.linky.model.Link
 import com.linky.navigation.MainNavType
 import com.linky.timeline.animation.enterTransition
 import com.linky.timeline.animation.exitTransition
-import com.linky.timeline.component.TimeLineContent
 import com.linky.timeline.component.TimeLineHeader
-import com.linky.timeline.component.TimeLineLinkScreen
+import com.linky.timeline.component.TimeLineList
 import com.linky.webview.extension.launchWebViewActivity
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.compose.collectAsState
 
 fun NavGraphBuilder.timelineScreen(
     scaffoldState: ScaffoldState,
@@ -59,7 +60,8 @@ private fun TimeLineRoute(
 ) {
     val activity = LocalContext.current as ComponentActivity
     val coroutineScope = rememberCoroutineScope()
-    val links = viewModel.linksState.collectAsLazyPagingItems()
+    val state by viewModel.collectAsState()
+    val links = state.links.collectAsLazyPagingItems()
     val clipboard = LocalClipboardManager.current
 
     TimeLineScreen(
@@ -126,7 +128,7 @@ private fun TimeLineScreen(
             }
 
             if (links.itemSnapshotList.isNotEmpty()) {
-                TimeLineLinkScreen(
+                TimeLineList(
                     links = links,
                     onEdit = { },
                     onRemove = onRemoveTimeLine,

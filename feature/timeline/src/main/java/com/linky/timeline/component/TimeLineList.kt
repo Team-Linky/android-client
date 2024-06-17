@@ -19,7 +19,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -31,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -40,9 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import coil.ImageLoader
-import coil.compose.AsyncImage
-import coil.disk.DiskCache
-import coil.memory.MemoryCache
+import coil.compose.SubcomposeAsyncImage
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.ErrorColor
 import com.linky.design_system.ui.theme.Gray400
@@ -53,57 +50,16 @@ import com.linky.design_system.ui.theme.LinkyTimelineTextLineColor
 import com.linky.design_system.ui.theme.LockContentLineColor
 import com.linky.design_system.ui.theme.TimelineMenuBackgroundColor
 import com.linky.design_system.util.clickableRipple
+import com.linky.design_system.util.rememberImageLoader
 import com.linky.model.Link
 import com.linky.timeline.R
-import com.linky.timeline.TimeLineEmptyScreen
 import com.skydoves.balloon.compose.Balloon
 import com.skydoves.balloon.compose.rememberBalloonBuilder
 import com.skydoves.balloon.compose.setBackgroundColor
 
 @Composable
-internal fun TimeLineContent(
-    modifier: Modifier = Modifier,
-    links: LazyPagingItems<Link>,
-    onShowLinkActivity: () -> Unit,
-    onClick: (Link) -> Unit,
-    onEdit: (Long) -> Unit,
-    onRemove: (Long) -> Unit,
-    onCopyLink: (Link) -> Unit,
-) {
-    Box(
-        modifier = modifier,
-        contentAlignment = Alignment.TopCenter
-    ) {
-        when (links.loadState.refresh) {
-            is LoadState.Loading -> {
-                LinearProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-
-            is LoadState.NotLoading -> {
-                if (links.itemCount > 0) {
-                    TimeLineLinkScreen(
-                        links = links,
-                        onEdit = onEdit,
-                        onRemove = onRemove,
-                        onClick = onClick,
-                        onCopyLink = onCopyLink,
-                    )
-                } else {
-                    TimeLineEmptyScreen(onShowLinkActivity)
-                }
-            }
-
-            is LoadState.Error -> {
-
-            }
-        }
-    }
-}
-
-@Composable
-internal fun TimeLineLinkScreen(
+internal fun TimeLineList(
+    imageLoader: ImageLoader = rememberImageLoader(),
     links: LazyPagingItems<Link>,
     onEdit: (Long) -> Unit,
     onRemove: (Long) -> Unit,
@@ -171,28 +127,14 @@ internal fun TimeLineLinkScreen(
                             .padding(top = 10.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        val context = LocalContext.current
-                        val imageLoader = ImageLoader.Builder(context)
-                            .memoryCache {
-                                MemoryCache.Builder(context)
-                                    .maxSizePercent(0.25)
-                                    .build()
-                            }
-                            .diskCache {
-                                DiskCache.Builder()
-                                    .directory(context.cacheDir.resolve("linky_image_cache"))
-                                    .maxSizePercent(0.02)
-                                    .build()
-                            }
-                            .build()
-                        AsyncImage(
+                        SubcomposeAsyncImage(
                             modifier = Modifier
                                 .size(98.dp)
                                 .clip(RoundedCornerShape(4.dp)),
                             imageLoader = imageLoader,
                             model = link?.openGraphData?.image,
                             contentScale = ContentScale.Crop,
-                            contentDescription = null
+                            contentDescription = "thumbnail"
                         )
                         Column(
                             modifier = Modifier
@@ -263,6 +205,18 @@ internal fun TimeLineLinkScreen(
                             }
                         }
                     }
+                }
+            }
+        }
+        if (links.loadState.append is LoadState.Loading) {
+            item {
+                Box(
+                    modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
                 }
             }
         }
