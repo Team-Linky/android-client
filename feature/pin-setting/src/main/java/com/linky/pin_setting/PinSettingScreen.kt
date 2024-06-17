@@ -1,4 +1,4 @@
-package com.linky.certification_registration
+package com.linky.pin_setting
 
 import android.os.Vibrator
 import androidx.compose.foundation.background
@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -16,63 +17,66 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.linky.certification_registration.component.CertificationContent
-import com.linky.certification_registration.component.CertificationRegistrationHeader
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.linky.design_system.ui.component.keypad.Keypad
 import com.linky.intercation.vibrate.vibrateCompat
+import com.linky.pin_setting.component.PinSettingContent
+import com.linky.pin_setting.component.PinSettingHeader
+import com.linky.pin_setting.state.PinSettingSideEffect
+import com.linky.pin_setting.state.PinSettingStatus
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
-internal fun CertificationRegistrationScreen(
-    viewModel: CertificationRegistrationViewModel = hiltViewModel(),
+internal fun PinSettingScreen(
+    viewModel: PinSettingViewModel = viewModel(),
     onBack: () -> Unit,
     onComplete: () -> Unit
 ) {
-    val state = viewModel.collectAsState().value
+    val state by viewModel.collectAsState()
     var title by remember { mutableIntStateOf(R.string.certification_title) }
 
-    var password by rememberSaveable { mutableStateOf("") }
+    var pin by rememberSaveable { mutableStateOf("") }
 
     val context = LocalContext.current
     val vibrator = context.getSystemService(Vibrator::class.java)
     var isFail by remember { mutableStateOf(false) }
 
-    when (state) {
-        is State.FirstInputScreen -> {
+    LaunchedEffect(state.status) {
+        when (state.status) {
+            is PinSettingStatus.EnterPinScreen -> {
+                if (pin.length == 4) {
+                    viewModel.doAction(Action.EnterPin(pin))
+                    pin = ""
+                }
+            }
 
-        }
-
-        is State.SecondInputScreen -> {
-            title = R.string.certification_sub_title
+            is PinSettingStatus.ConfirmPinScreen -> {
+                if (pin.length == 4) {
+                    viewModel.doAction(Action.ConfirmPin(pin))
+                }
+                title = R.string.certification_sub_title
+            }
         }
     }
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            SideEffect.RegisterSuccess -> onComplete.invoke()
-            SideEffect.RegisterFail -> {
+            is PinSettingSideEffect.PINMismatch -> {
                 vibrator.vibrateCompat(
                     milliseconds = 400,
                     amplitude = 50
                 )
                 isFail = true
-                password = ""
+                pin = ""
+            }
+            is PinSettingSideEffect.PINSaved -> {
+                onComplete.invoke()
             }
         }
     }
 
-    if (password.length == 4 && state is State.FirstInputScreen) {
-        viewModel.setFirstPassword(password)
-        password = ""
-    }
-
-    if (password.length == 4 && state is State.SecondInputScreen) {
-        viewModel.setPassword(password)
-    }
-
-    if (isFail && password.isNotEmpty()) {
+    if (isFail && pin.isNotEmpty()) {
         isFail = false
     }
 
@@ -82,23 +86,21 @@ internal fun CertificationRegistrationScreen(
             .background(MaterialTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CertificationRegistrationHeader(onBack)
-        CertificationContent(
-            title = if (viewModel.tempPasswordIsNotEmpty) stringResource(R.string.certification_sub_title) else stringResource(
-                R.string.certification_title
-            ),
-            valueLength = password.length,
+        PinSettingHeader(onBack)
+        PinSettingContent(
+            title = stringResource(state.titleRes),
+            valueLength = pin.length,
             isFail = isFail
         )
         Keypad(
             onChangeValue = { value ->
-                if (password.length < 4) {
-                    password += value
+                if (pin.length < 4) {
+                    pin += value
                 }
             },
             onDelete = {
-                if (password.isNotEmpty()) {
-                    password = password.dropLast(1)
+                if (pin.isNotEmpty()) {
+                    pin = pin.dropLast(1)
                 }
             }
         )

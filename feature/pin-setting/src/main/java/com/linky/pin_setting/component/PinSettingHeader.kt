@@ -1,4 +1,4 @@
-package com.linky.certification_registration.component
+package com.linky.pin_setting.component
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -8,7 +8,7 @@ import com.linky.design_system.ui.component.button.LinkyBackArrowButton
 import com.linky.design_system.ui.component.header.LinkyHeader
 
 @Composable
-internal fun CertificationRegistrationHeader(onBack: () -> Unit) {
+internal fun PinSettingHeader(onBack: () -> Unit) {
     LinkyHeader(modifier = Modifier.padding(start = 12.dp)) {
         LinkyBackArrowButton(onBack)
     }

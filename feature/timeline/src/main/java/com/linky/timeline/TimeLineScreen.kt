@@ -118,7 +118,9 @@ private fun TimeLineScreen(
 
                 is LoadState.NotLoading -> {
                     if (links.itemSnapshotList.isEmpty()) {
-                        TimeLineEmptyScreen(onShowLinkActivity)
+                        TimeLineEmptyScreen(
+                            onShowLinkActivity = onShowLinkActivity
+                        )
                     }
                 }
 

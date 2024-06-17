@@ -30,7 +30,7 @@ class TimeLineViewModel @Inject constructor(
     private val getTagByIdsUseCase: GetTagByIdsUseCase,
     private val incrementLinkReadCountUseCase: IncrementLinkReadCountUseCase,
     private val linkSetIsRemoveUseCase: LinkSetIsRemoveUseCase
-) : ViewModel(), ContainerHost<TimeLineState, TimeLineSideEffect> {
+) : ContainerHost<TimeLineState, TimeLineSideEffect>, ViewModel() {
 
     override val container = container<TimeLineState, TimeLineSideEffect>(TimeLineState.Init)
 

@@ -9,9 +9,9 @@ class LockRepositoryImpl @Inject constructor(
 ) : LockRepository{
 
     override suspend fun enableLock(enable: Boolean) = lockDataSource.enableLock(enable)
-    override fun isEnabled(): Flow<Boolean> = lockDataSource.isEnabled()
+    override val enableLock: Flow<Boolean> = lockDataSource.enableLock
 
     override suspend fun enableBiometric(enable: Boolean) = lockDataSource.enableBiometric(enable)
-    override fun isEnabledBiometric(): Flow<Boolean> = lockDataSource.isEnabledBiometric()
+    override val enableBiometric: Flow<Boolean> = lockDataSource.enableBiometric
 
 }

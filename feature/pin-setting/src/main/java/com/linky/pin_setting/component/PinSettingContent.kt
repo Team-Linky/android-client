@@ -1,4 +1,4 @@
-package com.linky.certification_registration.component
+package com.linky.pin_setting.component
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.Animatable
@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.linky.certification_registration.R
+import com.linky.pin_setting.R
 import com.linky.design_system.ui.component.password.Password
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.CertificationDescriptionColor
@@ -30,7 +30,7 @@ import com.linky.design_system.ui.theme.ErrorColor
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-internal fun CertificationContent(
+internal fun PinSettingContent(
     title: String,
     valueLength: Int,
     isFail: Boolean

@@ -13,7 +13,7 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.feature.navigation)
     implementation(projects.feature.certification)
-    implementation(projects.feature.certificationRegistration)
+    implementation(projects.feature.pinSetting)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.lifecycle.runtime)

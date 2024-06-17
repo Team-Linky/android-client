@@ -1,4 +1,4 @@
-package com.linky.certification_registration
+package com.linky.pin_setting
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,12 +8,12 @@ import com.linky.design_system.ui.theme.LinkyLinkTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CertificationRegistrationActivity : ComponentActivity() {
+class PinSettingActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             LinkyLinkTheme {
-                CertificationRegistrationScreen(
+                PinSettingScreen(
                     onBack = ::back,
                     onComplete = ::complete
                 )

@@ -35,10 +35,10 @@ class CertificationViewModel @Inject constructor(
 }
 
 sealed interface State {
-    object Initialize : State
+    data object Initialize : State
 }
 
 sealed interface SideEffect {
-    object CertifiedSuccess : SideEffect
-    object CertifiedFail : SideEffect
+    data object CertifiedSuccess : SideEffect
+    data object CertifiedFail : SideEffect
 }

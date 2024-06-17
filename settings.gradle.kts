@@ -20,6 +20,7 @@ include(
     ":app",
     ":common:intercation",
     ":common:process-lifecycle",
+    ":common:safe-coroutine",
     ":core:design-system",
     ":core:data-store",
     ":core:di",
@@ -38,7 +39,6 @@ include(
     ":feature:more-activity",
     ":feature:lock",
     ":feature:certification",
-    ":feature:certification-registration",
+    ":feature:pin-setting",
     ":feature:webview",
 )
-include(":common:safe-coroutine")

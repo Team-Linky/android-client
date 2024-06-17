@@ -1,15 +1,22 @@
 package com.linky.lock
 
+import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,16 +27,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.linky.certification_registration.extension.LaunchCertificationRegistrationActivity
+import com.linky.pin_setting.extension.launchCRA
+import com.linky.pin_setting.extension.rememberLauncherForPinSettingActivityResult
+import com.linky.design_system.ui.component.more.LinkyDriver
+import com.linky.design_system.ui.component.switch.LinkySwitchButton
+import com.linky.design_system.ui.component.text.LinkyText
+import com.linky.design_system.ui.theme.LockContentBackgroundColor
 import com.linky.design_system.ui.theme.LockContentLineColor
-import com.linky.lock.component.BiometricsRecognitionContent
-import com.linky.lock.component.LockContent
+import com.linky.design_system.util.clickableRipple
 import com.linky.lock.component.LockHeader
-import com.linky.lock.component.PasswordChangeContent
+import com.linky.lock.state.BiometricStatus
+import com.linky.lock.state.LockStatus
 import com.linky.navigation.more.MoreNavType
 import org.orbitmvi.orbit.compose.collectAsState
 
@@ -42,67 +57,48 @@ private fun LinkyLockRoute(
     viewModel: LinkyLockViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
-    when (val state = viewModel.collectAsState().value) {
-        is LockScreenState.Loading -> Unit
-        is LockScreenState.Error -> Unit
-        is LockScreenState.Success -> {
-            LinkyLockScreen(
-                initEnableLock = state.enableLock,
-                initEnableBiometric = state.enableBiometric,
-                onBack = onBack,
-                enableLockValue = viewModel::enableLock,
-                disableLockValue = viewModel::disableLock,
-                onChangeBiometricValue = { viewModel.setBiometricUse(it) }
-            )
-        }
-    }
+    val state by viewModel.collectAsState()
+
+    LinkyLockScreen(
+        lockStatus = state.lockStatus,
+        biometricStatus = state.biometricStatus,
+        onBack = onBack,
+        onChangeLock = { viewModel.doAction(Action.ToggleLock(it)) },
+        onChangeBiometric = { viewModel.doAction(Action.ToggleBiometric(it)) }
+    )
 }
 
 @Composable
 private fun LinkyLockScreen(
-    initEnableLock: Boolean,
-    initEnableBiometric: Boolean,
+    lockStatus: LockStatus,
+    biometricStatus: BiometricStatus,
     onBack: () -> Unit = {},
-    enableLockValue: () -> Unit = {},
-    disableLockValue: () -> Unit = {},
-    onChangeBiometricValue: (Boolean) -> Unit = {},
+    onChangeLock: (Boolean) -> Unit,
+    onChangeBiometric: (Boolean) -> Unit,
 ) {
     val activity = LocalContext.current as ComponentActivity
-    var biometricStatus by remember { mutableStateOf<BiometricStatus>(BiometricStatus.Initialize) }
-    var enableLock by remember { mutableStateOf(initEnableLock) }
-    var enableBiometric by remember { mutableStateOf(initEnableBiometric) }
+    val canBiometric = rememberCanDeviceBiometric()
 
-    if (enableLock && !initEnableLock) {
-        activity.LaunchCertificationRegistrationActivity(
-            onSuccess = {
-                enableLock = true
-                enableLockValue.invoke()
-            },
-            onFail = {
-                enableLock = false
-                disableLockValue.invoke()
-            }
-        )
-    }
+    var enableLock by remember { mutableStateOf(false) }
+    var enableBiometric by remember { mutableStateOf(false) }
 
-    if (initEnableLock && !enableLock) {
-        disableLockValue.invoke()
-    }
-
-    if (enableBiometric && biometricStatus is BiometricStatus.Success) {
-        onChangeBiometricValue.invoke(true)
-    } else {
-        enableBiometric = false
-        onChangeBiometricValue.invoke(false)
-    }
-
-    LaunchedEffect(Unit) {
-        val authenticators = BIOMETRIC_STRONG or DEVICE_CREDENTIAL
-        biometricStatus = when (BiometricManager.from(activity.applicationContext).canAuthenticate(authenticators)) {
-            BiometricManager.BIOMETRIC_SUCCESS -> BiometricStatus.Success
-            else -> BiometricStatus.Fail
+    LaunchedEffect(lockStatus) {
+        if (lockStatus is LockStatus.Result) {
+            enableLock = lockStatus.enable
         }
     }
+
+    LaunchedEffect(biometricStatus) {
+        if (biometricStatus is BiometricStatus.Result) {
+            enableBiometric = biometricStatus.enable
+        }
+    }
+
+    val craResult = rememberLauncherForPinSettingActivityResult(
+        onSuccess = { enableLock = true },
+        onFail = { enableLock = false },
+        onComplete = { onChangeLock.invoke(enableLock) }
+    )
 
     Column(
         modifier = Modifier
@@ -111,35 +107,112 @@ private fun LinkyLockScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LockHeader(onBack)
-        LockContent(
-            checked = enableLock,
-            onCheckedChange = { enableLock = it }
-        )
         Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(LockContentLineColor)
+            modifier = Modifier.padding(top = 16.dp)
         )
-        if (initEnableLock && enableLock) {
-            PasswordChangeContent {}
-            Spacer(
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier
+                    .height(48.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                LinkyText(
+                    text = stringResource(R.string.lock_text),
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 15.sp,
+                    modifier = Modifier.padding(start = 20.dp)
+                )
+
+                Box(
+                    modifier = Modifier.padding(end = 20.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    when (lockStatus) {
+                        is LockStatus.Loading -> {
+                            CircularProgressIndicator()
+                        }
+
+                        is LockStatus.Result -> {
+                            LinkySwitchButton(
+                                modifier = Modifier.clickableRipple(radius = 10.dp) { craResult.launchCRA(activity, enableLock) },
+                                checked = enableLock,
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        LinkyDriver()
+        if (enableLock) {
+            Box(
+                contentAlignment = Alignment.CenterStart,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(1.dp)
-                    .background(LockContentLineColor)
-            )
-            BiometricsRecognitionContent(
-                value = enableBiometric,
-                biometricStatus = biometricStatus,
-                onCheckedChange = { enableBiometric = it }
-            )
+                    .height(48.dp)
+                    .background(LockContentBackgroundColor)
+                    .clickable { }
+            ) {
+                LinkyText(
+                    text = stringResource(R.string.lock_password_change_text),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.padding(start = 20.dp)
+                )
+            }
+            if (canBiometric) {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .background(LockContentLineColor)
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .background(LockContentBackgroundColor)
+                ) {
+                    LinkyText(
+                        text = stringResource(R.string.lock_biometrics_recognition_text),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(start = 20.dp)
+                    )
+
+                    Box(
+                        modifier = Modifier.padding(end = 20.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        when (lockStatus) {
+                            is LockStatus.Loading -> {
+                                CircularProgressIndicator()
+                            }
+
+                            is LockStatus.Result -> {
+                                LinkySwitchButton(
+                                    checked = enableBiometric,
+                                    onCheckedChange = { enableBiometric = it }
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
-sealed interface BiometricStatus {
-    object Initialize : BiometricStatus
-    object Success : BiometricStatus
-    object Fail : BiometricStatus
+@Composable
+fun rememberCanDeviceBiometric(
+    context: Context = LocalContext.current.applicationContext
+): Boolean = remember {
+    val authenticators = BIOMETRIC_STRONG or DEVICE_CREDENTIAL
+    val canAuthenticate = BiometricManager.from(context).canAuthenticate(authenticators)
+    canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
 }

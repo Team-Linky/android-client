@@ -21,14 +21,14 @@ class LockDataSourceImpl @Inject constructor(
         dataStore.edit { it[PREFERENCE_KEY_ENABLE_LOCK] = enable }
     }
 
-    override fun isEnabled(): Flow<Boolean> =
+    override val enableLock: Flow<Boolean> =
         dataStore.data.map { it[PREFERENCE_KEY_ENABLE_LOCK] ?: false }
 
     override suspend fun enableBiometric(enable: Boolean) {
         dataStore.edit { it[PREFERENCE_KEY_ENABLE_BIOMETRIC] = enable }
     }
 
-    override fun isEnabledBiometric(): Flow<Boolean> =
+    override val enableBiometric: Flow<Boolean> =
         dataStore.data.map { it[PREFERENCE_KEY_ENABLE_BIOMETRIC] ?: false }
 
 }
