@@ -42,9 +42,9 @@ class PinSettingViewModel @Inject constructor(
         intent {
             if (state.pin == pin) {
                 savePinUseCase.invoke(pin)
-                postSideEffect(PinSettingSideEffect.PINSaved)
+                postSideEffect(PinSettingSideEffect.PinSaved)
             } else {
-                postSideEffect(PinSettingSideEffect.PINMismatch)
+                postSideEffect(PinSettingSideEffect.PinMismatch)
             }
         }
     }

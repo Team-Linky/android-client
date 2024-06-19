@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.linky.certification"
+    namespace = "com.linky.pin"
 }
 
 dependencies {

@@ -65,7 +65,7 @@ dependencies {
     implementation(projects.feature.more)
     implementation(projects.feature.link)
     implementation(projects.feature.moreActivity)
-    implementation(projects.feature.certification)
+    implementation(projects.feature.pin)
     implementation(projects.common.processLifecycle)
 
     implementation(libs.androidx.core.ktx)

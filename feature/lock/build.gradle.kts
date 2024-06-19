@@ -12,7 +12,7 @@ dependencies {
     implementation(projects.core.designSystem)
     implementation(projects.core.data)
     implementation(projects.feature.navigation)
-    implementation(projects.feature.certification)
+    implementation(projects.feature.pin)
     implementation(projects.feature.pinSetting)
 
     implementation(libs.androidx.core.ktx)

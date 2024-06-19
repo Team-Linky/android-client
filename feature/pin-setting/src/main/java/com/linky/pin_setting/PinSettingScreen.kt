@@ -62,7 +62,7 @@ internal fun PinSettingScreen(
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            is PinSettingSideEffect.PINMismatch -> {
+            is PinSettingSideEffect.PinMismatch -> {
                 vibrator.vibrateCompat(
                     milliseconds = 400,
                     amplitude = 50
@@ -70,7 +70,7 @@ internal fun PinSettingScreen(
                 isFail = true
                 pin = ""
             }
-            is PinSettingSideEffect.PINSaved -> {
+            is PinSettingSideEffect.PinSaved -> {
                 onComplete.invoke()
             }
         }

@@ -13,12 +13,12 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.linky.certification.extension.launchCertificationActivity
 import com.linky.design_system.ui.component.floating.LinkyFloatingActionButton
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
 import com.linky.link.extension.launchLinkActivity
 import com.linky.more_activity.extension.launchMoreActivity
 import com.linky.navigation.LinkyBottomNavigation
+import com.linky.pin.extension.launchPinActivity
 import com.linky.process_lifecycle.ProcessLifecycle
 import com.sun5066.common.safe_coroutine.builder.safeLaunch
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +34,13 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        lifecycleScope.safeLaunch {
+            if (viewModel.getEnableLock()) {
+                launchPinActivity()
+            }
+        }
+
         viewModel.processLifecycleEvent
             .onEach { processLifecycle ->
                 when (processLifecycle) {
@@ -53,7 +60,11 @@ class MainActivity : ComponentActivity() {
                     isFloatingActionButtonDocked = true,
                     scaffoldState = scaffoldState,
                 ) { paddingValues ->
-                    Surface(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
                         MainNavHost(
                             scaffoldState = scaffoldState,
                             navHostController = navHostController,
@@ -75,7 +86,7 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.safeLaunch {
             if (lockTimerCnt >= 3) {
                 if (viewModel.getEnableLock()) {
-                    launchCertificationActivity()
+                    launchPinActivity()
                 }
             }
         }

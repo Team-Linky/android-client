@@ -38,7 +38,7 @@ include(
     ":feature:tip",
     ":feature:more-activity",
     ":feature:lock",
-    ":feature:certification",
+    ":feature:pin",
     ":feature:pin-setting",
     ":feature:webview",
 )
