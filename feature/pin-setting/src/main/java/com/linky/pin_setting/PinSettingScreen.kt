@@ -44,17 +44,9 @@ internal fun PinSettingScreen(
 
     LaunchedEffect(state.status) {
         when (state.status) {
-            is PinSettingStatus.EnterPinScreen -> {
-                if (pin.length == 4) {
-                    viewModel.doAction(Action.EnterPin(pin))
-                    pin = ""
-                }
-            }
+            is PinSettingStatus.EnterPinScreen -> Unit
 
             is PinSettingStatus.ConfirmPinScreen -> {
-                if (pin.length == 4) {
-                    viewModel.doAction(Action.ConfirmPin(pin))
-                }
                 title = R.string.certification_sub_title
             }
         }
@@ -74,6 +66,15 @@ internal fun PinSettingScreen(
                 onComplete.invoke()
             }
         }
+    }
+
+    if (pin.length == 4 && state.status is PinSettingStatus.EnterPinScreen) {
+        viewModel.doAction(Action.EnterPin(pin))
+        pin = ""
+    }
+
+    if (pin.length == 4 && state.status is PinSettingStatus.ConfirmPinScreen) {
+        viewModel.doAction(Action.ConfirmPin(pin))
     }
 
     if (isFail && pin.isNotEmpty()) {

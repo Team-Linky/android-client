@@ -1,10 +1,5 @@
 package com.linky.lock
 
-import android.content.Context
-import androidx.activity.ComponentActivity
-import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
-import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,11 +26,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.linky.pin_setting.extension.launchCRA
-import com.linky.pin_setting.extension.rememberLauncherForPinSettingActivityResult
 import com.linky.design_system.ui.component.more.LinkyDriver
 import com.linky.design_system.ui.component.switch.LinkySwitchButton
 import com.linky.design_system.ui.component.text.LinkyText
@@ -46,6 +41,10 @@ import com.linky.lock.component.LockHeader
 import com.linky.lock.state.BiometricStatus
 import com.linky.lock.state.LockStatus
 import com.linky.navigation.more.MoreNavType
+import com.linky.pin.extension.launchPinActivity
+import com.linky.pin.extension.rememberLaunchPinActivityResult
+import com.linky.pin_setting.extension.launchCRA
+import com.linky.pin_setting.extension.rememberLauncherForPinSettingActivityResult
 import org.orbitmvi.orbit.compose.collectAsState
 
 fun NavGraphBuilder.lockScreen(onBack: () -> Unit) {
@@ -76,11 +75,84 @@ private fun LinkyLockScreen(
     onChangeLock: (Boolean) -> Unit,
     onChangeBiometric: (Boolean) -> Unit,
 ) {
-    val activity = LocalContext.current as ComponentActivity
+    val activity = LocalContext.current as FragmentActivity
     val canBiometric = rememberCanDeviceBiometric()
 
     var enableLock by remember { mutableStateOf(false) }
     var enableBiometric by remember { mutableStateOf(false) }
+
+    var pinLockUseState: PinLockUseState by remember { mutableStateOf(PinLockUseState.Idle) }
+    var biometricUseState: BiometricUseState by remember { mutableStateOf(BiometricUseState.Idle) }
+
+    val pinLauncherSuccessHandler: () -> Unit = {
+        if (pinLockUseState == PinLockUseState.UnLock) {
+            enableLock = false
+            onChangeLock.invoke(enableLock)
+        }
+    }
+
+    val biometricLauncherSuccessHandler: () -> Unit = {
+        when (biometricUseState) {
+            is BiometricUseState.DoNotUse -> {
+                enableBiometric = false
+                onChangeBiometric.invoke(enableBiometric)
+            }
+
+            is BiometricUseState.Use -> {
+                enableBiometric = true
+                onChangeBiometric.invoke(enableBiometric)
+            }
+
+            is BiometricUseState.Idle -> Unit
+        }
+    }
+
+    val authBiometric = rememberAuthentication(
+        onError = { biometricUseState = BiometricUseState.Idle },
+        onFail = { biometricUseState = BiometricUseState.Idle },
+        onSuccess = biometricLauncherSuccessHandler
+    )
+
+    LaunchedBiometric(
+        biometricUseState = biometricUseState,
+        onUse = {
+            launch(
+                activity = activity,
+                authBiometric = authBiometric,
+                title = ContextCompat.getString(activity, R.string.lock_biometric_title),
+                subtitle = ContextCompat.getString(activity, R.string.lock_biometric_use_subtitle),
+                negativeButtonText = ContextCompat.getString(activity, R.string.lock_biometric_use_text)
+            )
+        },
+        onDoNotUse = {
+            launch(
+                activity = activity,
+                authBiometric = authBiometric,
+                title = ContextCompat.getString(activity, R.string.lock_biometric_title),
+                subtitle = ContextCompat.getString(activity, R.string.lock_biometric_do_not_use_subtitle),
+                negativeButtonText = ContextCompat.getString(activity, R.string.lock_biometric_do_not_use_text)
+            )
+        }
+    )
+
+    val craLauncher = rememberLauncherForPinSettingActivityResult { isSuccess ->
+        enableLock = isSuccess
+        pinLockUseState = PinLockUseState.Idle
+        onChangeLock.invoke(isSuccess)
+    }
+
+    val pinLauncher = rememberLaunchPinActivityResult(
+        onCancel = {  },
+        onSuccess = pinLauncherSuccessHandler,
+    )
+
+    LaunchedEffect(pinLockUseState) {
+        when (pinLockUseState) {
+            is PinLockUseState.Idle -> Unit
+            is PinLockUseState.Lock -> craLauncher.launchCRA(activity)
+            is PinLockUseState.UnLock -> pinLauncher.launchPinActivity(activity)
+        }
+    }
 
     LaunchedEffect(lockStatus) {
         if (lockStatus is LockStatus.Result) {
@@ -93,12 +165,6 @@ private fun LinkyLockScreen(
             enableBiometric = biometricStatus.enable
         }
     }
-
-    val craResult = rememberLauncherForPinSettingActivityResult(
-        onSuccess = { enableLock = true },
-        onFail = { enableLock = false },
-        onComplete = { onChangeLock.invoke(enableLock) }
-    )
 
     Column(
         modifier = Modifier
@@ -138,7 +204,14 @@ private fun LinkyLockScreen(
 
                         is LockStatus.Result -> {
                             LinkySwitchButton(
-                                modifier = Modifier.clickableRipple(radius = 10.dp) { craResult.launchCRA(activity, enableLock) },
+                                modifier = Modifier
+                                    .clickableRipple(radius = 10.dp) {
+                                        pinLockUseState = if (enableLock) {
+                                            PinLockUseState.UnLock
+                                        } else {
+                                            PinLockUseState.Lock
+                                        }
+                                    },
                                 checked = enableLock,
                             )
                         }
@@ -179,7 +252,7 @@ private fun LinkyLockScreen(
                         .background(LockContentBackgroundColor)
                 ) {
                     LinkyText(
-                        text = stringResource(R.string.lock_biometrics_recognition_text),
+                        text = stringResource(R.string.lock_biometric_use_text),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier.padding(start = 20.dp)
@@ -196,8 +269,14 @@ private fun LinkyLockScreen(
 
                             is LockStatus.Result -> {
                                 LinkySwitchButton(
+                                    modifier = Modifier.clickableRipple(radius = 10.dp) {
+                                        biometricUseState = if (enableBiometric) {
+                                            BiometricUseState.DoNotUse
+                                        } else {
+                                            BiometricUseState.Use
+                                        }
+                                    },
                                     checked = enableBiometric,
-                                    onCheckedChange = { enableBiometric = it }
                                 )
                             }
                         }
@@ -208,11 +287,8 @@ private fun LinkyLockScreen(
     }
 }
 
-@Composable
-fun rememberCanDeviceBiometric(
-    context: Context = LocalContext.current.applicationContext
-): Boolean = remember {
-    val authenticators = BIOMETRIC_STRONG or DEVICE_CREDENTIAL
-    val canAuthenticate = BiometricManager.from(context).canAuthenticate(authenticators)
-    canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
+sealed interface PinLockUseState {
+    data object Idle : PinLockUseState
+    data object Lock : PinLockUseState
+    data object UnLock : PinLockUseState
 }

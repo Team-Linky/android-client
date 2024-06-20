@@ -25,7 +25,7 @@ class PinActivity : ComponentActivity() {
         setContent {
             LinkyLinkTheme {
                 PinScreen(
-                    onClose = ::finish
+                    onClose = ::success
                 )
             }
         }
@@ -36,6 +36,11 @@ class PinActivity : ComponentActivity() {
             slideOut()
         }
         super.onPause()
+    }
+
+    private fun success() {
+        setResult(RESULT_OK)
+        finish()
     }
 
 }
