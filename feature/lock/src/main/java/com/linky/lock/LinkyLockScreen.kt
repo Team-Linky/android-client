@@ -31,6 +31,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.linky.common.biometric_compose.BiometricUseState
+import com.linky.common.biometric_compose.LaunchedBiometric
+import com.linky.common.biometric_compose.rememberAuthentication
+import com.linky.common.biometric_compose.rememberCanDeviceBiometric
+import com.linky.design_system.R
 import com.linky.design_system.ui.component.more.LinkyDriver
 import com.linky.design_system.ui.component.switch.LinkySwitchButton
 import com.linky.design_system.ui.component.text.LinkyText
@@ -119,18 +124,18 @@ private fun LinkyLockScreen(
             launch(
                 activity = activity,
                 authBiometric = authBiometric,
-                title = ContextCompat.getString(activity, R.string.lock_biometric_title),
-                subtitle = ContextCompat.getString(activity, R.string.lock_biometric_use_subtitle),
-                negativeButtonText = ContextCompat.getString(activity, R.string.lock_biometric_use_text)
+                title = ContextCompat.getString(activity, R.string.biometric_default_title),
+                subtitle = ContextCompat.getString(activity, R.string.biometric_use_subtitle),
+                negativeButtonText = ContextCompat.getString(activity, R.string.biometric_use_text)
             )
         },
         onDoNotUse = {
             launch(
                 activity = activity,
                 authBiometric = authBiometric,
-                title = ContextCompat.getString(activity, R.string.lock_biometric_title),
-                subtitle = ContextCompat.getString(activity, R.string.lock_biometric_do_not_use_subtitle),
-                negativeButtonText = ContextCompat.getString(activity, R.string.lock_biometric_do_not_use_text)
+                title = ContextCompat.getString(activity, R.string.biometric_default_title),
+                subtitle = ContextCompat.getString(activity, R.string.biometric_do_not_use_subtitle),
+                negativeButtonText = ContextCompat.getString(activity, R.string.biometric_do_not_use_text)
             )
         }
     )
@@ -142,7 +147,7 @@ private fun LinkyLockScreen(
     }
 
     val pinLauncher = rememberLaunchPinActivityResult(
-        onCancel = {  },
+        onCancel = { },
         onSuccess = pinLauncherSuccessHandler,
     )
 
@@ -252,7 +257,7 @@ private fun LinkyLockScreen(
                         .background(LockContentBackgroundColor)
                 ) {
                     LinkyText(
-                        text = stringResource(R.string.lock_biometric_use_text),
+                        text = stringResource(R.string.biometric_use_text),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier.padding(start = 20.dp)

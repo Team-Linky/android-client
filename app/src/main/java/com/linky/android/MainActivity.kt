@@ -20,7 +20,7 @@ import com.linky.more_activity.extension.launchMoreActivity
 import com.linky.navigation.LinkyBottomNavigation
 import com.linky.pin.extension.launchPinActivity
 import com.linky.process_lifecycle.ProcessLifecycle
-import com.sun5066.common.safe_coroutine.builder.safeLaunch
+import com.linky.common.safe_coroutine.builder.safeLaunch
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.feature.navigation)
     implementation(projects.feature.pin)
     implementation(projects.feature.pinSetting)
+    implementation(projects.common.biometricCompose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.lifecycle.runtime)

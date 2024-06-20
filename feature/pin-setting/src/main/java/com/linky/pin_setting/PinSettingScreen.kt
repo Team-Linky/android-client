@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.linky.design_system.R
 import com.linky.design_system.ui.component.keypad.Keypad
 import com.linky.intercation.vibrate.vibrateCompat
 import com.linky.pin_setting.component.PinSettingContent
@@ -34,7 +35,7 @@ internal fun PinSettingScreen(
     onComplete: () -> Unit
 ) {
     val state by viewModel.collectAsState()
-    var title by remember { mutableIntStateOf(R.string.certification_title) }
+    var title by remember { mutableIntStateOf(R.string.pin_setting_title) }
 
     var pin by rememberSaveable { mutableStateOf("") }
 
@@ -47,7 +48,7 @@ internal fun PinSettingScreen(
             is PinSettingStatus.EnterPinScreen -> Unit
 
             is PinSettingStatus.ConfirmPinScreen -> {
-                title = R.string.certification_sub_title
+                title = R.string.pin_setting_sub_title
             }
         }
     }

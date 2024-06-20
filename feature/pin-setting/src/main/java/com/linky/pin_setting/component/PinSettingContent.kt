@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.linky.pin_setting.R
+import com.linky.design_system.R
 import com.linky.design_system.ui.component.password.Password
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.CertificationDescriptionColor
@@ -67,7 +67,7 @@ internal fun PinSettingContent(
                     contentDescription = "fail"
                 )
                 LinkyText(
-                    text = stringResource(R.string.certification_fail_description),
+                    text = stringResource(R.string.pin_setting_fail_description),
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Medium,
                     color = ErrorColor,
@@ -75,7 +75,7 @@ internal fun PinSettingContent(
             }
         } else {
             LinkyText(
-                text = stringResource(R.string.certification_description),
+                text = stringResource(R.string.pin_setting_description),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Medium,
                 color = CertificationDescriptionColor,

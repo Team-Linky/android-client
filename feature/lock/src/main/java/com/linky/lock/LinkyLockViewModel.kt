@@ -10,7 +10,7 @@ import com.linky.lock.state.BiometricStatus
 import com.linky.lock.state.LockSideEffect
 import com.linky.lock.state.LockState
 import com.linky.lock.state.LockStatus
-import com.sun5066.common.safe_coroutine.builder.safeLaunch
+import com.linky.common.safe_coroutine.builder.safeLaunch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest

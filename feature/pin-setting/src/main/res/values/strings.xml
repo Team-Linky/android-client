@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="certification_title">비밀번호 입력</string>
-    <string name="certification_sub_title">비밀번호 재입력</string>
-    <string name="certification_description">비밀번호 네 자리를 입력해 주세요.</string>
-    <string name="certification_fail_description">전에 입력한 번호와 일치하지 않아요.</string>
-</resources>

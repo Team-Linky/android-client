@@ -1,4 +1,4 @@
-package com.sun5066.common.safe_coroutine.builder
+package com.linky.common.safe_coroutine.builder
 
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope

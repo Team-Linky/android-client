@@ -11,7 +11,7 @@ import com.linky.design_system.ui.component.button.LinkyBackArrowButton
 import com.linky.design_system.ui.component.header.LinkyHeader
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.LinkyTextDefaultColor
-import com.linky.lock.R
+import com.linky.design_system.R
 
 @Composable
 internal fun LockHeader(onBack: () -> Unit) {

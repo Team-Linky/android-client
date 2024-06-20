@@ -1,7 +1,7 @@
 package com.linky.di
 
-import com.sun5066.common.safe_coroutine.dispatchers.Dispatcher
-import com.sun5066.common.safe_coroutine.dispatchers.LinkyDispatchers
+import com.linky.common.safe_coroutine.dispatchers.Dispatcher
+import com.linky.common.safe_coroutine.dispatchers.LinkyDispatchers
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

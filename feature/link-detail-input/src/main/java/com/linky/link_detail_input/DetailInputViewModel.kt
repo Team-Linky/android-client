@@ -18,9 +18,9 @@ import com.linky.link_detail_input.model.toOpenGraphData
 import com.linky.model.Link
 import com.linky.model.Tag
 import com.linky.model.open_graph.OpenGraphData
-import com.sun5066.common.safe_coroutine.builder.safeLaunch
-import com.sun5066.common.safe_coroutine.dispatchers.Dispatcher
-import com.sun5066.common.safe_coroutine.dispatchers.LinkyDispatchers
+import com.linky.common.safe_coroutine.builder.safeLaunch
+import com.linky.common.safe_coroutine.dispatchers.Dispatcher
+import com.linky.common.safe_coroutine.dispatchers.LinkyDispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler

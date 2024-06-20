@@ -1,4 +1,4 @@
-package com.linky.lock
+package com.linky.common.biometric_compose
 
 import android.content.Context
 import androidx.biometric.BiometricManager
@@ -49,8 +49,8 @@ class BiometricClient {
 fun LaunchedBiometric(
     key: Any = Unit,
     biometricUseState: BiometricUseState,
-    onUse: BiometricClient.() -> Unit,
-    onDoNotUse: BiometricClient.() -> Unit,
+    onUse: BiometricClient.() -> Unit = {},
+    onDoNotUse: BiometricClient.() -> Unit = {},
 ) {
     val useState by rememberUpdatedState(onUse)
     val doNotUseState by rememberUpdatedState(onDoNotUse)

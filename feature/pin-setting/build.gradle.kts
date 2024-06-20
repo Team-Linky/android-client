@@ -13,6 +13,7 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.feature.navigation)
     implementation(projects.common.intercation)
+    implementation(projects.common.biometricCompose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.lifecycle.runtime)

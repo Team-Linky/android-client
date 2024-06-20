@@ -1,7 +1,7 @@
 package com.linky.pin_setting.state
 
 import androidx.annotation.StringRes
-import com.linky.pin_setting.R
+import com.linky.design_system.R
 
 data class PinSettingState(
     val status: PinSettingStatus,
@@ -17,9 +17,9 @@ data class PinSettingState(
 
     val titleRes: Int
         @StringRes get() = if (pin.isNotEmpty()) {
-            R.string.certification_sub_title
+            R.string.pin_setting_sub_title
         } else {
-            R.string.certification_title
+            R.string.pin_setting_title
         }
 }
 

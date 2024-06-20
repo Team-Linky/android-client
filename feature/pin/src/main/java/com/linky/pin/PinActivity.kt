@@ -1,15 +1,17 @@
 package com.linky.pin
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
+import androidx.fragment.app.FragmentActivity
 import com.linky.design_system.animation.slideOut
 import com.linky.design_system.ui.theme.LinkyLinkTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PinActivity : ComponentActivity() {
+class PinActivity : FragmentActivity() {
 
     private val backPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -23,9 +25,18 @@ class PinActivity : ComponentActivity() {
         onBackPressedDispatcher.addCallback(this, backPressedCallback)
 
         setContent {
+            val scaffoldState = rememberScaffoldState()
+
             LinkyLinkTheme {
-                PinScreen(
-                    onClose = ::success
+                Scaffold(
+                    scaffoldState = scaffoldState,
+                    content = { paddingValues ->
+                        PinScreen(
+                            scaffoldState = scaffoldState,
+                            paddingValues = paddingValues,
+                            onClose = ::success,
+                        )
+                    }
                 )
             }
         }

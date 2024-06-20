@@ -1,4 +1,4 @@
-package com.sun5066.common.safe_coroutine.dispatchers
+package com.linky.common.safe_coroutine.dispatchers
 
 import javax.inject.Qualifier
 

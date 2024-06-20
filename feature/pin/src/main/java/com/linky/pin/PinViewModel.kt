@@ -2,18 +2,21 @@ package com.linky.pin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.linky.data.usecase.certification.CertifiedUseCase
-import com.sun5066.common.safe_coroutine.builder.safeLaunch
+import com.linky.data.usecase.certification.GetEnablePinUseCase
+import com.linky.data.usecase.lock.GetEnableBiometricUseCase
+import com.linky.common.safe_coroutine.builder.safeLaunch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.shareIn
 import javax.inject.Inject
 
 @HiltViewModel
 class PinViewModel @Inject constructor(
-    private val certifiedUseCase: CertifiedUseCase
+    private val getEnablePinUseCase: GetEnablePinUseCase,
+    private val getEnableBiometricUseCase: GetEnableBiometricUseCase,
 ) : ViewModel() {
 
     private val _sideEffect = Channel<PinSideEffect>()
@@ -30,7 +33,7 @@ class PinViewModel @Inject constructor(
 
     private fun pinCheck(pin: String) {
         viewModelScope.safeLaunch {
-            val success = certifiedUseCase.invoke(pin)
+            val success = getEnablePinUseCase.invoke(pin)
 
             if (success) {
                 _sideEffect.send(PinSideEffect.Finish)
@@ -39,6 +42,8 @@ class PinViewModel @Inject constructor(
             }
         }
     }
+
+    suspend fun getEnableBiometric(): Boolean = getEnableBiometricUseCase.state.first()
 
 }
 

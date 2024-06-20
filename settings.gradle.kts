@@ -21,6 +21,7 @@ include(
     ":common:intercation",
     ":common:process-lifecycle",
     ":common:safe-coroutine",
+    ":common:biometric-compose",
     ":core:design-system",
     ":core:data-store",
     ":core:di",

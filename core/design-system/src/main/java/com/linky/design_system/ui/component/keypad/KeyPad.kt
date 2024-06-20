@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -24,8 +25,10 @@ import com.linky.design_system.ui.theme.NoRippleTheme
 
 @Composable
 fun ColumnScope.Keypad(
+    showBiometricKeyPad: Boolean = false,
     onChangeValue: (String) -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    onBiometric: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -77,10 +80,18 @@ fun ColumnScope.Keypad(
             )
         }
         KeypadRow {
-            Keypad(
-                painter = painterResource(R.drawable.image_biometrics),
-                onClick = {}
-            )
+            if (showBiometricKeyPad) {
+                Keypad(
+                    painter = painterResource(R.drawable.image_biometrics),
+                    onClick = onBiometric
+                )
+            } else {
+                Spacer(
+                    modifier = Modifier
+                        .weight(3.33f)
+                        .height(80.dp)
+                )
+            }
             Keypad(
                 text = "0",
                 onClick = { onChangeValue.invoke("0") }

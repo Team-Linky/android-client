@@ -14,7 +14,7 @@ import com.linky.data_base.link.entity.LinkEntity.Companion.toLink
 import com.linky.model.Link
 import com.linky.timeline.state.TimeLineSideEffect
 import com.linky.timeline.state.TimeLineState
-import com.sun5066.common.safe_coroutine.builder.safeLaunch
+import com.linky.common.safe_coroutine.builder.safeLaunch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- :common:biometric-compose -->
+    <string name="biometric_default_title">생체 인증</string>
+    <string name="biometric_use_subtitle">링키에서 생체 인증을 활성화하기 위해 인증이 필요합니다.</string>
+    <string name="biometric_do_not_use_subtitle">링키에서 생체 인증을 비활성화하기 위해 인증이 필요합니다.</string>
+    <string name="biometric_use_text">생체인증 사용</string>
+    <string name="biometric_do_not_use_text">생체 인증 해제</string>
+
+    <!-- :feature:lock -->
+    <string name="lock_header">화면 잠금 설정</string>
+    <string name="lock_text">화면 잠금</string>
+    <string name="lock_password_change_text">비밀번호 변경</string>
+
+    <!-- :feature:pin -->
+    <string name="pin_title">비밀번호 입력</string>
+    <string name="pin_description">비밀번호 네 자리를 입력해 주세요.</string>
+    <string name="pin_fail_description">전에 입력한 번호와 일치하지 않아요.</string>
+
+    <!-- :feature:pin-setting -->
+    <string name="pin_setting_title">비밀번호 입력</string>
+    <string name="pin_setting_sub_title">비밀번호 재입력</string>
+    <string name="pin_setting_description">비밀번호 네 자리를 입력해 주세요.</string>
+    <string name="pin_setting_fail_description">전에 입력한 번호와 일치하지 않아요.</string>
+
+</resources>

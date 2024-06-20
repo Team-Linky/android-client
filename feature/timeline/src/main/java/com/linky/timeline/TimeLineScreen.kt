@@ -32,7 +32,7 @@ import com.linky.timeline.animation.exitTransition
 import com.linky.timeline.component.TimeLineHeader
 import com.linky.timeline.component.TimeLineList
 import com.linky.webview.extension.launchWebViewActivity
-import com.sun5066.common.safe_coroutine.builder.safeLaunch
+import com.linky.common.safe_coroutine.builder.safeLaunch
 import kotlinx.coroutines.flow.flowOf
 import org.orbitmvi.orbit.compose.collectAsState
 
