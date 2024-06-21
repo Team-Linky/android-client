@@ -1,5 +1,8 @@
 package com.linky.pin
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.linky.data.usecase.certification.GetEnablePinUseCase
@@ -25,6 +28,9 @@ class PinViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5_000L),
     )
 
+    var enableBiometric by mutableStateOf(false)
+        private set
+
     fun doAction(action: Action) {
         when (action) {
             is Action.PinCheck -> pinCheck(action.pin)
@@ -43,7 +49,15 @@ class PinViewModel @Inject constructor(
         }
     }
 
-    suspend fun getEnableBiometric(): Boolean = getEnableBiometricUseCase.state.first()
+    private fun updateEnableBiometric() {
+        viewModelScope.safeLaunch {
+            enableBiometric = getEnableBiometricUseCase.state.first()
+        }
+    }
+
+    init {
+        updateEnableBiometric()
+    }
 
 }
 

@@ -19,10 +19,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,7 +62,9 @@ internal fun PinScreen(
     val offsetX = remember { Animatable(0f) }
 
     val canBiometric = rememberCanDeviceBiometric()
-    var showBiometricKeyPad by rememberSaveable { mutableStateOf(false) }
+    val showBiometricKeyPad by remember(viewModel.enableBiometric) {
+        derivedStateOf { canBiometric && viewModel.enableBiometric }
+    }
     var biometricUseState: BiometricUseState by remember { mutableStateOf(BiometricUseState.Idle) }
 
     val authBiometric = rememberAuthentication(
@@ -101,10 +103,6 @@ internal fun PinScreen(
                 }
             }
         }
-    }
-
-    LaunchedEffect(Unit) {
-        showBiometricKeyPad = canBiometric && viewModel.getEnableBiometric()
     }
 
     LaunchedEffect(showBiometricKeyPad) {

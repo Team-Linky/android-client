@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
@@ -23,8 +25,11 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import coil.ImageLoader
 import com.google.accompanist.navigation.animation.composable
+import com.linky.common.safe_coroutine.builder.safeLaunch
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
+import com.linky.design_system.util.rememberImageLoader
 import com.linky.model.Link
 import com.linky.navigation.MainNavType
 import com.linky.timeline.animation.enterTransition
@@ -32,7 +37,6 @@ import com.linky.timeline.animation.exitTransition
 import com.linky.timeline.component.TimeLineHeader
 import com.linky.timeline.component.TimeLineList
 import com.linky.webview.extension.launchWebViewActivity
-import com.linky.common.safe_coroutine.builder.safeLaunch
 import kotlinx.coroutines.flow.flowOf
 import org.orbitmvi.orbit.compose.collectAsState
 
@@ -63,9 +67,13 @@ private fun TimeLineRoute(
     val state by viewModel.collectAsState()
     val links = state.links.collectAsLazyPagingItems()
     val clipboard = LocalClipboardManager.current
+    val imageLoader = rememberImageLoader()
+    val listState = rememberLazyListState()
 
     TimeLineScreen(
         links = links,
+        listState = listState,
+        imageLoader = imageLoader,
         onShowLinkActivity = onShowLinkActivity,
         onShowWebView = { link ->
             link.openGraphData.url?.also { url ->
@@ -91,6 +99,8 @@ private fun TimeLineRoute(
 @Composable
 private fun TimeLineScreen(
     links: LazyPagingItems<Link>,
+    listState: LazyListState,
+    imageLoader: ImageLoader,
     onShowLinkActivity: () -> Unit,
     onShowWebView: (Link) -> Unit,
     onRemoveTimeLine: (Long) -> Unit,
@@ -131,6 +141,8 @@ private fun TimeLineScreen(
 
             if (links.itemSnapshotList.isNotEmpty()) {
                 TimeLineList(
+                    state = listState,
+                    imageLoader = imageLoader,
                     links = links,
                     onEdit = { },
                     onRemove = onRemoveTimeLine,
@@ -148,6 +160,8 @@ private fun TimeLinePreview() {
     LinkyDefaultTheme {
         TimeLineScreen(
             links = defaultLinks,
+            listState = rememberLazyListState(),
+            imageLoader = rememberImageLoader(),
             onShowLinkActivity = {},
             onShowWebView = {},
             onRemoveTimeLine = {},

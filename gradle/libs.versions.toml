@@ -15,7 +15,6 @@ androidxMaterialCompose = "1.6.8"
 androidxComposeNavigation = "2.7.7"
 navigationAnimation = "0.31.3-beta"
 androidxComposeHiltNavigation = "1.2.0"
-androidxPaging = "3.3.0"
 androidxPagingCompose = "3.3.0"
 androidxAppCompat = "1.6.1"
 androidxRoom = "2.6.1"
@@ -85,8 +84,8 @@ navigation-animation = { module = "com.google.accompanist:accompanist-navigation
 androidx-compose-hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxComposeHiltNavigation" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivityCompose" }
 androidx-material-compose = { module = "androidx.compose.material:material", version.ref = "androidxMaterialCompose" }
-androidx-paging = { module = "androidx.paging:paging-runtime", version.ref = "androidxPaging" }
-androidx-paging-common = { module = "androidx.paging:paging-common-ktx", version.ref = "androidxPaging" }
+androidx-paging = { module = "androidx.paging:paging-runtime", version.ref = "androidxPagingCompose" }
+androidx-paging-common = { module = "androidx.paging:paging-common-ktx", version.ref = "androidxPagingCompose" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidxPagingCompose" }
 androidx-room = { module = "androidx.room:room-ktx", version.ref = "androidxRoom" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidxRoom" }
