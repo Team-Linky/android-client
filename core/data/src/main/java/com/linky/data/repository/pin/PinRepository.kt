@@ -1,10 +1,10 @@
-package com.linky.data.repository.certification
+package com.linky.data.repository.pin
 
 import kotlinx.coroutines.flow.Flow
 
-interface CertificationRepository {
-    suspend fun setPassword(password: String)
-    fun getPassword(): Flow<String?>
-    fun existCertification(): Flow<Boolean>
-    fun certified(password: String): Flow<Boolean>
+interface PinRepository {
+    suspend fun setPin(password: String)
+    val pin: Flow<String?>
+    val existPin: Flow<Boolean>
+    fun certified(pin: String): Flow<Boolean>
 }

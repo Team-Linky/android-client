@@ -8,23 +8,22 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-
-class CertificationDataSourceImpl @Inject constructor(
+class PinDataSourceImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
-) : CertificationDataSource {
+) : PinDataSource {
 
     companion object {
-        private val PREFERENCE_KEY_PASSWORD = stringPreferencesKey("preference_password")
+        private val PREFERENCE_KEY_PIN = stringPreferencesKey("preference_pin")
     }
 
-    override suspend fun setPassword(password: String) {
-        dataStore.edit { it[PREFERENCE_KEY_PASSWORD] = password }
+    override suspend fun setPin(password: String) {
+        dataStore.edit { it[PREFERENCE_KEY_PIN] = password }
     }
 
-    override fun getPassword(): Flow<String?> = dataStore.data.map { it[PREFERENCE_KEY_PASSWORD] }
+    override val pin: Flow<String?> = dataStore.data.map { it[PREFERENCE_KEY_PIN] }
 
-    override fun existCertification(): Flow<Boolean> = dataStore.data.map { it[PREFERENCE_KEY_PASSWORD] != null }
+    override val existPin: Flow<Boolean> = dataStore.data.map { it[PREFERENCE_KEY_PIN] != null }
 
-    override fun certified(password: String): Flow<Boolean> = dataStore.data.map { it[PREFERENCE_KEY_PASSWORD] == password }
+    override fun certified(pin: String): Flow<Boolean> = dataStore.data.map { it[PREFERENCE_KEY_PIN] == pin }
 
 }

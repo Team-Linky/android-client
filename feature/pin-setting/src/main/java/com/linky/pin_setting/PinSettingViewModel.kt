@@ -1,7 +1,7 @@
 package com.linky.pin_setting
 
 import androidx.lifecycle.ViewModel
-import com.linky.data.usecase.certification.SavePinUseCase
+import com.linky.data.usecase.pin.SavePinUseCase
 import com.linky.pin_setting.state.PinSettingSideEffect
 import com.linky.pin_setting.state.PinSettingState
 import com.linky.pin_setting.state.PinSettingStatus

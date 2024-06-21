@@ -1,10 +1,10 @@
-package com.linky.data.usecase.certification
+package com.linky.data.usecase.pin
 
-import com.linky.data.repository.certification.CertificationRepository
+import com.linky.data.repository.pin.PinRepository
 import javax.inject.Inject
 
 class SavePinUseCase @Inject constructor(
-    private val certificationRepository: CertificationRepository
+    private val pinRepository: PinRepository
 ) {
-    suspend operator fun invoke(password: String) = certificationRepository.setPassword(password)
+    suspend operator fun invoke(password: String) = pinRepository.setPin(password)
 }

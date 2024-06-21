@@ -2,8 +2,8 @@ package com.linky.di
 
 import com.linky.data.link.LinkRepository
 import com.linky.data.link.LinkRepositoryImpl
-import com.linky.data.repository.certification.CertificationRepository
-import com.linky.data.repository.certification.CertificationRepositoryImpl
+import com.linky.data.repository.pin.PinRepository
+import com.linky.data.repository.pin.PinRepositoryImpl
 import com.linky.data.repository.lock.LockRepository
 import com.linky.data.repository.lock.LockRepositoryImpl
 import com.linky.data.repository.tag.TagRepository
@@ -19,8 +19,8 @@ interface RepositoryModule {
 
     @Binds
     fun bindsCertificationRepository(
-        certificationRepository: CertificationRepositoryImpl
-    ): CertificationRepository
+        certificationRepository: PinRepositoryImpl
+    ): PinRepository
 
     @Binds
     fun bindsLockRepository(

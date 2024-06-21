@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.linky.data.usecase.certification.GetEnablePinUseCase
+import com.linky.data.usecase.pin.GetEnablePinUseCase
 import com.linky.data.usecase.lock.GetEnableBiometricUseCase
 import com.linky.common.safe_coroutine.builder.safeLaunch
 import dagger.hilt.android.lifecycle.HiltViewModel

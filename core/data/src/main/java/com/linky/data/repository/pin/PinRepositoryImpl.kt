@@ -1,23 +1,20 @@
-package com.linky.data.repository.certification
+package com.linky.data.repository.pin
 
-import com.linky.data_store.data_source.certification.CertificationDataSource
+import com.linky.data_store.data_source.certification.PinDataSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class CertificationRepositoryImpl @Inject constructor(
-    private val certificationDataSource: CertificationDataSource
-) : CertificationRepository {
+class PinRepositoryImpl @Inject constructor(
+    private val pinDataSource: PinDataSource
+) : PinRepository {
 
-    override suspend fun setPassword(password: String) =
-        certificationDataSource.setPassword(password)
+    override suspend fun setPin(password: String) =
+        pinDataSource.setPin(password)
 
-    override fun getPassword(): Flow<String?> =
-        certificationDataSource.getPassword()
+    override val pin: Flow<String?> = pinDataSource.pin
 
-    override fun existCertification(): Flow<Boolean> =
-        certificationDataSource.existCertification()
+    override val existPin: Flow<Boolean> = pinDataSource.existPin
 
-    override fun certified(password: String): Flow<Boolean> =
-        certificationDataSource.certified(password)
+    override fun certified(pin: String): Flow<Boolean> = pinDataSource.certified(pin)
 
 }
