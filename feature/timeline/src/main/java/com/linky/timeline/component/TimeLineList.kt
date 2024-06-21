@@ -168,7 +168,7 @@ internal fun TimeLineList(
                                     horizontalArrangement = Arrangement.Start,
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
-                                    items(link.tagList) { tag ->
+                                    items(link.tags) { tag ->
                                         TimeLineTagChip(
                                             modifier = Modifier.padding(end = 3.dp),
                                             tagName = tag.name,

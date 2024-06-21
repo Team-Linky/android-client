@@ -1,11 +1,11 @@
 package com.linky.data_base.tag.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.linky.data_base.tag.entity.TagEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TagDao {
@@ -16,8 +16,14 @@ interface TagDao {
     @Query("DELETE FROM tag WHERE pk == :id")
     suspend fun delete(id: Long)
 
-    @Query("SELECT * FROM tag")
-    fun selectAll(): Flow<List<TagEntity>>
+    @Query("""
+        SELECT tag.*, COUNT(linktagcrossref.linkId) as linkCount
+        FROM tag
+        LEFT JOIN linktagcrossref ON tag.pk = linktagcrossref.tagId
+        GROUP BY tag.pk
+        ORDER BY linkCount DESC
+    """)
+    fun selectAll(): PagingSource<Int, TagEntity>
 
     @Query("SELECT * FROM tag WHERE pk IN (:ids)")
     suspend fun selectByIds(ids: List<Long>): List<TagEntity>

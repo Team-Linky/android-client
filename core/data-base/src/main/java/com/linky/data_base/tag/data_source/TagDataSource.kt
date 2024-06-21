@@ -1,7 +1,7 @@
 package com.linky.data_base.tag.data_source
 
+import androidx.paging.PagingSource
 import com.linky.data_base.tag.entity.TagEntity
-import kotlinx.coroutines.flow.Flow
 
 interface TagDataSource {
 
@@ -9,7 +9,7 @@ interface TagDataSource {
 
     suspend fun delete(id: Long)
 
-    fun selectAll(): Flow<List<TagEntity>>
+    fun selectAll(): PagingSource<Int, TagEntity>
 
     suspend fun selectByIds(ids: List<Long>): List<TagEntity>
 

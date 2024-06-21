@@ -1,5 +1,6 @@
 package com.linky.data.repository.tag
 
+import androidx.paging.PagingData
 import com.linky.model.Tag
 import kotlinx.coroutines.flow.Flow
 
@@ -9,7 +10,7 @@ interface TagRepository {
 
     suspend fun delete(id: Long)
 
-    fun selectAll(): Flow<List<Tag>>
+    fun selectAll(): Flow<PagingData<Tag>>
 
     suspend fun selectByIds(ids: List<Long>): List<Tag>
 

@@ -6,13 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,6 +25,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.component.textfield.LinkyBasicTextField
 import com.linky.design_system.ui.theme.LinkyDescriptionColor
@@ -37,12 +40,11 @@ import com.linky.link_detail_input.R
 import com.linky.link_detail_input.State
 import com.linky.model.Tag
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun ColumnScope.DetailInputContent(
     state: State,
-    tags: List<Tag>,
-    selectTags: List<Long>,
+    tags: LazyPagingItems<Tag>,
+    selectTags: List<Tag>,
     memoValue: String,
     memoOnValueChange: (String) -> Unit,
     memoOnClear: () -> Unit,
@@ -112,29 +114,32 @@ internal fun ColumnScope.DetailInputContent(
                 )
             )
             Spacer(modifier = Modifier.padding(top = 16.dp))
-            FlowRow(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.Center
-            ) {
-                tags.forEach { tag ->
-                    Box(
-                        modifier = Modifier.padding(end = 4.dp, bottom = 8.dp),
-                        contentAlignment = Alignment.CenterStart
-                    ) {
-                        LinkyTagChip(
-                            text = tag.name,
-                            isSelected = selectTags.contains(tag.id),
-                            onDelete = { onDeleteTag.invoke(tag) },
-                            onClick = {
-                                if (tag.id != null) {
-                                    if (selectTags.contains(tag.id)) {
-                                        onUnSelectTag.invoke(tag)
-                                    } else {
-                                        onSelectTag.invoke(tag)
+            LazyVerticalGrid(columns = GridCells.Fixed(3)) {
+                items(
+                    count = tags.itemCount,
+                    key = tags.itemKey { it.id ?: 0L },
+                    contentType = tags.itemContentType { "TagItems" }
+                ) { index ->
+                    tags[index]?.let { tag ->
+                        Box(
+                            modifier = Modifier.padding(end = 4.dp, bottom = 8.dp),
+                            contentAlignment = Alignment.CenterStart
+                        ) {
+                            LinkyTagChip(
+                                text = tag.name,
+                                isSelected = selectTags.contains(tag),
+                                onDelete = { onDeleteTag.invoke(tag) },
+                                onClick = {
+                                    if (tag.id != null) {
+                                        if (selectTags.contains(tag)) {
+                                            onUnSelectTag.invoke(tag)
+                                        } else {
+                                            onSelectTag.invoke(tag)
+                                        }
                                     }
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }

@@ -12,6 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.component.button.LinkyButton
@@ -20,9 +21,12 @@ import com.linky.design_system.ui.theme.LinkyDescriptionColor
 import com.linky.tag.R
 
 @Composable
-internal fun ColumnScope.TagEmptyScreen(onShowLinkActivity: () -> Unit = {}) {
+internal fun TagEmptyScreen(
+    modifier: Modifier = Modifier,
+    onShowLinkActivity: () -> Unit
+) {
     Column(
-        modifier = Modifier.weight(1f),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.weight(0.4f))
@@ -45,5 +49,15 @@ internal fun ColumnScope.TagEmptyScreen(onShowLinkActivity: () -> Unit = {}) {
             onClick = onShowLinkActivity
         )
         Spacer(modifier = Modifier.weight(0.4f))
+    }
+}
+
+@Preview
+@Composable
+private fun TagEmptyScreenPreview() {
+    Column {
+        TagEmptyScreen(
+            onShowLinkActivity = {}
+        )
     }
 }

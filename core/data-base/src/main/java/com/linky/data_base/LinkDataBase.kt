@@ -8,17 +8,20 @@ import androidx.room.TypeConverters
 import com.linky.data_base.converter.LongTypeListConverter
 import com.linky.data_base.converter.OpenGraphDataConverter
 import com.linky.data_base.link.dao.LinkDao
+import com.linky.data_base.link.dao.LinkTagCrossRefDao
 import com.linky.data_base.link.entity.LinkEntity
+import com.linky.data_base.link.entity.LinkTagCrossRef
 import com.linky.data_base.tag.dao.TagDao
 import com.linky.data_base.tag.entity.TagEntity
 import com.squareup.moshi.Moshi
 
-@Database(entities = [TagEntity::class, LinkEntity::class], version = 3)
+@Database(entities = [TagEntity::class, LinkEntity::class, LinkTagCrossRef::class], version = 4)
 @TypeConverters(value = [LongTypeListConverter::class, OpenGraphDataConverter::class])
 abstract class LinkDataBase : RoomDatabase() {
 
     abstract fun getTagDao(): TagDao
     abstract fun getLinkDao(): LinkDao
+    abstract fun getLinkTagCrossRefDao(): LinkTagCrossRefDao
 
     companion object {
         private const val DATABASE_NAME = "linky_db"

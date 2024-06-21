@@ -9,6 +9,9 @@ import com.kedia.ogparser.OpenGraphCacheProvider
 import com.kedia.ogparser.OpenGraphCallback
 import com.kedia.ogparser.OpenGraphParser
 import com.kedia.ogparser.OpenGraphResult
+import com.linky.common.safe_coroutine.builder.safeLaunch
+import com.linky.common.safe_coroutine.dispatchers.Dispatcher
+import com.linky.common.safe_coroutine.dispatchers.LinkyDispatchers
 import com.linky.data.usecase.link.LinkInsertUseCase
 import com.linky.data.usecase.tag.GetTagsUseCase
 import com.linky.data.usecase.tag.TagDeleteUseCase
@@ -18,16 +21,9 @@ import com.linky.link_detail_input.model.toOpenGraphData
 import com.linky.model.Link
 import com.linky.model.Tag
 import com.linky.model.open_graph.OpenGraphData
-import com.linky.common.safe_coroutine.builder.safeLaunch
-import com.linky.common.safe_coroutine.dispatchers.Dispatcher
-import com.linky.common.safe_coroutine.dispatchers.LinkyDispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.plus
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -50,11 +46,7 @@ class DetailInputViewModel @Inject constructor(
 
     override val container: Container<State, SideEffect> = container(State.Loading)
 
-    val tagsState = getTagsUseCase.invoke().stateIn(
-        scope = viewModelScope.plus(ioDispatcher),
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = emptyList()
-    )
+    val tagsState = getTagsUseCase.invoke()
 
     init {
         savedStateHandle.get<String>("url")?.also { parse(application.applicationContext, it) }
@@ -100,7 +92,7 @@ class DetailInputViewModel @Inject constructor(
         ) {
             intent {
                 val id = linkInsertUseCase.invoke(link)
-                updateLinkIdsUseCase.invoke(link.tags, id)
+                updateLinkIdsUseCase.invoke(link.tags.map { it.id ?: 0L }, id)
                 postSideEffect(SideEffect.LinkInsertSuccess)
             }
         }

@@ -18,18 +18,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.navigation.animation.composable
 import com.linky.design_system.ui.component.textfield.addFocusCleaner
 import com.linky.link_detail_input.animation.exitTransition
 import com.linky.link_detail_input.component.DetailInputContent
 import com.linky.link_detail_input.component.DetailInputHeader
 import com.linky.model.Link
+import com.linky.model.Tag
 import com.linky.navigation.link.LinkNavType
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -80,14 +81,14 @@ private fun DetailInputScreen(
     viewModel: DetailInputViewModel = hiltViewModel()
 ) {
     val state = viewModel.collectAsState().value
-    val tags = viewModel.tagsState.collectAsStateWithLifecycle().value
+    val tags = viewModel.tagsState.collectAsLazyPagingItems()
     val focusManager = LocalFocusManager.current
     var memoText by rememberSaveable { mutableStateOf("") }
     val memoFocusRequester = remember { FocusRequester() }
 
     var tagText by rememberSaveable { mutableStateOf("") }
     val tagFocusRequester = remember { FocusRequester() }
-    var selectedTagIds by remember { mutableStateOf(emptyList<Long>()) }
+    var selectedTagIds by remember { mutableStateOf(emptyList<Tag>()) }
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
@@ -134,12 +135,12 @@ private fun DetailInputScreen(
             focusManager = focusManager,
             onSelectTag = { tag ->
                 val newList = selectedTagIds.toMutableList()
-                newList.add(tag.id!!)
+                newList.add(tag)
                 selectedTagIds = newList
             },
             onUnSelectTag = { tag ->
                 val newList = selectedTagIds.toMutableList()
-                newList.remove(tag.id!!)
+                newList.remove(tag)
                 selectedTagIds = newList
             },
             onDeleteTag = { tag ->

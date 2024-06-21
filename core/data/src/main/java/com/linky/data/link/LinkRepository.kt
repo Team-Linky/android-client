@@ -1,8 +1,8 @@
 package com.linky.data.link
 
-import androidx.paging.PagingSource
-import com.linky.data_base.link.entity.LinkEntity
+import androidx.paging.PagingData
 import com.linky.model.Link
+import kotlinx.coroutines.flow.Flow
 
 interface LinkRepository {
 
@@ -10,7 +10,7 @@ interface LinkRepository {
 
     suspend fun delete(id: Long)
 
-    fun selectPage(): PagingSource<Int, LinkEntity>
+    fun selectPage(): Flow<PagingData<Link>>
 
     suspend fun incrementReadCount(id: Long)
 

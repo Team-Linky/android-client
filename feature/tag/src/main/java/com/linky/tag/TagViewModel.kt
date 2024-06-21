@@ -10,13 +10,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TagViewModel @Inject constructor(
-    getTagsUseCase: GetTagsUseCase
+    private val getTagsUseCase: GetTagsUseCase
 ) : ViewModel() {
 
-    val tagsState = getTagsUseCase.invoke().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = emptyList()
-    )
+    val tagsState = getTagsUseCase.invoke()
 
 }

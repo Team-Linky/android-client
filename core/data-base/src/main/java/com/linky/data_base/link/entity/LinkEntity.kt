@@ -1,8 +1,13 @@
 package com.linky.data_base.link.entity
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.Junction
 import androidx.room.PrimaryKey
+import androidx.room.Relation
+import com.linky.data_base.tag.entity.TagEntity
+import com.linky.data_base.tag.entity.TagEntity.Companion.toTag
 import com.linky.model.Link
 import com.linky.model.open_graph.OpenGraphData
 
@@ -18,9 +23,6 @@ data class LinkEntity(
     @ColumnInfo(name = "openGraphData")
     val openGraphData: OpenGraphData,
 
-    @ColumnInfo(name = "tags")
-    val tags: List<Long> = emptyList(),
-
     @ColumnInfo(name = "readCount")
     val readCount: Long = 0,
 
@@ -35,20 +37,39 @@ data class LinkEntity(
             id = id,
             memo = memo,
             openGraphData = openGraphData,
-            tags = tags,
             readCount = readCount,
             createAt = createAt,
             isRemove = isRemove
         )
 
-        fun LinkEntity.toLink(): Link = Link(
+        fun LinkEntity.toLink(tags: List<TagEntity>): Link = Link(
             id = id,
             memo = memo,
+            tags = tags.map { it.toTag() },
             openGraphData = openGraphData,
-            tags = tags,
             readCount = readCount,
             createAt = createAt,
             isRemove = isRemove
         )
     }
 }
+
+@Entity(primaryKeys = ["linkId", "tagId"])
+data class LinkTagCrossRef(
+    val linkId: Long,
+    val tagId: Long
+)
+
+data class LinkWithTags(
+    @Embedded val link: LinkEntity,
+    @Relation(
+        parentColumn = "pk",
+        entityColumn = "pk",
+        associateBy = Junction(
+            value = LinkTagCrossRef::class,
+            parentColumn = "linkId",
+            entityColumn = "tagId"
+        )
+    )
+    val tags: List<TagEntity>
+)

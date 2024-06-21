@@ -1,11 +1,10 @@
 package com.linky.data_base.tag.entity
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.linky.model.Tag
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 @Entity(tableName = "tag")
 data class TagEntity(
@@ -31,7 +30,10 @@ data class TagEntity(
             name = name,
             linkIds = linkIds
         )
-
-        fun Flow<List<TagEntity>>.toTag(): Flow<List<Tag>> = map { list -> list.map { it.toTag() } }
     }
 }
+
+data class TagWithLinkCount(
+    @Embedded val tag: TagEntity,
+    val linkCount: Int
+)

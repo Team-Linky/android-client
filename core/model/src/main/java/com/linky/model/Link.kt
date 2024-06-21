@@ -10,11 +10,10 @@ data class Link(
     val id: Long? = null,
     val memo: String,
     val openGraphData: OpenGraphData,
-    val tags: List<Long> = emptyList(),
+    val tags: List<Tag> = emptyList(),
     val readCount: Long = 0,
     val createAt: Long = System.currentTimeMillis(),
     val isRemove: Boolean = false,
-    val tagList: List<Tag> = emptyList()
 ) {
     val createAtFormat: String
         get() {

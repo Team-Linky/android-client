@@ -28,5 +28,9 @@ dependencies {
     implementation(libs.system.ui.controller)
     implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.compose.hilt.navigation)
+    implementation(libs.androidx.paging.compose)
     implementation(libs.navigation.animation)
+
+    implementation(libs.orbit.compose)
+    implementation(libs.orbit.viewmodel)
 }
