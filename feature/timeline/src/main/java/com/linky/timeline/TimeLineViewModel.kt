@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.linky.common.safe_coroutine.builder.safeLaunch
 import com.linky.data.usecase.link.GetLinksUseCase
 import com.linky.data.usecase.link.IncrementLinkReadCountUseCase
 import com.linky.data.usecase.link.LinkSetIsRemoveUseCase
@@ -12,9 +13,9 @@ import com.linky.data.usecase.tag.GetTagByIdsUseCase
 import com.linky.data_base.link.entity.LinkEntity
 import com.linky.data_base.link.entity.LinkEntity.Companion.toLink
 import com.linky.model.Link
+import com.linky.timeline.state.Sort
 import com.linky.timeline.state.TimeLineSideEffect
 import com.linky.timeline.state.TimeLineState
-import com.linky.common.safe_coroutine.builder.safeLaunch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -38,6 +39,7 @@ class TimeLineViewModel @Inject constructor(
         when (action) {
             is TimeLineAction.IncrementReadCount -> incrementReadCount(action.id)
             is TimeLineAction.RemoveTimeLine -> removeTimeLine(action.id)
+            is TimeLineAction.ChangeSort -> changeSort(action.sort)
         }
     }
 
@@ -50,6 +52,12 @@ class TimeLineViewModel @Inject constructor(
     private fun removeTimeLine(id: Long?) {
         viewModelScope.safeLaunch {
             linkSetIsRemoveUseCase.invoke(id!!, true)
+        }
+    }
+
+    private fun changeSort(sort: Sort) {
+        intent {
+            reduce { state.copy(sortType = sort) }
         }
     }
 
@@ -66,7 +74,7 @@ class TimeLineViewModel @Inject constructor(
                 .toLinkList()
                 .cachedIn(viewModelScope)
 
-            reduce { state.copy(links = links) }
+            reduce { state.copy(linksState = links) }
         }
     }
 }
@@ -74,4 +82,5 @@ class TimeLineViewModel @Inject constructor(
 sealed interface TimeLineAction {
     data class IncrementReadCount(val id: Long?) : TimeLineAction
     data class RemoveTimeLine(val id: Long?) : TimeLineAction
+    data class ChangeSort(val sort: Sort) : TimeLineAction
 }

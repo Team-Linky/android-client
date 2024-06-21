@@ -55,7 +55,7 @@ import com.linky.design_system.ui.theme.LockContentLineColor
 import com.linky.design_system.ui.theme.TimelineMenuBackgroundColor
 import com.linky.design_system.util.clickableRipple
 import com.linky.model.Link
-import com.linky.timeline.R
+import com.linky.design_system.R
 import com.skydoves.balloon.compose.Balloon
 import com.skydoves.balloon.compose.rememberBalloonBuilder
 import com.skydoves.balloon.compose.setBackgroundColor

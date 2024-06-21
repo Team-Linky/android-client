@@ -48,6 +48,7 @@ import com.linky.timeline.animation.enterTransition
 import com.linky.timeline.animation.exitTransition
 import com.linky.timeline.component.TimeLineHeader
 import com.linky.timeline.component.TimeLineList
+import com.linky.timeline.state.Sort
 import com.linky.webview.extension.launchWebViewActivity
 import kotlinx.coroutines.flow.flowOf
 import org.orbitmvi.orbit.compose.collectAsState
@@ -90,6 +91,8 @@ private fun TimeLineRoute(
         links = links,
         listState = listState,
         imageLoader = imageLoader,
+        sortType = state.sortType,
+        sorts = state.sortList,
         showScrollTop = showScrollTop,
         onShowLinkActivity = onShowLinkActivity,
         onShowWebView = { link ->
@@ -112,7 +115,8 @@ private fun TimeLineRoute(
         },
         onScrollTop = {
             coroutineScope.safeLaunch { listState.animateScrollToItem(0) }
-        }
+        },
+        onChangeSort = { viewModel.doAction(TimeLineAction.ChangeSort(it)) }
     )
 }
 
@@ -121,12 +125,15 @@ private fun TimeLineScreen(
     links: LazyPagingItems<Link>,
     listState: LazyListState,
     imageLoader: ImageLoader,
+    sortType: Sort,
+    sorts: List<Sort>,
     showScrollTop: Boolean,
     onShowLinkActivity: () -> Unit,
     onShowWebView: (Link) -> Unit,
     onRemoveTimeLine: (Long) -> Unit,
     onCopyLink: (Link) -> Unit,
     onScrollTop: () -> Unit,
+    onChangeSort: (Sort) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -134,7 +141,11 @@ private fun TimeLineScreen(
             .background(MaterialTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TimeLineHeader()
+        TimeLineHeader(
+            sorts = sorts,
+            sortType = sortType,
+            onChangeSort = onChangeSort,
+        )
         Box(
             modifier = Modifier.weight(1f),
             contentAlignment = Alignment.TopCenter
@@ -175,7 +186,9 @@ private fun TimeLineScreen(
 
             if (showScrollTop) {
                 Column(
-                    modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 8.dp),
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 8.dp),
                 ) {
                     Box(
                         modifier = Modifier
@@ -204,12 +217,15 @@ private fun TimeLinePreview() {
             links = defaultLinks,
             listState = rememberLazyListState(),
             imageLoader = rememberImageLoader(),
+            sortType = Sort.All,
+            sorts = listOf(Sort.All),
             showScrollTop = false,
             onShowLinkActivity = {},
             onShowWebView = {},
             onRemoveTimeLine = {},
             onCopyLink = {},
-            onScrollTop = {}
+            onScrollTop = {},
+            onChangeSort = {},
         )
     }
 }

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">LINKY</string>
-    <string name="link_create_text">링크 추가하기</string>
-    <string name="link_create_description">내가 추가한 링크를\n시간 순서대로 볼 수 있어요.</string>
-</resources>

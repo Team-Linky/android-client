@@ -25,5 +25,9 @@ data class Link(
             return simpleDateFormat.format(date)
         }
 
-    val readCountFormat: String get() = if (readCount == 0L) "안읽음" else "${readCount}번 읽음"
+    val readCountFormat: String
+        get() = if (readCount == 0L) "안읽음" else "${readCount}번 읽음"
+
+    val isNoRead: Boolean
+        get() = readCount == 0L
 }

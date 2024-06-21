@@ -95,6 +95,8 @@ val CertificationDescriptionColor
     @Composable get() = ColorFamilyGray800AndGray300.color
 val LinkyInputChipBackgroundColor
     @Composable get() = ColorFamilyGray800AndGray400.color
+val LinkySortTextColor
+    @Composable get() = ColorFamilyGray800AndGray400.color
 val LinkyInputChipUnSelectTextColor
     @Composable get() = ColorFamilyGray800AndGray300.color
 val LinkyInputChipSelectTextColor
