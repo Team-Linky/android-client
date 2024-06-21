@@ -13,11 +13,16 @@
     <!-- :feature:timeline -->
     <string name="link_create_text">링크 추가하기</string>
     <string name="link_create_description">내가 추가한 링크를\n시간 순서대로 볼 수 있어요.</string>
+    <string name="link_menu_delete">삭제하기</string>
+    <string name="link_menu_edit">수정하기</string>
+    <string name="link_no_read_empty">안읽은 링크가 없어요.</string>
+    <string name="link_read_empty">읽은 링크가 없어요.</string>
 
     <!-- :feature:lock -->
     <string name="lock_header">화면 잠금 설정</string>
     <string name="lock_text">화면 잠금</string>
     <string name="lock_password_change_text">비밀번호 변경</string>
+    <string name="lock_description">비밀번호를 잃어버릴 경우 앱을 재설치 해야 하며, 저장된 링크는 모두 삭제됩니다.</string>
 
     <!-- :feature:pin -->
     <string name="pin_title">비밀번호 입력</string>

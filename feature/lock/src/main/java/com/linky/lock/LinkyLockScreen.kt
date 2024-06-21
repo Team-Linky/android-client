@@ -41,6 +41,7 @@ import com.linky.design_system.ui.component.switch.LinkySwitchButton
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.LockContentBackgroundColor
 import com.linky.design_system.ui.theme.LockContentLineColor
+import com.linky.design_system.ui.theme.SubColor
 import com.linky.design_system.util.clickableRipple
 import com.linky.lock.component.LockHeader
 import com.linky.lock.state.BiometricStatus
@@ -288,6 +289,16 @@ private fun LinkyLockScreen(
                     }
                 }
             }
+            LinkyText(
+                modifier = Modifier
+                    .align(Alignment.Start)
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 14.dp),
+                text = stringResource(R.string.lock_description),
+                color = SubColor,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Medium
+            )
         }
     }
 }

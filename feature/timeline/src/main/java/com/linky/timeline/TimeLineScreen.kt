@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,9 +26,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.paging.LoadState
@@ -38,7 +42,9 @@ import coil.ImageLoader
 import com.google.accompanist.navigation.animation.composable
 import com.linky.common.safe_coroutine.builder.safeLaunch
 import com.linky.design_system.R
+import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
+import com.linky.design_system.ui.theme.LinkyDescriptionColor
 import com.linky.design_system.ui.theme.Nav700
 import com.linky.design_system.util.clickableRipple
 import com.linky.design_system.util.rememberImageLoader
@@ -161,9 +167,39 @@ private fun TimeLineScreen(
 
                 is LoadState.NotLoading -> {
                     if (links.itemSnapshotList.isEmpty()) {
-                        TimeLineEmptyScreen(
-                            onShowLinkActivity = onShowLinkActivity
-                        )
+                        when (sortType) {
+                            is Sort.All -> {
+                                TimeLineEmptyScreen(
+                                    onShowLinkActivity = onShowLinkActivity
+                                )
+                            }
+
+                            is Sort.NoRead -> {
+                                Column {
+                                    Spacer(modifier = Modifier.weight(0.3f))
+                                    LinkyText(
+                                        modifier = Modifier.weight(0.7f),
+                                        text = stringResource(R.string.link_no_read_empty),
+                                        color = LinkyDescriptionColor,
+                                        fontWeight = FontWeight.Medium,
+                                        fontSize = 15.sp,
+                                    )
+                                }
+                            }
+
+                            is Sort.Read -> {
+                                Column {
+                                    Spacer(modifier = Modifier.weight(0.3f))
+                                    LinkyText(
+                                        modifier = Modifier.weight(0.7f),
+                                        text = stringResource(R.string.link_read_empty),
+                                        color = LinkyDescriptionColor,
+                                        fontWeight = FontWeight.Medium,
+                                        fontSize = 15.sp,
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
 

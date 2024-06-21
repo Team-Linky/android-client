@@ -31,11 +31,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
@@ -44,6 +48,7 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import coil.ImageLoader
 import coil.compose.SubcomposeAsyncImage
+import com.linky.design_system.R
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.ErrorColor
 import com.linky.design_system.ui.theme.Gray400
@@ -55,7 +60,6 @@ import com.linky.design_system.ui.theme.LockContentLineColor
 import com.linky.design_system.ui.theme.TimelineMenuBackgroundColor
 import com.linky.design_system.util.clickableRipple
 import com.linky.model.Link
-import com.linky.design_system.R
 import com.skydoves.balloon.compose.Balloon
 import com.skydoves.balloon.compose.rememberBalloonBuilder
 import com.skydoves.balloon.compose.setBackgroundColor
@@ -232,7 +236,6 @@ internal fun TimeLineList(
                 }
             }
         }
-        item { Spacer(modifier = Modifier.padding(bottom = 90.dp)) }
     }
 }
 
@@ -279,7 +282,7 @@ private fun RowScope.MenuButton(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         LinkyText(
-                            text = "수정하기",
+                            text = stringResource(R.string.link_menu_edit),
                             fontWeight = FontWeight.Medium,
                             fontSize = 14.sp,
                             modifier = Modifier.padding(start = 20.dp)
@@ -311,7 +314,7 @@ private fun RowScope.MenuButton(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         LinkyText(
-                            text = "삭제하기",
+                            text = stringResource(R.string.link_menu_delete),
                             fontWeight = FontWeight.Medium,
                             fontSize = 14.sp,
                             color = ErrorColor,
@@ -327,19 +330,30 @@ private fun RowScope.MenuButton(
             }
         },
         content = { balloonWindow ->
+            var size by remember { mutableStateOf(IntSize.Zero) }
+            var position by remember { mutableStateOf(Offset.Zero) }
+
             LaunchedEffect(balloonEvent) {
                 when (balloonEvent) {
                     TimeLineMenuEvent.NONE -> Unit
-                    TimeLineMenuEvent.OPEN -> balloonWindow.showAlignLeft()
                     TimeLineMenuEvent.CLOSE -> balloonWindow.dismiss()
+                    TimeLineMenuEvent.OPEN -> balloonWindow.showAlignRight(
+                        xOff = -(position.x * 0.55).toInt(),
+                        yOff = size.height * 2
+                    )
                 }
             }
             Image(
                 painter = painterResource(R.drawable.ima_sandwich_button),
                 contentDescription = "more",
-                modifier = Modifier.clickableRipple(radius = 10.dp) {
-                    balloonEvent = TimeLineMenuEvent.OPEN
-                }
+                modifier = Modifier
+                    .onGloballyPositioned { layoutCoordinates ->
+                        size = layoutCoordinates.size
+                        position = layoutCoordinates.localToRoot(Offset.Zero)
+                    }
+                    .clickableRipple(radius = 10.dp) {
+                        balloonEvent = TimeLineMenuEvent.OPEN
+                    }
             )
         }
     )
