@@ -1,24 +1,33 @@
 package com.linky.timeline
 
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.paging.LoadState
@@ -28,7 +37,10 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.ImageLoader
 import com.google.accompanist.navigation.animation.composable
 import com.linky.common.safe_coroutine.builder.safeLaunch
+import com.linky.design_system.R
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
+import com.linky.design_system.ui.theme.Nav700
+import com.linky.design_system.util.clickableRipple
 import com.linky.design_system.util.rememberImageLoader
 import com.linky.model.Link
 import com.linky.navigation.MainNavType
@@ -70,10 +82,15 @@ private fun TimeLineRoute(
     val imageLoader = rememberImageLoader()
     val listState = rememberLazyListState()
 
+    val showScrollTop by remember(listState) {
+        derivedStateOf { listState.firstVisibleItemIndex > 0 }
+    }
+
     TimeLineScreen(
         links = links,
         listState = listState,
         imageLoader = imageLoader,
+        showScrollTop = showScrollTop,
         onShowLinkActivity = onShowLinkActivity,
         onShowWebView = { link ->
             link.openGraphData.url?.also { url ->
@@ -92,6 +109,9 @@ private fun TimeLineRoute(
                 )
                 scaffoldState.snackbarHostState.showSnackbar("링크가 복사되었습니다.")
             }
+        },
+        onScrollTop = {
+            coroutineScope.safeLaunch { listState.animateScrollToItem(0) }
         }
     )
 }
@@ -101,10 +121,12 @@ private fun TimeLineScreen(
     links: LazyPagingItems<Link>,
     listState: LazyListState,
     imageLoader: ImageLoader,
+    showScrollTop: Boolean,
     onShowLinkActivity: () -> Unit,
     onShowWebView: (Link) -> Unit,
     onRemoveTimeLine: (Long) -> Unit,
     onCopyLink: (Link) -> Unit,
+    onScrollTop: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -150,6 +172,26 @@ private fun TimeLineScreen(
                     onCopyLink = onCopyLink,
                 )
             }
+
+            if (showScrollTop) {
+                Column(
+                    modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 8.dp),
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(Nav700.copy(alpha = 0.7f))
+                            .clickableRipple(onClick = onScrollTop),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.scroll_top_arrow),
+                            contentDescription = "scroll top"
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -162,10 +204,12 @@ private fun TimeLinePreview() {
             links = defaultLinks,
             listState = rememberLazyListState(),
             imageLoader = rememberImageLoader(),
+            showScrollTop = false,
             onShowLinkActivity = {},
             onShowWebView = {},
             onRemoveTimeLine = {},
             onCopyLink = {},
+            onScrollTop = {}
         )
     }
 }
