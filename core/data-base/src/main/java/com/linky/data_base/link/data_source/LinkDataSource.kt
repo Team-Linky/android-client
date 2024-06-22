@@ -17,4 +17,6 @@ interface LinkDataSource {
 
     suspend fun setIsRemoveLink(id: Long, isRemove: Boolean)
 
+    fun selectLinksByTagName(tagName: String): PagingSource<Int, LinkWithTags>
+
 }

@@ -1,4 +1,4 @@
-package com.linky.timeline.component
+package com.linky.design_system.ui.component.more
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,19 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkyDefaultTheme
 import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray300
 import com.linky.design_system.ui.theme.ShadowGray
 
 @Composable
-internal fun TimeLineTagChip(
+fun TimeLineTagChip(
     modifier: Modifier = Modifier,
     tagName: String,
     onClick: () -> Unit
@@ -43,18 +40,6 @@ internal fun TimeLineTagChip(
             textAlign = TextAlign.Center,
             lineHeight = 11.sp,
             modifier = Modifier.padding(horizontal = 4.dp)
-        )
-    }
-}
-
-@Composable
-@Preview
-private fun TimeLineTagChipPreview() {
-    LinkyDefaultTheme {
-        TimeLineTagChip(
-            modifier = Modifier.padding(end = 3.dp),
-            tagName = "test",
-            onClick = {}
         )
     }
 }

@@ -16,4 +16,6 @@ interface LinkRepository {
 
     suspend fun setIsRemoveLink(id: Long, isRemove: Boolean)
 
+    fun selectLinksByTagName(tagName: String): Flow<PagingData<Link>>
+
 }

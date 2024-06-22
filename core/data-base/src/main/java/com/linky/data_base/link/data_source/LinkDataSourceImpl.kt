@@ -25,4 +25,7 @@ class LinkDataSourceImpl @Inject constructor(
     override suspend fun setIsRemoveLink(id: Long, isRemove: Boolean) =
         linkDao.setIsRemoveLink(id, isRemove)
 
+    override fun selectLinksByTagName(tagName: String): PagingSource<Int, LinkWithTags> =
+        linkDao.selectLinksByTagName(tagName)
+
 }

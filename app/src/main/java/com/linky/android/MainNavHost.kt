@@ -21,7 +21,7 @@ fun MainNavHost(
         startDestination = MainNavType.TimeLine.route
     ) {
         timelineScreen(scaffoldState, onShowLinkActivity)
-        tagScreen(onShowLinkActivity)
+        tagScreen(scaffoldState, onShowLinkActivity)
         moreScreen(onShowMoreActivity)
     }
 }

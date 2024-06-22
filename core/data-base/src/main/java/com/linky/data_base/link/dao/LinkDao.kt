@@ -44,4 +44,21 @@ interface LinkDao {
         return linkId
     }
 
+    @Transaction
+    @Query("""
+        SELECT *
+        FROM link
+        WHERE pk IN (
+            SELECT linkId
+            FROM linktagcrossref
+            WHERE tagId IN (
+                SELECT pk
+                FROM tag
+                WHERE name LIKE '%' || :tagName || '%'
+            )
+        )
+        AND isRemove == 0
+    """)
+    fun selectLinksByTagName(tagName: String): PagingSource<Int, LinkWithTags>
+
 }

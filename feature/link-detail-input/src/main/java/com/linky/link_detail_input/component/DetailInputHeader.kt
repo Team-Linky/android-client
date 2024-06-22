@@ -31,7 +31,7 @@ internal fun DetailInputHeader(
     LinkyHeader(modifier = Modifier.padding(start = 12.dp, end = 16.dp)) {
         LinkyBackArrowButton(onClick = onBack)
         LinkyText(
-            text = stringResource(R.string.link_create),
+            text = stringResource(R.string.link_detail_input_link_create),
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp,
             modifier = Modifier.padding(start = 6.dp)

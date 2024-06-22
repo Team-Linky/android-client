@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.paging.LoadState
@@ -116,7 +117,12 @@ private fun TimeLineRoute(
                         .append(link.openGraphData.url)
                         .toAnnotatedString()
                 )
-                scaffoldState.snackbarHostState.showSnackbar("링크가 복사되었습니다.")
+                scaffoldState.snackbarHostState.showSnackbar(
+                    ContextCompat.getString(
+                        activity.applicationContext,
+                        R.string.copy_complete
+                    )
+                )
             }
         },
         onScrollTop = {

@@ -1,4 +1,4 @@
-package com.linky.timeline.component
+package com.linky.tag.component
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,23 +22,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
@@ -51,19 +40,13 @@ import coil.compose.SubcomposeAsyncImage
 import com.linky.design_system.R
 import com.linky.design_system.ui.component.more.TimeLineTagChip
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.ColorFamilyGray300AndGray800
 import com.linky.design_system.ui.theme.ColorFamilyGray600AndGray400
 import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray300
 import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
-import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray900
 import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray999
-import com.linky.design_system.ui.theme.ErrorColor
 import com.linky.design_system.ui.theme.Gray400
 import com.linky.design_system.util.clickableRipple
 import com.linky.model.Link
-import com.skydoves.balloon.compose.Balloon
-import com.skydoves.balloon.compose.rememberBalloonBuilder
-import com.skydoves.balloon.compose.setBackgroundColor
 
 @Composable
 internal fun TimeLineList(
@@ -71,8 +54,6 @@ internal fun TimeLineList(
     state: LazyListState,
     imageLoader: ImageLoader,
     links: LazyPagingItems<Link>,
-    onEdit: (Long) -> Unit,
-    onRemove: (Long) -> Unit,
     onClick: (Link) -> Unit,
     onCopyLink: (Link) -> Unit
 ) {
@@ -130,10 +111,6 @@ internal fun TimeLineList(
                                     fontWeight = FontWeight.Medium
                                 )
                             }
-                            MenuButton(
-                                onEdit = { onEdit.invoke(link.id!!) },
-                                onRemove = { onRemove.invoke(link.id!!) }
-                            )
                         }
                         Row(
                             modifier = Modifier
@@ -178,9 +155,6 @@ internal fun TimeLineList(
                                                 Log.d("123123", "tag: $tag")
                                             }
                                         )
-                                    }
-                                    item {
-                                        TimeLineTagAddButton {}
                                     }
                                 }
                                 Spacer(modifier = Modifier.weight(1f))
@@ -238,128 +212,4 @@ internal fun TimeLineList(
             }
         }
     }
-}
-
-@Composable
-private fun RowScope.MenuButton(
-    onEdit: () -> Unit,
-    onRemove: () -> Unit
-) {
-    var balloonEvent by remember { mutableStateOf(TimeLineMenuEvent.NONE) }
-    val builder = rememberBalloonBuilder {
-        arrowSize = 0
-        setPadding(4)
-        setBackgroundColor(Color.Transparent)
-        setOnBalloonDismissListener {
-            balloonEvent = TimeLineMenuEvent.NONE
-        }
-    }
-    Balloon(
-        modifier = Modifier
-            .align(Alignment.CenterVertically)
-            .padding(end = 10.dp),
-        builder = builder,
-        balloonContent = {
-            Card(
-                modifier = Modifier.padding(10.dp),
-                shape = RoundedCornerShape(12.dp),
-                backgroundColor = ColorFamilyWhiteAndGray900,
-                elevation = 3.dp,
-            ) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.size(170.dp, 96.dp)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp)
-                            .clickableRipple(
-                                radius = 100.dp,
-                                onClick = onEdit
-                            ),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        LinkyText(
-                            text = stringResource(R.string.link_menu_edit),
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 14.sp,
-                            modifier = Modifier.padding(start = 20.dp)
-                        )
-                        Image(
-                            painter = painterResource(R.drawable.image_menu_edit),
-                            contentDescription = "edit",
-                            modifier = Modifier.padding(end = 14.dp)
-                        )
-                    }
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(1.dp)
-                            .background(ColorFamilyGray300AndGray800)
-                    )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp)
-                            .clickableRipple(
-                                radius = 100.dp,
-                                onClick = {
-                                    onRemove.invoke()
-                                    balloonEvent = TimeLineMenuEvent.CLOSE
-                                }
-                            ),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        LinkyText(
-                            text = stringResource(R.string.link_menu_delete),
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 14.sp,
-                            color = ErrorColor,
-                            modifier = Modifier.padding(start = 20.dp)
-                        )
-                        Image(
-                            painter = painterResource(R.drawable.image_menu_delete),
-                            contentDescription = "edit",
-                            modifier = Modifier.padding(end = 14.dp)
-                        )
-                    }
-                }
-            }
-        },
-        content = { balloonWindow ->
-            var size by remember { mutableStateOf(IntSize.Zero) }
-            var position by remember { mutableStateOf(Offset.Zero) }
-
-            LaunchedEffect(balloonEvent) {
-                when (balloonEvent) {
-                    TimeLineMenuEvent.NONE -> Unit
-                    TimeLineMenuEvent.CLOSE -> balloonWindow.dismiss()
-                    TimeLineMenuEvent.OPEN -> balloonWindow.showAlignRight(
-                        xOff = -(position.x * 0.55).toInt(),
-                        yOff = size.height * 2
-                    )
-                }
-            }
-            Image(
-                painter = painterResource(R.drawable.ima_sandwich_button),
-                contentDescription = "more",
-                modifier = Modifier
-                    .onGloballyPositioned { layoutCoordinates ->
-                        size = layoutCoordinates.size
-                        position = layoutCoordinates.localToRoot(Offset.Zero)
-                    }
-                    .clickableRipple(radius = 10.dp) {
-                        balloonEvent = TimeLineMenuEvent.OPEN
-                    }
-            )
-        }
-    )
-}
-
-internal enum class TimeLineMenuEvent {
-    NONE, OPEN, CLOSE
 }

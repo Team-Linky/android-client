@@ -36,6 +36,15 @@ class LinkRepositoryImpl @Inject constructor(
     override suspend fun setIsRemoveLink(id: Long, isRemove: Boolean) =
         linkDataSource.setIsRemoveLink(id, isRemove)
 
+    override fun selectLinksByTagName(tagName: String): Flow<PagingData<Link>> = Pager(
+        config = PagingConfig(
+            pageSize = 20,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = { linkDataSource.selectLinksByTagName(tagName) }
+    ).flow.toLinks()
+
 }
 
-private fun Flow<PagingData<LinkWithTags>>.toLinks(): Flow<PagingData<Link>> = map { it.map { it.link.toLink(it.tags) } }
+private fun Flow<PagingData<LinkWithTags>>.toLinks(): Flow<PagingData<Link>> =
+    map { it.map { it.link.toLink(it.tags) } }

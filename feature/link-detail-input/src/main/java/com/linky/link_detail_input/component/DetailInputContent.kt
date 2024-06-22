@@ -71,7 +71,7 @@ internal fun ColumnScope.DetailInputContent(
         ) {
             Spacer(modifier = Modifier.padding(top = 32.dp))
             LinkyText(
-                text = stringResource(R.string.link_memo),
+                text = stringResource(R.string.link_detail_input_link_memo),
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Medium,
                 color = ColorFamilyGray800AndGray300
@@ -79,7 +79,7 @@ internal fun ColumnScope.DetailInputContent(
             Spacer(modifier = Modifier.padding(top = 8.dp))
             LinkyUrlInputTextField(
                 value = memoValue,
-                placeholder = stringResource(R.string.link_memo_placeholder),
+                placeholder = stringResource(R.string.link_detail_input_link_memo_placeholder),
                 onValueChange = memoOnValueChange,
                 onClear = memoOnClear,
                 onFocusChanged = memoOnFocusChanged,
@@ -91,7 +91,7 @@ internal fun ColumnScope.DetailInputContent(
             )
             Spacer(modifier = Modifier.padding(top = 32.dp))
             LinkyText(
-                text = stringResource(R.string.tag_add),
+                text = stringResource(R.string.link_detail_input_tag_add),
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Medium,
                 color = ColorFamilyGray800AndGray300
@@ -100,7 +100,7 @@ internal fun ColumnScope.DetailInputContent(
             LinkyUrlInputTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = tagValue,
-                placeholder = stringResource(R.string.tag_add_placeholder),
+                placeholder = stringResource(R.string.link_detail_input_tag_add_placeholder),
                 onValueChange = tagOnValueChange,
                 onClear = tagOnClear,
                 onFocusChanged = tagOnFocusChanged,

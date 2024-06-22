@@ -11,7 +11,7 @@ import com.linky.design_system.R
 internal fun TimeLineTagAddButton(onClick: () -> Unit) {
     Image(
         painter = painterResource(R.drawable.ico_tag_add),
-        contentDescription = "tag_add",
+        contentDescription = "link_detail_input_tag_add",
         modifier = Modifier.clickable { onClick.invoke() }
     )
 }
