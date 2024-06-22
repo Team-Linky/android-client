@@ -45,12 +45,12 @@ internal fun MoreContent(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            MoreContentItem(
-                iconResource = R.drawable.icon_content_notification,
-                textResource = R.string.more_content_notification,
-                onClick = { onClick.invoke(MoreNavType.Notification.route) }
-            )
-            MoreContentItemLine()
+//            MoreContentItem(
+//                iconResource = R.drawable.icon_content_notification,
+//                textResource = R.string.more_content_notification,
+//                onClick = { onClick.invoke(MoreNavType.Notification.route) }
+//            )
+//            MoreContentItemLine()
             MoreContentItem(
                 iconResource = R.drawable.icon_content_tip,
                 textResource = R.string.more_content_tip,
