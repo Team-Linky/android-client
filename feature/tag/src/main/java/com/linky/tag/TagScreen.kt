@@ -82,6 +82,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.onEach
 import org.orbitmvi.orbit.compose.collectAsState
 
 fun NavGraphBuilder.tagScreen(
@@ -190,10 +191,11 @@ private fun TagScreen(
             snapshotFlow { searchText }
                 .filter { it.isNotBlank() }
                 .debounce(500L)
-                .collectLatest {
+                .onEach {
+                    isExpandable = true
                     tagSearching = true
-                    onSearchTag.invoke(it)
                 }
+                .collectLatest { onSearchTag.invoke(it) }
         }
 
         if (searchText.isEmpty()) {
@@ -238,7 +240,10 @@ private fun TagScreen(
                 LinkyText(
                     modifier = Modifier
                         .padding(horizontal = 4.dp, vertical = 6.dp)
-                        .clickableRipple(radius = 12.dp) { isExpandable = false },
+                        .clickableRipple(radius = 12.dp) {
+                            isExpandable = false
+                            tagSearching = false
+                        },
                     text = stringResource(R.string.cancel),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,

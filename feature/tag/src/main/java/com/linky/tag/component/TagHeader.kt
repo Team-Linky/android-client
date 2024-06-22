@@ -34,7 +34,7 @@ internal fun TagHeader(
         if (!expanded) {
             Image(
                 modifier = Modifier
-                    .clickableRipple(radius = 24.dp) { onChangeExpanded.invoke(true) },
+                    .clickableRipple(radius = 12.dp) { onChangeExpanded.invoke(true) },
                 painter = painterResource(R.drawable.icon_search),
                 contentDescription = "search"
             )
