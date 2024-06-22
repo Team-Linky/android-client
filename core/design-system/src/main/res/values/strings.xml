@@ -18,6 +18,10 @@
     <string name="link_no_read_empty">안읽은 링크가 없어요.</string>
     <string name="link_read_empty">읽은 링크가 없어요.</string>
 
+    <!-- :feature:tag -->
+    <string name="tag_text">태그</string>
+    <string name="tag_create_description">내가 추가한 링크를\n태그 별로 볼 수 있어요.</string>
+
     <!-- :feature:lock -->
     <string name="lock_header">화면 잠금 설정</string>
     <string name="lock_text">화면 잠금</string>
@@ -34,5 +38,13 @@
     <string name="pin_setting_sub_title">비밀번호 재입력</string>
     <string name="pin_setting_description">비밀번호 네 자리를 입력해 주세요.</string>
     <string name="pin_setting_fail_description">전에 입력한 번호와 일치하지 않아요.</string>
+
+    <!-- :feature:link-detail-input -->
+    <string name="link_create">링크 추가</string>
+    <string name="link_memo">링크 메모</string>
+    <string name="link_memo_placeholder">ex. 엄마가 공유해 줌</string>
+    <string name="tag_add">태그 추가</string>
+    <string name="tag_add_placeholder">추가할 태그를 입력해 주세요.</string>
+    <string name="complete">완료</string>
 
 </resources>

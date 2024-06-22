@@ -39,8 +39,8 @@ import com.linky.design_system.R
 import com.linky.design_system.ui.component.more.LinkyDriver
 import com.linky.design_system.ui.component.switch.LinkySwitchButton
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LockContentBackgroundColor
-import com.linky.design_system.ui.theme.LockContentLineColor
+import com.linky.design_system.ui.theme.ColorFamilyGray100AndGray900
+import com.linky.design_system.ui.theme.ColorFamilyGray300AndGray800
 import com.linky.design_system.ui.theme.SubColor
 import com.linky.design_system.util.clickableRipple
 import com.linky.lock.component.LockHeader
@@ -232,7 +232,7 @@ private fun LinkyLockScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)
-                    .background(LockContentBackgroundColor)
+                    .background(ColorFamilyGray100AndGray900)
                     .clickable { }
             ) {
                 LinkyText(
@@ -247,7 +247,7 @@ private fun LinkyLockScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(1.dp)
-                        .background(LockContentLineColor)
+                        .background(ColorFamilyGray300AndGray800)
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -255,7 +255,7 @@ private fun LinkyLockScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
-                        .background(LockContentBackgroundColor)
+                        .background(ColorFamilyGray100AndGray900)
                 ) {
                     LinkyText(
                         text = stringResource(R.string.biometric_use_text),

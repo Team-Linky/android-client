@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.linky.design_system.R
 import com.linky.design_system.ui.component.password.Password
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.CertificationDescriptionColor
+import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray300
 import com.linky.design_system.ui.theme.ErrorColor
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -78,7 +78,7 @@ internal fun PinSettingContent(
                 text = stringResource(R.string.pin_setting_description),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Medium,
-                color = CertificationDescriptionColor,
+                color = ColorFamilyGray800AndGray300,
                 modifier = Modifier.padding(top = 8.dp)
             )
         }

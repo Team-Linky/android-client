@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="link_create">링크 추가</string>
-    <string name="link_memo">링크 메모</string>
-    <string name="link_memo_placeholder">ex. 엄마가 공유해 줌</string>
-    <string name="tag_add">태그 추가</string>
-    <string name="tag_add_placeholder">추가할 태그를 입력해 주세요.</string>
-    <string name="complete">완료</string>
-</resources>

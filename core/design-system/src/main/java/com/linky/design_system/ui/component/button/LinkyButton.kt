@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkyButtonDisableColor
+import com.linky.design_system.ui.theme.ColorFamilyGray400AndGray600
 import com.linky.design_system.ui.theme.MainColor
 import com.linky.design_system.ui.theme.White
 
@@ -33,7 +33,7 @@ fun LinkyButton(
     border: BorderStroke? = null,
     colors: ButtonColors = ButtonDefaults.buttonColors(
         backgroundColor = MainColor,
-        disabledBackgroundColor = LinkyButtonDisableColor,
+        disabledBackgroundColor = ColorFamilyGray400AndGray600,
     )
 ) {
     Button(

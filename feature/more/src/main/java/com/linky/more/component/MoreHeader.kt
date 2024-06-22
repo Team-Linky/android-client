@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.component.header.LinkyHeader
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkyTextDefaultColor
+import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
 import com.linky.more.R
 
 @Composable
@@ -23,7 +23,7 @@ internal fun MoreHeader() {
             text = stringResource(R.string.more_text),
             fontWeight = FontWeight.Bold,
             fontSize = 22.sp,
-            color = LinkyTextDefaultColor
+            color = ColorFamilyGray900AndGray100
         )
     }
 }

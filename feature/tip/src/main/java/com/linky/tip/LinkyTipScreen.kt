@@ -17,7 +17,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import coil.compose.AsyncImage
 import com.linky.design_system.ui.component.button.LinkyButton
-import com.linky.design_system.ui.theme.LinkyTipBackgroundColor
+import com.linky.design_system.ui.theme.ColorFamilyGray100AndNav900
 import com.linky.navigation.more.MoreNavType
 import com.linky.tip.compnent.LinkyTipHeader
 
@@ -47,7 +47,7 @@ private fun LinkyTipScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(LinkyTipBackgroundColor)
+            .background(ColorFamilyGray100AndNav900)
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),

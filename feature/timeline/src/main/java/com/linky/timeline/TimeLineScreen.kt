@@ -44,7 +44,7 @@ import com.linky.common.safe_coroutine.builder.safeLaunch
 import com.linky.design_system.R
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
-import com.linky.design_system.ui.theme.LinkyDescriptionColor
+import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray300
 import com.linky.design_system.ui.theme.Nav700
 import com.linky.design_system.util.clickableRipple
 import com.linky.design_system.util.rememberImageLoader
@@ -180,7 +180,7 @@ private fun TimeLineScreen(
                                     LinkyText(
                                         modifier = Modifier.weight(0.7f),
                                         text = stringResource(R.string.link_no_read_empty),
-                                        color = LinkyDescriptionColor,
+                                        color = ColorFamilyGray800AndGray300,
                                         fontWeight = FontWeight.Medium,
                                         fontSize = 15.sp,
                                     )
@@ -193,7 +193,7 @@ private fun TimeLineScreen(
                                     LinkyText(
                                         modifier = Modifier.weight(0.7f),
                                         text = stringResource(R.string.link_read_empty),
-                                        color = LinkyDescriptionColor,
+                                        color = ColorFamilyGray800AndGray300,
                                         fontWeight = FontWeight.Medium,
                                         fontSize = 15.sp,
                                     )

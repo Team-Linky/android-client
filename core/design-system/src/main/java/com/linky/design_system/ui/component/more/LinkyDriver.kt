@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.linky.design_system.ui.theme.LockContentLineColor
+import com.linky.design_system.ui.theme.ColorFamilyGray300AndGray800
 
 @Composable
 fun LinkyDriver() {
@@ -15,6 +15,6 @@ fun LinkyDriver() {
         modifier = Modifier
             .fillMaxWidth()
             .height(1.dp)
-            .background(LockContentLineColor)
+            .background(ColorFamilyGray300AndGray800)
     )
 }

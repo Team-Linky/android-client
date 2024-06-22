@@ -1,7 +1,6 @@
 package com.linky.link_detail_input.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,15 +27,14 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
+import com.linky.design_system.R
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.component.textfield.LinkyBasicTextField
-import com.linky.design_system.ui.theme.LinkyDescriptionColor
-import com.linky.design_system.ui.theme.NoRippleTheme
+import com.linky.design_system.ui.component.textfield.LinkyUrlInputTextField
+import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray300
 import com.linky.design_system.ui.theme.SubColor
-import com.linky.design_system.ui.theme.WebContentBackgroundColor
-import com.linky.design_system.ui.theme.WebContentLineColor
-import com.linky.design_system.ui.theme.WebContentTitleColor
-import com.linky.link_detail_input.R
+import com.linky.design_system.ui.theme.ColorFamilyGray100AndGray900
+import com.linky.design_system.ui.theme.ColorFamilyGray300AndGray800
+import com.linky.design_system.ui.theme.ColorFamilyGray600AndGray400
 import com.linky.link_detail_input.State
 import com.linky.model.Tag
 
@@ -76,28 +74,30 @@ internal fun ColumnScope.DetailInputContent(
                 text = stringResource(R.string.link_memo),
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Medium,
-                color = LinkyDescriptionColor
+                color = ColorFamilyGray800AndGray300
             )
             Spacer(modifier = Modifier.padding(top = 8.dp))
-            LinkyTextField(
+            LinkyUrlInputTextField(
                 value = memoValue,
                 placeholder = stringResource(R.string.link_memo_placeholder),
                 onValueChange = memoOnValueChange,
                 onClear = memoOnClear,
                 onFocusChanged = memoOnFocusChanged,
                 focusRequester = memoFocusRequester,
-                focusManager = focusManager,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                keyboardActions = KeyboardActions(
+                    onDone = { focusManager.clearFocus() }
+                )
             )
             Spacer(modifier = Modifier.padding(top = 32.dp))
             LinkyText(
                 text = stringResource(R.string.tag_add),
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Medium,
-                color = LinkyDescriptionColor
+                color = ColorFamilyGray800AndGray300
             )
             Spacer(modifier = Modifier.padding(top = 8.dp))
-            LinkyTextField(
+            LinkyUrlInputTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = tagValue,
                 placeholder = stringResource(R.string.tag_add_placeholder),
@@ -105,7 +105,6 @@ internal fun ColumnScope.DetailInputContent(
                 onClear = tagOnClear,
                 onFocusChanged = tagOnFocusChanged,
                 focusRequester = tagFocusRequester,
-                focusManager = focusManager,
                 keyboardActions = KeyboardActions(
                     onDone = {
                         onCreateTag.invoke(tagValue)
@@ -150,12 +149,12 @@ internal fun ColumnScope.DetailInputContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(WebContentLineColor)
+                .background(ColorFamilyGray300AndGray800)
         )
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(WebContentBackgroundColor),
+                .background(ColorFamilyGray100AndGray900),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -175,7 +174,7 @@ internal fun ColumnScope.DetailInputContent(
                     )
                     LinkyText(
                         text = state.openGraphData.title ?: "null",
-                        color = WebContentTitleColor,
+                        color = ColorFamilyGray600AndGray400,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Medium,
                         modifier = Modifier.padding(start = 4.dp)
@@ -185,7 +184,7 @@ internal fun ColumnScope.DetailInputContent(
                     text = state.openGraphData.url ?: "null",
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Normal,
-                    color = LinkyDescriptionColor,
+                    color = ColorFamilyGray800AndGray300,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -194,33 +193,5 @@ internal fun ColumnScope.DetailInputContent(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun LinkyTextField(
-    modifier: Modifier = Modifier,
-    value: String,
-    placeholder: String,
-    onValueChange: (String) -> Unit,
-    onClear: () -> Unit,
-    onFocusChanged: (FocusState) -> Unit = {},
-    focusManager: FocusManager,
-    focusRequester: FocusRequester,
-    keyboardActions: KeyboardActions = KeyboardActions(
-        onDone = { focusManager.clearFocus() }
-    ),
-) {
-    NoRippleTheme {
-        LinkyBasicTextField(
-            value = value,
-            onValueChange = onValueChange,
-            onClear = onClear,
-            placeholder = placeholder,
-            focusRequester = focusRequester,
-            onFocusChanged = onFocusChanged,
-            keyboardActions = keyboardActions,
-            modifier = modifier.clickable { focusRequester.requestFocus() }
-        )
     }
 }

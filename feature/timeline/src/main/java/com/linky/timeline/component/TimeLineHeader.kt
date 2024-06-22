@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.linky.design_system.R
 import com.linky.design_system.ui.component.header.LinkyHeader
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkySortTextColor
+import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray400
 import com.linky.timeline.state.Sort
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -84,7 +84,7 @@ private fun MenuText(
     ) {
         LinkyText(
             text = sortType.text,
-            color = LinkySortTextColor,
+            color = ColorFamilyGray800AndGray400,
             maxLines = 1,
             fontSize = 15.sp,
             fontWeight = FontWeight.Medium

@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import com.linky.design_system.R
 import com.linky.design_system.ui.component.button.LinkyButton
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkyDescriptionColor
+import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray300
 
 @Composable
 internal fun TimeLineEmptyScreen(
@@ -33,7 +33,7 @@ internal fun TimeLineEmptyScreen(
             fontSize = 15.sp,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center,
-            color = LinkyDescriptionColor,
+            color = ColorFamilyGray800AndGray300,
             modifier = Modifier.padding(top = 16.dp),
         )
         Spacer(modifier = Modifier.weight(0.2f))

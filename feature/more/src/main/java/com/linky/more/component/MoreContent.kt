@@ -21,8 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkyDefaultBackgroundColor
-import com.linky.design_system.ui.theme.LinkyMoreContentLineColor
+import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray999
+import com.linky.design_system.ui.theme.ColorFamilyGray100AndGray800
 import com.linky.design_system.util.clickableRipple
 import com.linky.more.R
 import com.linky.navigation.more.MoreNavType
@@ -34,7 +34,7 @@ internal fun MoreContent(
 ) {
     Card(
         shape = RoundedCornerShape(12.dp),
-        backgroundColor = LinkyDefaultBackgroundColor,
+        backgroundColor = ColorFamilyWhiteAndGray999,
         elevation = 6.dp,
         modifier = modifier
             .fillMaxWidth()
@@ -114,6 +114,6 @@ private fun MoreContentItemLine() {
         modifier = Modifier
             .fillMaxWidth()
             .height(1.dp)
-            .background(LinkyMoreContentLineColor)
+            .background(ColorFamilyGray100AndGray800)
     )
 }

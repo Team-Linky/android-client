@@ -10,13 +10,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.linky.design_system.R
 import com.linky.design_system.ui.component.header.LinkyHeader
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkyTextDefaultColor
-import com.linky.tag.R
+import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
+import com.linky.design_system.util.clickableRipple
 
 @Composable
-internal fun TagHeader() {
+internal fun TagHeader(
+    expanded: Boolean,
+    onChangeExpanded: (Boolean) -> Unit
+) {
     LinkyHeader(
         modifier = Modifier.padding(start = 20.dp, end = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -25,11 +29,15 @@ internal fun TagHeader() {
             text = stringResource(R.string.tag_text),
             fontWeight = FontWeight.Bold,
             fontSize = 22.sp,
-            color = LinkyTextDefaultColor
+            color = ColorFamilyGray900AndGray100
         )
-        Image(
-            painter = painterResource(R.drawable.icon_search),
-            contentDescription = "search"
-        )
+        if (!expanded) {
+            Image(
+                modifier = Modifier
+                    .clickableRipple(radius = 24.dp) { onChangeExpanded.invoke(true) },
+                painter = painterResource(R.drawable.icon_search),
+                contentDescription = "search"
+            )
+        }
     }
 }

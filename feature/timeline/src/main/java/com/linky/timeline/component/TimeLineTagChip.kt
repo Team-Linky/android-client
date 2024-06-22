@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
-import com.linky.design_system.ui.theme.LinkyDescriptionColor
+import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray300
 import com.linky.design_system.ui.theme.ShadowGray
 
 @Composable
@@ -37,7 +37,7 @@ internal fun TimeLineTagChip(
     ) {
         LinkyText(
             text = tagName,
-            color = LinkyDescriptionColor,
+            color = ColorFamilyGray800AndGray300,
             fontSize = 11.sp,
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center,

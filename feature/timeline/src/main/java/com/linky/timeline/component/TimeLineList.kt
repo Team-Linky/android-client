@@ -52,12 +52,12 @@ import com.linky.design_system.R
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.ErrorColor
 import com.linky.design_system.ui.theme.Gray400
-import com.linky.design_system.ui.theme.LinkyDefaultBackgroundColor
-import com.linky.design_system.ui.theme.LinkyDescriptionColor
-import com.linky.design_system.ui.theme.LinkyTextDefaultColor
-import com.linky.design_system.ui.theme.LinkyTimelineTextLineColor
-import com.linky.design_system.ui.theme.LockContentLineColor
-import com.linky.design_system.ui.theme.TimelineMenuBackgroundColor
+import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray999
+import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray300
+import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
+import com.linky.design_system.ui.theme.ColorFamilyGray600AndGray400
+import com.linky.design_system.ui.theme.ColorFamilyGray300AndGray800
+import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray900
 import com.linky.design_system.util.clickableRipple
 import com.linky.model.Link
 import com.skydoves.balloon.compose.Balloon
@@ -92,7 +92,7 @@ internal fun TimeLineList(
                         .padding(bottom = 10.dp)
                         .clickableRipple(enableRipple = false) { onClick.invoke(link) },
                     shape = RoundedCornerShape(12.dp),
-                    backgroundColor = LinkyDefaultBackgroundColor
+                    backgroundColor = ColorFamilyWhiteAndGray999
                 ) {
                     Column(
                         modifier = Modifier
@@ -111,7 +111,7 @@ internal fun TimeLineList(
                             ) {
                                 LinkyText(
                                     text = link.createAtFormat,
-                                    color = LinkyDescriptionColor,
+                                    color = ColorFamilyGray800AndGray300,
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Medium
                                 )
@@ -120,11 +120,11 @@ internal fun TimeLineList(
                                         .padding(horizontal = 4.dp)
                                         .width(1.dp)
                                         .height(8.dp)
-                                        .background(LinkyTimelineTextLineColor)
+                                        .background(ColorFamilyGray600AndGray400)
                                 )
                                 LinkyText(
                                     text = link.readCountFormat,
-                                    color = LinkyDescriptionColor,
+                                    color = ColorFamilyGray800AndGray300,
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Medium
                                 )
@@ -157,7 +157,7 @@ internal fun TimeLineList(
                                 if (link.memo.isNotEmpty()) {
                                     LinkyText(
                                         text = link.memo,
-                                        color = LinkyTextDefaultColor,
+                                        color = ColorFamilyGray900AndGray100,
                                         fontSize = 15.sp,
                                         fontWeight = FontWeight.SemiBold,
                                         lineHeight = 20.sp
@@ -199,7 +199,7 @@ internal fun TimeLineList(
                                 ) {
                                     LinkyText(
                                         text = link.openGraphData.title ?: "",
-                                        color = LinkyDescriptionColor,
+                                        color = ColorFamilyGray800AndGray300,
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.SemiBold,
                                         maxLines = 1,
@@ -262,7 +262,7 @@ private fun RowScope.MenuButton(
             Card(
                 modifier = Modifier.padding(10.dp),
                 shape = RoundedCornerShape(12.dp),
-                backgroundColor = TimelineMenuBackgroundColor,
+                backgroundColor = ColorFamilyWhiteAndGray900,
                 elevation = 3.dp,
             ) {
                 Column(
@@ -297,7 +297,7 @@ private fun RowScope.MenuButton(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(1.dp)
-                            .background(LockContentLineColor)
+                            .background(ColorFamilyGray300AndGray800)
                     )
                     Row(
                         modifier = Modifier

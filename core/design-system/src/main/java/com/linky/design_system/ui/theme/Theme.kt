@@ -54,7 +54,7 @@ fun LinkyDefaultTheme(
     }
 
     val systemUiController = rememberSystemUiController()
-    val navigationColor = LinkyDefaultBackgroundColor
+    val navigationColor = ColorFamilyWhiteAndGray999
 
     SideEffect {
         systemUiController.setStatusBarColor(colors.background)
@@ -79,7 +79,7 @@ fun LinkyLinkTheme(
     }
 
     val systemUiController = rememberSystemUiController()
-    val navigationColor = LinkyDefaultBackgroundColor
+    val navigationColor = ColorFamilyWhiteAndGray999
 
     SideEffect {
         systemUiController.setStatusBarColor(colors.background)

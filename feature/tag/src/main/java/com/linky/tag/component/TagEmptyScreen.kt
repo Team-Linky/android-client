@@ -2,7 +2,6 @@ package com.linky.tag.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -15,10 +14,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.linky.design_system.R
 import com.linky.design_system.ui.component.button.LinkyButton
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkyDescriptionColor
-import com.linky.tag.R
+import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray300
 
 @Composable
 internal fun TagEmptyScreen(
@@ -35,11 +34,11 @@ internal fun TagEmptyScreen(
             contentDescription = "link create"
         )
         LinkyText(
-            text = stringResource(R.string.link_create_description),
+            text = stringResource(R.string.tag_create_description),
             fontSize = 15.sp,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center,
-            color = LinkyDescriptionColor,
+            color = ColorFamilyGray800AndGray300,
             modifier = Modifier.padding(top = 16.dp)
         )
         Spacer(modifier = Modifier.weight(0.2f))

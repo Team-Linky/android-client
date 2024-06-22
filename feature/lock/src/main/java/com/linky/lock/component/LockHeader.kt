@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.component.button.LinkyBackArrowButton
 import com.linky.design_system.ui.component.header.LinkyHeader
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkyTextDefaultColor
+import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
 import com.linky.design_system.R
 
 @Composable
@@ -21,7 +21,7 @@ internal fun LockHeader(onBack: () -> Unit) {
             text = stringResource(R.string.lock_header),
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp,
-            color = LinkyTextDefaultColor,
+            color = ColorFamilyGray900AndGray100,
             modifier = Modifier.padding(start = 6.dp)
         )
     }

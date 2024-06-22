@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.component.textfield.LinkyBasicTextField
+import com.linky.design_system.ui.component.textfield.LinkyUrlInputTextField
 import com.linky.design_system.ui.theme.NoRippleTheme
 import com.linky.link_url_input.R
 
@@ -41,7 +41,7 @@ internal fun ColumnScope.URLInputContent(
         StableURLInputContent()
         Spacer(modifier = Modifier.padding(top = 56.dp))
         NoRippleTheme {
-            LinkyBasicTextField(
+            LinkyUrlInputTextField(
                 value = value,
                 onValueChange = onValueChange,
                 onClear = onClear,

@@ -8,13 +8,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.linky.design_system.R
 import com.linky.design_system.ui.component.button.LinkyBackArrowButton
 import com.linky.design_system.ui.component.header.LinkyHeader
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkInputCompleteTextButtonDisableColor
+import com.linky.design_system.ui.theme.ColorFamilyGray400AndGray600
 import com.linky.design_system.ui.theme.MainColor
 import com.linky.design_system.util.clickableRipple
-import com.linky.link_detail_input.R
 
 @Composable
 internal fun DetailInputHeader(
@@ -25,7 +25,7 @@ internal fun DetailInputHeader(
     val textColor = if (isNextActive) {
         MainColor
     } else {
-        LinkInputCompleteTextButtonDisableColor
+        ColorFamilyGray400AndGray600
     }
 
     LinkyHeader(modifier = Modifier.padding(start = 12.dp, end = 16.dp)) {

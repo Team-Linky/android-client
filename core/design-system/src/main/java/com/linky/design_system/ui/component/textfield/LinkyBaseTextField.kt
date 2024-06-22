@@ -11,27 +11,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
-import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.Gray600
-import com.linky.design_system.ui.theme.LinkyBaseTextFieldCursorColor
-import com.linky.design_system.ui.theme.LinkyTextDefaultColor
+import com.linky.design_system.ui.theme.ColorFamilyGray600AndGray400
+import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
 import com.linky.design_system.ui.theme.MainColor
 import com.linky.design_system.ui.theme.Pretendard
 
 @Composable
 fun LinkyBaseTextField(
+    modifier: Modifier = Modifier,
     value: String,
-    placeholder: String = "",
     onValueChange: (String) -> Unit,
     singleLine: Boolean = true,
     maxLines: Int = 1,
-    modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
+    placeholder: (@Composable () -> Unit)? = null
 ) {
     val textSelectionColors = TextSelectionColors(
         handleColor = MainColor,
@@ -47,25 +44,20 @@ fun LinkyBaseTextField(
                 fontFamily = Pretendard,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
-                color = LinkyTextDefaultColor,
+                color = ColorFamilyGray900AndGray100,
                 textDecoration = TextDecoration.None,
                 lineHeight = 0.sp,
                 letterSpacing = 0.sp,
                 textAlign = TextAlign.Start
             ),
-            cursorBrush = SolidColor(LinkyBaseTextFieldCursorColor),
+            cursorBrush = SolidColor(ColorFamilyGray600AndGray400),
             modifier = modifier,
-            keyboardOptions = keyboardOptions.copy(keyboardType = KeyboardType.Password),
+            keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
         )
     }
 
     if (value.isEmpty()) {
-        LinkyText(
-            text = placeholder,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            color = Gray600
-        )
+        placeholder?.invoke()
     }
 }

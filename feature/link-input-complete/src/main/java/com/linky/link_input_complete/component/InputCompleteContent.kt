@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.component.button.LinkyButton
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkyDescriptionColor
+import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray300
 import com.linky.link_input_complete.R
 
 @Composable
@@ -33,7 +33,7 @@ internal fun ColumnScope.InputCompleteContent(onCreate: () -> Unit) {
             text = stringResource(R.string.link_create_complete),
             fontSize = 15.sp,
             fontWeight = FontWeight.Medium,
-            color = LinkyDescriptionColor,
+            color = ColorFamilyGray800AndGray300,
             modifier = Modifier.padding(top = 26.dp)
         )
         Spacer(modifier = Modifier.weight(0.2f))

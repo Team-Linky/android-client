@@ -15,14 +15,14 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.linky.design_system.ui.theme.LinkyTextDefaultColor
+import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
 import com.linky.design_system.ui.theme.Pretendard
 
 @Composable
 fun LinkyText(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = LinkyTextDefaultColor,
+    color: Color = ColorFamilyGray900AndGray100,
     fontSize: TextUnit = TextUnit.Unspecified,
     fontStyle: FontStyle? = null,
     fontFamily: FontFamily = Pretendard,

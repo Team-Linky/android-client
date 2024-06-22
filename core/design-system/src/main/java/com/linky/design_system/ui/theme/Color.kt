@@ -37,72 +37,38 @@ val RandomColor: Color
         blue = Random().nextFloat() * (0.9f - 0.6f) + 0.6f
     )
 
-private val ColorFamilyWhiteAndGray999 = ColorFamily(White, Gray999)
-private val ColorFamilyWhiteAndGray900 = ColorFamily(White, Gray900)
-private val ColorFamilyGray800AndGray300 = ColorFamily(Gray800, Gray300)
-private val ColorFamilyGray900AndGray100 = ColorFamily(Gray900, Gray100)
-private val ColorFamilyGray600AndGray400 = ColorFamily(Gray600, Gray400)
-private val ColorFamilyGray400AndGray600 = ColorFamily(Gray400, Gray600)
-private val ColorFamilyGray100AndGray800 = ColorFamily(Gray100, Gray800)
-private val ColorFamilyGray100AndGray900 = ColorFamily(Gray100, Gray900)
-private val ColorFamilyGray300AndGray800 = ColorFamily(Gray300, Gray800)
-private val ColorFamilyGray400AndGray800 = ColorFamily(Gray400, Gray800)
-private val ColorFamilyNav300AndNav700 = ColorFamily(Nav300, Nav700)
-private val ColorFamilyNav700AndNav300 = ColorFamily(Nav700, Nav300)
-private val ColorFamilyGray100AndNav900 = ColorFamily(Gray100, Nav900)
-private val ColorFamilyGray800AndGray400 = ColorFamily(Gray800, Gray400)
-private val ColorFamilyGray100AndGray999 = ColorFamily(Gray100, Gray999)
-
-val LinkyDefaultBackgroundColor
-    @Composable get() = ColorFamilyWhiteAndGray999.color
-val LinkyTextDefaultColor
-    @Composable get() = ColorFamilyGray900AndGray100.color
-val LinkyDescriptionColor
-    @Composable get() = ColorFamilyGray800AndGray300.color
-
-val NavigationUnSelectTextColor
-    @Composable get() = ColorFamilyGray600AndGray400.color
-val LinkyBaseTextFieldCursorColor
-    @Composable get() = ColorFamilyGray600AndGray400.color
-val LinkyButtonDisableColor
-    @Composable get() = ColorFamilyGray400AndGray600.color
-val LinkInputCompleteTextButtonDisableColor
-    @Composable get() = ColorFamilyGray400AndGray600.color
-val LinkyMoreContentLineColor
-    @Composable get() = ColorFamilyGray100AndGray800.color
-val LinkySwitchUnCheckTrackColor
-    @Composable get() = ColorFamilyGray400AndGray800.color
-val LinkyTimelineTextLineColor
-    @Composable get() = ColorFamilyGray600AndGray400.color
-
-val ClipBoardPasteBackgroundColor
-    @Composable get() = ColorFamilyNav300AndNav700.color
-val ClipBoardPasteTextColor
-    @Composable get() = ColorFamilyNav700AndNav300.color
-val WebContentBackgroundColor
-    @Composable get() = ColorFamilyGray100AndGray900.color
-val WebContentLineColor
-    @Composable get() = ColorFamilyGray300AndGray800.color
-val WebContentTitleColor
-    @Composable get() = ColorFamilyGray600AndGray400.color
-val LinkyTipBackgroundColor
-    @Composable get() = ColorFamilyGray100AndNav900.color
-val LockContentLineColor
-    @Composable get() = ColorFamilyGray300AndGray800.color
-val LockContentBackgroundColor
-    @Composable get() = ColorFamilyGray100AndGray900.color
-val CertificationDescriptionColor
-    @Composable get() = ColorFamilyGray800AndGray300.color
-val LinkyInputChipBackgroundColor
-    @Composable get() = ColorFamilyGray800AndGray400.color
-val LinkySortTextColor
-    @Composable get() = ColorFamilyGray800AndGray400.color
-val LinkyInputChipUnSelectTextColor
-    @Composable get() = ColorFamilyGray800AndGray300.color
-val LinkyInputChipSelectTextColor
-    @Composable get() = ColorFamilyGray100AndGray999.color
-val TimelineMenuBackgroundColor
-    @Composable get() = ColorFamilyWhiteAndGray900.color
+val ColorFamilyWhiteAndGray999
+    @Composable get() = ColorFamily(White, Gray999).color
+val ColorFamilyWhiteAndGray900
+    @Composable get() = ColorFamily(White, Gray900).color
+val ColorFamilyGray800AndGray300
+    @Composable get() = ColorFamily(Gray800, Gray300).color
+val ColorFamilyGray900AndGray100
+    @Composable get() = ColorFamily(Gray900, Gray100).color
+val ColorFamilyGray600AndGray400
+    @Composable get() = ColorFamily(Gray600, Gray400).color
+val ColorFamilyGray400AndGray600
+    @Composable get() = ColorFamily(Gray400, Gray600).color
+val ColorFamilyGray100AndGray800
+    @Composable get() = ColorFamily(Gray100, Gray800).color
+val ColorFamilyGray100AndGray900
+    @Composable get() = ColorFamily(Gray100, Gray900).color
+val ColorFamilyGray300AndGray800
+    @Composable get() = ColorFamily(Gray300, Gray800).color
+val ColorFamilyGray400AndGray800
+    @Composable get() = ColorFamily(Gray400, Gray800).color
+val ColorFamilyNav300AndNav700
+    @Composable get() = ColorFamily(Nav300, Nav700).color
+val ColorFamilyNav700AndNav300
+    @Composable get() = ColorFamily(Nav700, Nav300).color
+val ColorFamilyGray100AndNav900
+    @Composable get() = ColorFamily(Gray100, Nav900).color
+val ColorFamilyGray800AndGray400
+    @Composable get() = ColorFamily(Gray800, Gray400).color
+val ColorFamilyGray100AndGray999
+    @Composable get() = ColorFamily(Gray100, Gray999).color
+val ColorFamilyWhiteAndGray800
+    @Composable get() = ColorFamily(White, Gray800).color
 
 val MainColor
     @Composable get() = ColorFamily(MainColorLight, MainColorDark).color

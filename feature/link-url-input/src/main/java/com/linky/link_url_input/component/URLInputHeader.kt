@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.component.button.LinkyBackArrowButton
 import com.linky.design_system.ui.component.header.LinkyHeader
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkInputCompleteTextButtonDisableColor
+import com.linky.design_system.ui.theme.ColorFamilyGray400AndGray600
 import com.linky.design_system.ui.theme.MainColor
 import com.linky.design_system.util.clickableRipple
 import com.linky.link_url_input.R
@@ -25,7 +25,7 @@ internal fun URLInputHeader(
     val textColor = if (isNextActive) {
         MainColor
     } else {
-        LinkInputCompleteTextButtonDisableColor
+        ColorFamilyGray400AndGray600
     }
 
     LinkyHeader(

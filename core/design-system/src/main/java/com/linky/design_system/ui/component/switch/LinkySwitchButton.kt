@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
-import com.linky.design_system.ui.theme.LinkySwitchUnCheckTrackColor
+import com.linky.design_system.ui.theme.ColorFamilyGray400AndGray800
 import com.linky.design_system.ui.theme.MainColor
 import com.linky.design_system.ui.theme.White
 
@@ -27,7 +27,7 @@ fun LinkySwitchButton(
             checkedTrackColor = MainColor,
             checkedTrackAlpha = 0.5f,
             uncheckedThumbColor = White,
-            uncheckedTrackColor = LinkySwitchUnCheckTrackColor,
+            uncheckedTrackColor = ColorFamilyGray400AndGray800,
             uncheckedTrackAlpha = 1f,
         )
     )

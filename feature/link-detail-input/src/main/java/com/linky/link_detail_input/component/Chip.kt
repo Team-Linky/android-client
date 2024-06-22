@@ -17,13 +17,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.linky.design_system.R
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkyInputChipBackgroundColor
-import com.linky.design_system.ui.theme.LinkyInputChipSelectTextColor
-import com.linky.design_system.ui.theme.LinkyInputChipUnSelectTextColor
+import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray400
+import com.linky.design_system.ui.theme.ColorFamilyGray100AndGray999
+import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray300
 import com.linky.design_system.ui.theme.NoRippleTheme
 import com.linky.design_system.ui.theme.ShadowBlue
-import com.linky.link_detail_input.R
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -33,9 +33,11 @@ internal fun LinkyTagChip(
     onClick: () -> Unit,
     onDelete: () -> Unit
 ) {
-    val backgroundColor = if (isSelected) LinkyInputChipBackgroundColor else ShadowBlue
-    val textColor = if (isSelected) LinkyInputChipSelectTextColor else LinkyInputChipUnSelectTextColor
-    val deleteIconRes = if (isSelected) R.drawable.ico_delete_tag_select else R.drawable.ico_delete_tag_unselect
+    val backgroundColor = if (isSelected) ColorFamilyGray800AndGray400 else ShadowBlue
+    val textColor =
+        if (isSelected) ColorFamilyGray100AndGray999 else ColorFamilyGray800AndGray300
+    val deleteIconRes =
+        if (isSelected) R.drawable.ico_delete_tag_select else R.drawable.ico_delete_tag_unselect
 
     NoRippleTheme {
         FilterChip(

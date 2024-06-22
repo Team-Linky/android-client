@@ -10,8 +10,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.ClipBoardPasteBackgroundColor
-import com.linky.design_system.ui.theme.ClipBoardPasteTextColor
+import com.linky.design_system.ui.theme.ColorFamilyNav300AndNav700
+import com.linky.design_system.ui.theme.ColorFamilyNav700AndNav300
 import com.linky.design_system.util.clickableRipple
 import com.linky.link_url_input.R
 
@@ -20,11 +20,11 @@ internal fun ClipBoardPaste(onClick: () -> Unit) {
     LinkyText(
         text = stringResource(R.string.link_clipboard_paste),
         fontSize = 12.sp,
-        color = ClipBoardPasteTextColor,
+        color = ColorFamilyNav700AndNav300,
         fontWeight = FontWeight.Medium,
         modifier = Modifier
             .padding(top = 16.dp)
-            .background(ClipBoardPasteBackgroundColor, RoundedCornerShape(4.dp))
+            .background(ColorFamilyNav300AndNav700, RoundedCornerShape(4.dp))
             .padding(horizontal = 10.dp, vertical = 6.dp)
             .clickableRipple(radius = 100.dp, onClick = onClick)
     )

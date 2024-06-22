@@ -24,9 +24,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkyDefaultBackgroundColor
-import com.linky.design_system.ui.theme.LinkyTextDefaultColor
-import com.linky.design_system.ui.theme.NavigationUnSelectTextColor
+import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray999
+import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
+import com.linky.design_system.ui.theme.ColorFamilyGray600AndGray400
 import com.linky.design_system.ui.theme.NoRippleTheme
 import com.linky.intercation.vibrate.vibrateCompat
 
@@ -40,12 +40,12 @@ fun LinkyBottomNavigation(navController: NavHostController) {
             .fillMaxWidth()
             .height(78.dp)
             .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
-        backgroundColor = LinkyDefaultBackgroundColor,
+        backgroundColor = ColorFamilyWhiteAndGray999,
     ) {
         BottomNavigation(
             modifier = Modifier.padding(end = 90.dp, bottom = 10.dp),
             elevation = 0.dp,
-            backgroundColor = LinkyDefaultBackgroundColor,
+            backgroundColor = ColorFamilyWhiteAndGray999,
         ) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
@@ -56,8 +56,8 @@ fun LinkyBottomNavigation(navController: NavHostController) {
 
                     BottomNavigationItem(
                         selected = selected,
-                        selectedContentColor = LinkyTextDefaultColor,
-                        unselectedContentColor = NavigationUnSelectTextColor,
+                        selectedContentColor = ColorFamilyGray900AndGray100,
+                        unselectedContentColor = ColorFamilyGray600AndGray400,
                         icon = {
                             val navIcon = if (selected) {
                                 navItem.activeIcon

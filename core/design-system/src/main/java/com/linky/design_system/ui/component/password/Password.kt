@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.linky.design_system.ui.theme.LinkyTextDefaultColor
+import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
 import com.linky.design_system.ui.theme.ShadowBlue
 
 @Composable
@@ -35,7 +35,7 @@ private fun Password(isNotEmpty: Boolean) {
     Spacer(
         modifier = Modifier
             .background(
-                color = if (isNotEmpty) LinkyTextDefaultColor else ShadowBlue,
+                color = if (isNotEmpty) ColorFamilyGray900AndGray100 else ShadowBlue,
                 shape = CircleShape
             )
             .size(12.dp)
