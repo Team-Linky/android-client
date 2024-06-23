@@ -2,7 +2,6 @@ package com.linky.design_system.ui.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import java.util.Random
 
 val MainColorLight = Color(0xFF4777EE)
 val MainColorDark = Color(0xFF5B9DFF)
@@ -29,13 +28,6 @@ val Nav300 = Color(0xFFECEFF4)
 val ShadowGray = Color(0x33B5B5B5)
 val ShadowBlue = Color(0x4D98ACD3)
 val ShadowBlack = Color(0x99303030)
-
-val RandomColor: Color
-    get() = Color(
-        red = Random().nextFloat() * (0.9f - 0.6f) + 0.6f,
-        green = Random().nextFloat() * (0.9f - 0.6f) + 0.6f,
-        blue = Random().nextFloat() * (0.9f - 0.6f) + 0.6f
-    )
 
 val ColorFamilyWhiteAndGray999
     @Composable get() = ColorFamily(White, Gray999).color

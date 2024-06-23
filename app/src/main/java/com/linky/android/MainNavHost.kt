@@ -28,7 +28,6 @@ fun MainNavHost(
             onClickTagAdd = onClickTagAdd
         )
         tagScreen(
-            scaffoldState = scaffoldState,
             onShowLinkActivity = onShowLinkActivity
         )
         moreScreen(
