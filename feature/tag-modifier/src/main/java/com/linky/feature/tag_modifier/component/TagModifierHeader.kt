@@ -1,4 +1,4 @@
-package com.linky.link_detail_input.component
+package com.linky.feature.tag_modifier.component
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -17,12 +17,12 @@ import com.linky.design_system.ui.theme.MainColor
 import com.linky.design_system.util.clickableRipple
 
 @Composable
-internal fun DetailInputHeader(
-    isNextActive: Boolean = false,
+internal fun TagModifierHeader(
+    isActive: Boolean = false,
     onComplete: () -> Unit = {},
     onBack: () -> Unit = {}
 ) {
-    val textColor = if (isNextActive) {
+    val textColor = if (isActive) {
         MainColor
     } else {
         ColorFamilyGray400AndGray600
@@ -30,12 +30,6 @@ internal fun DetailInputHeader(
 
     LinkyHeader(modifier = Modifier.padding(start = 12.dp, end = 16.dp)) {
         LinkyBackArrowButton(onClick = onBack)
-        LinkyText(
-            text = stringResource(R.string.link_add),
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
-            modifier = Modifier.padding(start = 6.dp)
-        )
         Spacer(modifier = Modifier.weight(1f))
         LinkyText(
             text = stringResource(R.string.complete),
@@ -43,7 +37,7 @@ internal fun DetailInputHeader(
             fontSize = 14.sp,
             color = textColor,
             modifier = Modifier
-                .padding(start = 6.dp)
+                .padding(7.dp)
                 .clickableRipple(
                     radius = 12.dp,
                     onClick = onComplete

@@ -1,6 +1,5 @@
 package com.linky.timeline.component
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -74,7 +73,8 @@ internal fun TimeLineList(
     onEdit: (Long) -> Unit,
     onRemove: (Long) -> Unit,
     onClick: (Link) -> Unit,
-    onCopyLink: (Link) -> Unit
+    onCopyLink: (Link) -> Unit,
+    onClickTagAdd: (Long) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier,
@@ -173,14 +173,7 @@ internal fun TimeLineList(
                                         TimeLineTagChip(
                                             modifier = Modifier.padding(end = 3.dp),
                                             tagName = tag.name,
-                                            onClick = {
-                                                Log.d("123123", "link: $link")
-                                                Log.d("123123", "tag: $tag")
-                                            }
                                         )
-                                    }
-                                    item {
-                                        TimeLineTagAddButton {}
                                     }
                                 }
                                 Spacer(modifier = Modifier.weight(1f))

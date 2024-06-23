@@ -5,6 +5,10 @@
     <string name="app_name">LINKY</string>
     <string name="complete">완료</string>
     <string name="cancel">취소</string>
+    <string name="link_add">링크 추가</string>
+    <string name="tag_add">태그 추가</string>
+    <string name="tag_edit">태그 이름 변경</string>
+    <string name="link_memo">링크 메모</string>
     <string name="copy_complete">링크가 복사되었습니다.</string>
 
     <!-- :common:biometric-compose -->
@@ -45,10 +49,11 @@
     <string name="pin_setting_fail_description">전에 입력한 번호와 일치하지 않아요.</string>
 
     <!-- :feature:link-detail-input -->
-    <string name="link_detail_input_link_create">링크 추가</string>
-    <string name="link_detail_input_link_memo">링크 메모</string>
     <string name="link_detail_input_link_memo_placeholder">ex. 엄마가 공유해 줌</string>
-    <string name="link_detail_input_tag_add">태그 추가</string>
     <string name="link_detail_input_tag_add_placeholder">추가할 태그를 입력해 주세요.</string>
+    
+    <!-- :feature:tag-modifier -->
+    <string name="tag_modifier_desc">새로운 태그 이름을 입력해주세요.</string>
+    <string name="tag_modifier_placeholder">태그 입력(띄어쓰기 포함, 8자 이내)</string>
 
 </resources>

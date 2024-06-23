@@ -5,6 +5,7 @@ import com.linky.data_base.link.dao.LinkTagCrossRefDao
 import com.linky.data_base.link.entity.LinkTagCrossRef
 import com.linky.data_base.tag.dao.TagDao
 import com.linky.data_base.tag.entity.TagEntity
+import com.linky.data_base.tag.entity.TagWithUsageEntity
 import javax.inject.Inject
 
 class TagDataSourceImpl @Inject constructor(
@@ -26,5 +27,8 @@ class TagDataSourceImpl @Inject constructor(
             linkTagCrossRefDao.insertLinkTagCrossRef(crossRef)
         }
     }
+
+    override fun selectAllWithUsage(linkId: Long): PagingSource<Int, TagWithUsageEntity> =
+        tagDao.selectAllWithUsage(linkId)
 
 }

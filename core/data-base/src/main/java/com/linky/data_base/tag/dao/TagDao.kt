@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.linky.data_base.tag.entity.TagEntity
+import com.linky.data_base.tag.entity.TagWithUsageEntity
 
 @Dao
 interface TagDao {
@@ -30,5 +31,15 @@ interface TagDao {
 
     @Query("SELECT * FROM tag WHERE pk == :id")
     suspend fun findById(id: Long): TagEntity
+
+    @Query("""
+        SELECT tag.*, 
+               EXISTS (SELECT 1 
+                       FROM linktagcrossref 
+                       WHERE linktagcrossref.tagId = tag.pk AND linktagcrossref.linkId = :linkId) 
+               AS isUsed
+        FROM tag
+    """)
+    fun selectAllWithUsage(linkId: Long): PagingSource<Int, TagWithUsageEntity>
 
 }

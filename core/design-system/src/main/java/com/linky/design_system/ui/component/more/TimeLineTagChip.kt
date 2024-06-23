@@ -1,7 +1,6 @@
 package com.linky.design_system.ui.component.more
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,14 +21,12 @@ import com.linky.design_system.ui.theme.ShadowGray
 fun TimeLineTagChip(
     modifier: Modifier = Modifier,
     tagName: String,
-    onClick: () -> Unit
 ) {
     Box(
         modifier = modifier
             .height(17.dp)
             .clip(RoundedCornerShape(4.dp))
-            .background(ShadowGray)
-            .clickable { onClick.invoke() },
+            .background(ShadowGray),
         contentAlignment = Alignment.Center
     ) {
         LinkyText(

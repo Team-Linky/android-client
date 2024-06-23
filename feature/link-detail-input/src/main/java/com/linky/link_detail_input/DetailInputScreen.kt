@@ -125,7 +125,13 @@ private fun DetailInputScreen(
             tags = tags,
             selectTags = selectedTagIds,
             memoValue = memoText,
-            memoOnValueChange = { memoText = it },
+            memoOnValueChange = { value ->
+                memoText = if (value.length > 8) {
+                    value.substring(0, 8)
+                } else {
+                    value
+                }
+            },
             memoOnClear = { memoText = "" },
             memoFocusRequester = memoFocusRequester,
             tagValue = tagText,

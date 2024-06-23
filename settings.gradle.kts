@@ -31,6 +31,7 @@ include(
     ":feature:navigation",
     ":feature:timeline",
     ":feature:tag",
+    ":feature:tag-modifier",
     ":feature:more",
     ":feature:link",
     ":feature:link-url-input",
