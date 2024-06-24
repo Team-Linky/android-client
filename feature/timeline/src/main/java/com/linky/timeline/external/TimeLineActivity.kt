@@ -52,6 +52,7 @@ import com.linky.design_system.ui.theme.Nav700
 import com.linky.design_system.util.clickableRipple
 import com.linky.design_system.util.rememberImageLoader
 import com.linky.link.extension.launchLinkActivity
+import com.linky.link.extension.rememberLaunchLinkActivityResult
 import com.linky.timeline.TimeLineAction
 import com.linky.timeline.TimeLineEmptyScreen
 import com.linky.timeline.TimeLineViewModel
@@ -96,6 +97,21 @@ class TimeLineActivity : FragmentActivity() {
                 val showScrollTop by remember(listState) {
                     derivedStateOf { listState.firstVisibleItemIndex > 0 }
                 }
+
+                val linkLauncher = rememberLaunchLinkActivityResult(
+                    onCancel = {},
+                    onSuccess = { data ->
+                        when (data?.getString("cmd")) {
+                            "showSnackBar" -> {
+                                coroutineScope.safeLaunch {
+                                    scaffoldState.snackbarHostState.showSnackbar(
+                                        data.getString("msg", "")
+                                    )
+                                }
+                            }
+                        }
+                    }
+                )
 
                 Scaffold(scaffoldState = scaffoldState) { paddingValues ->
                     Column(
@@ -191,7 +207,8 @@ class TimeLineActivity : FragmentActivity() {
                                     imageLoader = imageLoader,
                                     links = links,
                                     onEdit = { link ->
-                                        launchLinkActivity(
+                                        linkLauncher.launchLinkActivity(
+                                            activity = this@TimeLineActivity,
                                             startDestination = "link_edit",
                                             mode = 2,
                                             url = link.openGraphData.url,

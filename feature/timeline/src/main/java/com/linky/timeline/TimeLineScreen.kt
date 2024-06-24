@@ -50,7 +50,6 @@ import com.linky.design_system.ui.theme.LinkyDefaultTheme
 import com.linky.design_system.ui.theme.Nav700
 import com.linky.design_system.util.clickableRipple
 import com.linky.design_system.util.rememberImageLoader
-import com.linky.link.extension.launchLinkActivity
 import com.linky.model.Link
 import com.linky.navigation.MainNavType
 import com.linky.timeline.animation.enterTransition

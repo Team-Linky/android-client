@@ -8,6 +8,7 @@
     <string name="delete">삭제</string>
     <string name="link_add">링크 추가</string>
     <string name="link_edit">링크 수정</string>
+    <string name="link_edit_complete">링크 수정 완료!</string>
     <string name="tag_add">태그 추가</string>
     <string name="tag_edit">태그 이름 변경</string>
     <string name="link_memo">링크 메모</string>

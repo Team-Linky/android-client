@@ -72,7 +72,8 @@ fun NavController.navigatorDetailInput(
 
 fun NavGraphBuilder.detailInputScreen(
     scaffoldState: ScaffoldState,
-    onComplete: () -> Unit,
+    onCompleteCreate: () -> Unit,
+    onCompleteEdit: (String) -> Unit,
     onBack: () -> Unit,
 ) {
     composable(
@@ -92,7 +93,8 @@ fun NavGraphBuilder.detailInputScreen(
     ) {
         DetailInputRoute(
             scaffoldState = scaffoldState,
-            onComplete = onComplete,
+            onCompleteCreate = onCompleteCreate,
+            onCompleteEdit = onCompleteEdit,
             onBack = onBack
         )
     }
@@ -101,12 +103,14 @@ fun NavGraphBuilder.detailInputScreen(
 @Composable
 private fun DetailInputRoute(
     scaffoldState: ScaffoldState,
-    onComplete: () -> Unit,
+    onCompleteCreate: () -> Unit,
+    onCompleteEdit: (String) -> Unit,
     onBack: () -> Unit
 ) {
     DetailInputScreen(
         scaffoldState = scaffoldState,
-        onComplete = onComplete,
+        onCompleteCreate = onCompleteCreate,
+        onCompleteEdit = onCompleteEdit,
         onBack = onBack
     )
 }
@@ -115,7 +119,8 @@ private fun DetailInputRoute(
 private fun DetailInputScreen(
     viewModel: DetailInputViewModel = hiltViewModel(),
     scaffoldState: ScaffoldState,
-    onComplete: () -> Unit,
+    onCompleteCreate: () -> Unit,
+    onCompleteEdit: (String) -> Unit,
     onBack: () -> Unit,
 ) {
     val state by viewModel.collectAsState()
@@ -162,8 +167,14 @@ private fun DetailInputScreen(
     LaunchedEffect(linkSaveStatus) {
         showLoading = linkSaveStatus is LinkSaveStatus.Loading
 
-        if (linkSaveStatus is LinkSaveStatus.Loading) {
-            onComplete.invoke()
+        if (linkSaveStatus is LinkSaveStatus.Success) {
+            if (mode == Mode.Creator) {
+                onCompleteCreate.invoke()
+            } else {
+                onCompleteEdit.invoke(
+                    ContextCompat.getString(context.applicationContext, R.string.link_edit_complete)
+                )
+            }
         }
 
         if (linkSaveStatus is LinkSaveStatus.Error) {

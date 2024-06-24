@@ -1,5 +1,6 @@
 package com.linky.link
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -32,7 +33,11 @@ class LinkActivity : ComponentActivity() {
                     ) {
                         LinkNavHost(
                             navHostController = navHostController,
-                            scaffoldState = scaffoldState
+                            scaffoldState = scaffoldState,
+                            onFinishAndResult = {
+                                setResult(RESULT_OK, Intent().putExtras(it))
+                                finish()
+                            }
                         )
                     }
                 }

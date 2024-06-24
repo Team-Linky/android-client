@@ -1,9 +1,11 @@
 package com.linky.link
 
 import android.app.Activity
+import android.os.Bundle
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
@@ -20,6 +22,7 @@ import com.linky.navigation.link.LinkNavType
 internal fun LinkNavHost(
     navHostController: NavHostController,
     scaffoldState: ScaffoldState,
+    onFinishAndResult: (Bundle) -> Unit,
 ) {
     AnimatedNavHost(
         navController = navHostController,
@@ -33,13 +36,20 @@ internal fun LinkNavHost(
         )
         detailInputScreen(
             scaffoldState = scaffoldState,
-            onComplete = {
+            onCompleteCreate = {
                 navHostController.navigate(route = LinkNavType.Complete.route) {
                     popUpTo(navHostController.graph.findStartDestination().id) {
                         inclusive = true
                     }
                     launchSingleTop = true
                 }
+            },
+            onCompleteEdit = { message ->
+                val data = bundleOf(
+                    "cmd" to "showSnackBar",
+                    "msg" to message,
+                )
+                onFinishAndResult.invoke(data)
             },
             onBack = navHostController::popBackStack
         )
@@ -49,7 +59,7 @@ internal fun LinkNavHost(
     }
 }
 
-fun NavGraphBuilder.defaultScreen(
+private fun NavGraphBuilder.defaultScreen(
     navController: NavController
 ) {
     composable("startDestination") {

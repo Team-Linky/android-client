@@ -10,6 +10,7 @@ import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -17,6 +18,7 @@ import com.linky.common.safe_coroutine.builder.safeLaunch
 import com.linky.design_system.ui.component.floating.LinkyFloatingActionButton
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
 import com.linky.link.extension.launchLinkActivity
+import com.linky.link.extension.rememberLaunchLinkActivityResult
 import com.linky.more_activity.extension.launchMoreActivity
 import com.linky.navigation.LinkyBottomNavigation
 import com.linky.pin.extension.launchPinActivity
@@ -53,6 +55,21 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navHostController = rememberAnimatedNavController()
             val scaffoldState = rememberScaffoldState()
+            val coroutineScope = rememberCoroutineScope()
+            val linkLauncher = rememberLaunchLinkActivityResult(
+                onCancel = {},
+                onSuccess = { data ->
+                    when (data?.getString("cmd")) {
+                        "showSnackBar" -> {
+                            coroutineScope.safeLaunch {
+                                scaffoldState.snackbarHostState.showSnackbar(
+                                    data.getString("msg", "")
+                                )
+                            }
+                        }
+                    }
+                }
+            )
 
             LinkyDefaultTheme {
                 Scaffold(
@@ -78,7 +95,8 @@ class MainActivity : ComponentActivity() {
                             onShowTimeLineActivity = ::launchTimeLineActivity,
                             onShowMoreActivity = ::launchMoreActivity,
                             onEdit = { link ->
-                                launchLinkActivity(
+                                linkLauncher.launchLinkActivity(
+                                    activity = this,
                                     startDestination = "link_edit",
                                     mode = 2,
                                     url = link.openGraphData.url,
