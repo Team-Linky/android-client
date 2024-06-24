@@ -16,14 +16,21 @@ import javax.inject.Inject
 class LinkDataSourceImpl @Inject constructor(
     private val linkDao: LinkDao,
     private val linkTagCrossRefDao: LinkTagCrossRefDao,
-    private val tagDao: TagDao,
 ) : LinkDataSource {
 
     @Transaction
     override suspend fun insert(linkEntity: LinkEntity, tagEntities: List<TagEntity>): Long {
         val linkId = linkDao.insert(linkEntity)
+        val currentTags = linkDao.findLinkWithTagsById(linkId).tags
 
-        tagEntities.forEach { tag ->
+        val tagToRemove = currentTags.filter { it !in tagEntities }.mapNotNull { it.id }
+        val tagToAdd = tagEntities.filter { it !in currentTags }
+
+        if (tagToRemove.isNotEmpty()) {
+            linkTagCrossRefDao.deleteLinkTagCrossRefs(linkId, tagToRemove)
+        }
+
+        tagToAdd.forEach { tag ->
             val tagId = tag.id ?: 0L
 
             linkTagCrossRefDao.insertLinkTagCrossRef(LinkTagCrossRef(linkId, tagId))

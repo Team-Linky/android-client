@@ -24,6 +24,9 @@ interface LinkDao {
     @Query("SELECT * FROM link WHERE pk == :id")
     suspend fun findLinkById(id: Long): LinkEntity?
 
+    @Query("SELECT * FROM link WHERE pk = :linkId")
+    suspend fun findLinkWithTagsById(linkId: Long): LinkWithTags
+
     @Query("UPDATE link SET readCount = readCount + 1 WHERE pk == :id")
     suspend fun incrementReadCount(id: Long)
 
