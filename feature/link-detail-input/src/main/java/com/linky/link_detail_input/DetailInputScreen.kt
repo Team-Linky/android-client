@@ -29,11 +29,9 @@ import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import androidx.navigation.navDeepLink
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.navigation.animation.composable
 import com.linky.design_system.R
@@ -53,7 +51,11 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-fun NavController.navigatorDetailInput(url: String, mode: Int, linkId: Long) {
+fun NavController.navigatorDetailInput(
+    url: String,
+    mode: Int,
+    linkId: Long
+) {
     val encodedUrl = URLEncoder.encode(url, StandardCharsets.UTF_8.toString())
     val route = LinkNavType.DetailInput.route
         .replace("{url}", encodedUrl)
@@ -61,11 +63,7 @@ fun NavController.navigatorDetailInput(url: String, mode: Int, linkId: Long) {
         .replace("{linkId}", linkId.toString())
 
     navigate(route = route) {
-        popUpTo(graph.findStartDestination().id) {
-            saveState = true
-        }
-        launchSingleTop = true
-        restoreState = true
+        popUpTo("startDestination") { inclusive = true }
     }
 }
 
@@ -80,12 +78,6 @@ fun NavGraphBuilder.detailInputScreen(
             navArgument("url") { type = NavType.StringType },
             navArgument("mode") { type = NavType.IntType },
             navArgument("linkId") { type = NavType.LongType }
-        ),
-        deepLinks = listOf(
-            navDeepLink {
-                uriPattern =
-                    "android-app://androidx.navigation/link_nav_detail_input/{url}/{mode}/{linkId}"
-            }
         ),
         enterTransition = {
             slideIntoContainer(

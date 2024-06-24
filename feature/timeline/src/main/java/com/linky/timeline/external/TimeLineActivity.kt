@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -145,7 +146,10 @@ class TimeLineActivity : FragmentActivity() {
                                             }
 
                                             is Sort.NoRead -> {
-                                                Column {
+                                                Column(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    horizontalAlignment = Alignment.CenterHorizontally
+                                                ) {
                                                     Spacer(modifier = Modifier.weight(0.3f))
                                                     LinkyText(
                                                         modifier = Modifier.weight(0.7f),
@@ -158,7 +162,10 @@ class TimeLineActivity : FragmentActivity() {
                                             }
 
                                             is Sort.Read -> {
-                                                Column {
+                                                Column(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    horizontalAlignment = Alignment.CenterHorizontally
+                                                ) {
                                                     Spacer(modifier = Modifier.weight(0.3f))
                                                     LinkyText(
                                                         modifier = Modifier.weight(0.7f),

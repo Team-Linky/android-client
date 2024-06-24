@@ -20,7 +20,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
 import com.linky.design_system.ui.component.textfield.addFocusCleaner
@@ -38,12 +37,13 @@ fun NavGraphBuilder.urlInputScreen(navController: NavController) {
         URLInputRoute(
             onNext = { url ->
                 val encodedUrl = URLEncoder.encode(url, StandardCharsets.UTF_8.toString())
-                navController.navigate(route = LinkNavType.DetailInput.route
+                val route = LinkNavType.DetailInput.route
                     .replace("{url}", encodedUrl)
                     .replace("{mode}", "1")
                     .replace("{linkId}", "-1")
-                ) {
-                    popUpTo(navController.graph.findStartDestination().id) {
+
+                navController.navigate(route = route) {
+                    popUpTo(LinkNavType.URLInput.route) {
                         saveState = true
                     }
                     launchSingleTop = true

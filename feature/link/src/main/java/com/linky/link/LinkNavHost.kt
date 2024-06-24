@@ -23,7 +23,7 @@ internal fun LinkNavHost(
 ) {
     AnimatedNavHost(
         navController = navHostController,
-        startDestination = "default",
+        startDestination = "startDestination",
     ) {
         defaultScreen(
             navController = navHostController
@@ -52,7 +52,7 @@ internal fun LinkNavHost(
 fun NavGraphBuilder.defaultScreen(
     navController: NavController
 ) {
-    composable("default") {
+    composable("startDestination") {
         val activity = LocalContext.current as Activity
         val intent = activity.intent
 
