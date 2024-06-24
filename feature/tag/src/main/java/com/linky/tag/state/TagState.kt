@@ -9,7 +9,7 @@ data class TagState(
     val tags: Flow<PagingData<Tag>>,
 ) {
     companion object {
-        val Init = TagState(
+        val Init get() = TagState(
             tags = flowOf(),
         )
     }

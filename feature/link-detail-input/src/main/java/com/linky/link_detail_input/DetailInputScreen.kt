@@ -39,6 +39,9 @@ import com.linky.design_system.ui.component.textfield.addFocusCleaner
 import com.linky.link_detail_input.animation.exitTransition
 import com.linky.link_detail_input.component.DetailInputContent
 import com.linky.link_detail_input.component.DetailInputHeader
+import com.linky.link_detail_input.component.TagDeleteDialog
+import com.linky.link_detail_input.component.TagDeleteDialogDirector
+import com.linky.link_detail_input.component.TagDeleteDialogDirector.Companion.of
 import com.linky.link_detail_input.state.DetailInputSideEffect
 import com.linky.link_detail_input.state.LinkSaveStatus
 import com.linky.link_detail_input.state.Mode
@@ -137,6 +140,17 @@ private fun DetailInputScreen(
 
     var showLoading by rememberSaveable { mutableStateOf(false) }
 
+    var tagDeleteDialogDirector by remember { mutableStateOf(TagDeleteDialogDirector.Init) }
+
+    TagDeleteDialog(
+        director = tagDeleteDialogDirector,
+        onCancel = { tagDeleteDialogDirector = TagDeleteDialogDirector.Init },
+        onDelete = { tag ->
+            viewModel.doAction(DetailInputAction.DeleteTag(tag.id!!))
+            tagDeleteDialogDirector = TagDeleteDialogDirector.Init
+        }
+    )
+
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             is DetailInputSideEffect.TagTextClear -> {
@@ -215,7 +229,7 @@ private fun DetailInputScreen(
             focusManager = focusManager,
             onSelectTag = { tagStore[it] = true },
             onUnSelectTag = { tagStore[it] = false },
-            onDeleteTag = { viewModel.doAction(DetailInputAction.DeleteTag(it.id!!)) },
+            onDeleteTag = { tagDeleteDialogDirector = it.of() },
             onCreateTag = { viewModel.doAction(DetailInputAction.AddTag(it)) },
         )
     }

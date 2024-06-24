@@ -15,7 +15,7 @@ data class DetailInputState(
     val linkSaveStatus: LinkSaveStatus,
 ) {
     companion object {
-        val Init = DetailInputState(
+        val Init get() = DetailInputState(
             mode = Mode.Creator,
             link = null,
             tags = flowOf(),
