@@ -1,6 +1,6 @@
 package com.linky.data.usecase.link
 
-import com.linky.data.link.LinkRepository
+import com.linky.data.repository.link.LinkRepository
 import javax.inject.Inject
 
 class GetLinksUseCase @Inject constructor(

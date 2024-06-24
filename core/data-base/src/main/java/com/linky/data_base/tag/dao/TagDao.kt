@@ -17,6 +17,9 @@ interface TagDao {
     @Query("DELETE FROM tag WHERE pk == :id")
     suspend fun delete(id: Long)
 
+    @Query("SELECT * FROM tag WHERE pk IN (:ids)")
+    suspend fun selectByIds(ids: List<Long>): List<TagEntity>
+
     @Query(
         """
         SELECT tag.*, COUNT(linktagcrossref.linkId) as linkCount
@@ -30,21 +33,14 @@ interface TagDao {
 
     @Query(
         """
-        SELECT tag.*, COUNT(linktagcrossref.linkId) as linkCount
-        FROM tag
-        LEFT JOIN linktagcrossref ON tag.pk = linktagcrossref.tagId
+        SELECT tag.*, COUNT(linktagcrossref.linkId) as linkCount FROM tag
+        LEFT JOIN linktagcrossref ON tag.pk = linktagcrossref.tagId 
         GROUP BY tag.pk
-        HAVING COUNT(linktagcrossref.linkId) > :count
+        HAVING COUNT(linktagcrossref.linkId) >= :min
         ORDER BY linkCount DESC
         """
     )
-    fun selectAllWithLinkCount(count: Int): PagingSource<Int, TagEntity>
-
-    @Query("SELECT * FROM tag WHERE pk IN (:ids)")
-    suspend fun selectByIds(ids: List<Long>): List<TagEntity>
-
-    @Query("SELECT * FROM tag WHERE pk == :id")
-    suspend fun findById(id: Long): TagEntity
+    fun selectAllWithLinkCount(min: Int): PagingSource<Int, TagEntity>
 
     @Query(
         """

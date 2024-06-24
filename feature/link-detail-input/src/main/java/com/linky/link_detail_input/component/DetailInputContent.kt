@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -13,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
@@ -34,14 +35,16 @@ import com.linky.design_system.ui.theme.ColorFamilyGray300AndGray800
 import com.linky.design_system.ui.theme.ColorFamilyGray600AndGray400
 import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray300
 import com.linky.design_system.ui.theme.SubColor
-import com.linky.link_detail_input.State
+import com.linky.link_detail_input.state.OpenGraphStatus
 import com.linky.model.Tag
+import com.linky.model.TagWithUsage
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-internal fun ColumnScope.DetailInputContent(
-    state: State,
-    tags: LazyPagingItems<Tag>,
+internal fun DetailInputContent(
+    modifier: Modifier = Modifier,
+    tags: LazyPagingItems<TagWithUsage>,
+    openGraphStatus: OpenGraphStatus,
     selectTags: List<Tag>,
     memoValue: String,
     memoOnValueChange: (String) -> Unit,
@@ -59,11 +62,7 @@ internal fun ColumnScope.DetailInputContent(
     onUnSelectTag: (Tag) -> Unit,
     onDeleteTag: (Tag) -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .weight(1f)
-    ) {
+    Column(modifier = modifier) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -115,7 +114,17 @@ internal fun ColumnScope.DetailInputContent(
             Spacer(modifier = Modifier.padding(top = 16.dp))
             FlowRow {
                 (0..<tags.itemCount).forEach { index ->
-                    tags[index]?.let { tag ->
+                    tags[index]?.let { tagWithUsage ->
+                        val tag = tagWithUsage.tag
+
+                        LaunchedEffect(tagWithUsage.tag) {
+                            if (tagWithUsage.isUsed) {
+                                onSelectTag.invoke(tag)
+                            } else {
+                                onUnSelectTag.invoke(tag)
+                            }
+                        }
+
                         Box(
                             modifier = Modifier.padding(end = 4.dp, bottom = 8.dp),
                             contentAlignment = Alignment.CenterStart
@@ -154,39 +163,54 @@ internal fun ColumnScope.DetailInputContent(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (state is State.Success) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                        .padding(top = 16.dp),
-                    horizontalArrangement = Arrangement.Start
-                ) {
+            when (openGraphStatus) {
+                is OpenGraphStatus.Idle -> {
+                    Box(modifier = Modifier.padding(8.dp)) {
+                        CircularProgressIndicator()
+                    }
+                }
+                is OpenGraphStatus.Error -> {
                     LinkyText(
-                        text = state.openGraphData.siteName ?: "null",
-                        color = SubColor,
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    LinkyText(
-                        text = state.openGraphData.title ?: "null",
-                        color = ColorFamilyGray600AndGray400,
+                        text = stringResource(R.string.open_graph_error),
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(start = 4.dp)
+                        color = ColorFamilyGray800AndGray300,
                     )
                 }
-                LinkyText(
-                    text = state.openGraphData.url ?: "null",
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = ColorFamilyGray800AndGray300,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                        .padding(bottom = 16.dp)
-                )
+                is OpenGraphStatus.Success -> {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp)
+                            .padding(top = 16.dp),
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        LinkyText(
+                            text = openGraphStatus.openGraphData.siteName ?: "null",
+                            color = SubColor,
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        LinkyText(
+                            text = openGraphStatus.openGraphData.title ?: "null",
+                            color = ColorFamilyGray600AndGray400,
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.padding(start = 4.dp)
+                        )
+                    }
+                    LinkyText(
+                        text = openGraphStatus.openGraphData.url ?: "null",
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = ColorFamilyGray800AndGray300,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp)
+                            .padding(bottom = 16.dp)
+                    )
+                }
             }
         }
     }

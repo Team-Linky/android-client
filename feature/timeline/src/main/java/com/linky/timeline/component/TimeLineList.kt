@@ -70,7 +70,7 @@ internal fun TimeLineList(
     state: LazyListState,
     imageLoader: ImageLoader,
     links: LazyPagingItems<Link>,
-    onEdit: (Long) -> Unit,
+    onEdit: (Link) -> Unit,
     onRemove: (Long) -> Unit,
     onClick: (Link) -> Unit,
     onCopyLink: (Link) -> Unit,
@@ -130,7 +130,7 @@ internal fun TimeLineList(
                                 )
                             }
                             MenuButton(
-                                onEdit = { onEdit.invoke(link.id!!) },
+                                onEdit = { onEdit.invoke(link) },
                                 onRemove = { onRemove.invoke(link.id!!) }
                             )
                         }
@@ -269,7 +269,10 @@ private fun RowScope.MenuButton(
                             .height(48.dp)
                             .clickableRipple(
                                 radius = 100.dp,
-                                onClick = onEdit
+                                onClick = {
+                                    onEdit.invoke()
+                                    balloonEvent = TimeLineMenuEvent.CLOSE
+                                }
                             ),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween

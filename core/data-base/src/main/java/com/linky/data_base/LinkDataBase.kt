@@ -15,7 +15,7 @@ import com.linky.data_base.tag.dao.TagDao
 import com.linky.data_base.tag.entity.TagEntity
 import com.squareup.moshi.Moshi
 
-@Database(entities = [TagEntity::class, LinkEntity::class, LinkTagCrossRef::class], version = 4)
+@Database(entities = [TagEntity::class, LinkEntity::class, LinkTagCrossRef::class], version = 5)
 @TypeConverters(value = [LongTypeListConverter::class, OpenGraphDataConverter::class])
 abstract class LinkDataBase : RoomDatabase() {
 
@@ -33,7 +33,8 @@ abstract class LinkDataBase : RoomDatabase() {
         )
             .addTypeConverter(LongTypeListConverter(moshi))
             .addTypeConverter(OpenGraphDataConverter(moshi))
-            .fallbackToDestructiveMigration().build()
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
 }

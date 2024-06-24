@@ -1,112 +1,167 @@
 package com.linky.link_detail_input
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.kedia.ogparser.OpenGraphCacheProvider
 import com.kedia.ogparser.OpenGraphCallback
 import com.kedia.ogparser.OpenGraphParser
 import com.kedia.ogparser.OpenGraphResult
-import com.linky.common.safe_coroutine.builder.safeLaunch
-import com.linky.common.safe_coroutine.dispatchers.Dispatcher
-import com.linky.common.safe_coroutine.dispatchers.LinkyDispatchers
+import com.linky.data.usecase.link.FindLinkByIdUseCase
 import com.linky.data.usecase.link.LinkInsertUseCase
-import com.linky.data.usecase.tag.GetTagsUseCase
+import com.linky.data.usecase.tag.SelectAllWithUsageUseCase
 import com.linky.data.usecase.tag.TagDeleteUseCase
 import com.linky.data.usecase.tag.TagInsertUseCase
 import com.linky.data.usecase.tag.UpdateLinkIdsUseCase
 import com.linky.link_detail_input.model.toOpenGraphData
+import com.linky.link_detail_input.state.DetailInputSideEffect
+import com.linky.link_detail_input.state.DetailInputState
+import com.linky.link_detail_input.state.DetailInputState.Companion.Init
+import com.linky.link_detail_input.state.LinkSaveStatus
+import com.linky.link_detail_input.state.Mode
+import com.linky.link_detail_input.state.OpenGraphStatus
 import com.linky.model.Link
 import com.linky.model.Tag
-import com.linky.model.open_graph.OpenGraphData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineExceptionHandler
-import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailInputViewModel @Inject constructor(
-    application: Application,
-    savedStateHandle: SavedStateHandle,
-    getTagsUseCase: GetTagsUseCase,
+    private val application: Application,
+    private val savedStateHandle: SavedStateHandle,
+    private val selectAllWithUsageUseCase: SelectAllWithUsageUseCase,
+    private val findLinkByIdUseCase: FindLinkByIdUseCase,
     private val tagInsertUseCase: TagInsertUseCase,
     private val tagDeleteUseCase: TagDeleteUseCase,
     private val linkInsertUseCase: LinkInsertUseCase,
     private val updateLinkIdsUseCase: UpdateLinkIdsUseCase,
-    @Dispatcher(LinkyDispatchers.IO) private val ioDispatcher: CoroutineDispatcher
-) : AndroidViewModel(application), ContainerHost<State, SideEffect> {
+) : ContainerHost<DetailInputState, DetailInputSideEffect>, AndroidViewModel(application) {
 
-    override val container: Container<State, SideEffect> = container(State.Loading)
+    override val container = container<DetailInputState, DetailInputSideEffect>(Init)
 
-    val tagsState = getTagsUseCase.invoke()
-
-    init {
-        savedStateHandle.get<String>("url")?.also { parse(application.applicationContext, it) }
-    }
-
-    private fun parse(context: Context, url: String) {
-        OpenGraphParser(
-            listener = object : OpenGraphCallback {
-                override fun onError(error: String) {
-                    intent {
-                        reduce { State.Fail(error) }
-                    }
-                }
-
-                override fun onPostResponse(openGraphResult: OpenGraphResult) {
-                    intent {
-                        reduce { State.Success(openGraphResult.toOpenGraphData()) }
-                    }
-                }
-            },
-            showNullOnEmpty = true,
-            cacheProvider = OpenGraphCacheProvider(context),
-        ).apply { parse(url) }
-    }
-
-    fun addTag(name: String) {
-        viewModelScope.safeLaunch(ioDispatcher) {
-            tagInsertUseCase.invoke(Tag(name = name))
+    fun doAction(action: DetailInputAction) {
+        when (action) {
+            is DetailInputAction.AddTag -> addTag(action.name)
+            is DetailInputAction.DeleteTag -> deleteTag(action.id)
+            is DetailInputAction.SaveLink -> saveLink(action.link)
         }
     }
 
-    fun deleteTag(id: Long) {
-        viewModelScope.safeLaunch(ioDispatcher) {
+    private fun setMode() {
+        intent {
+            savedStateHandle.get<Int>("mode")?.let { modeKey ->
+                val mode = when (modeKey) {
+                    2 -> Mode.Editor
+                    else -> Mode.Creator
+                }
+
+                reduce { state.copy(mode = mode) }
+            }
+        }
+    }
+
+    private fun getTags() {
+        intent {
+            savedStateHandle.get<Long>("linkId")?.let { linkId ->
+                reduce {
+                    state.copy(
+                        tags = selectAllWithUsageUseCase.invoke(linkId).cachedIn(viewModelScope)
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getLink() {
+        intent {
+            savedStateHandle.get<Long>("linkId")?.let { linkId ->
+                val link = findLinkByIdUseCase.invoke(linkId)
+
+                reduce { state.copy(link = link) }
+            }
+        }
+    }
+
+    private fun parse() {
+        savedStateHandle
+            .get<String>("url")
+            ?.let { URLDecoder.decode(it, StandardCharsets.UTF_8.toString()) }
+            ?.also { url ->
+                OpenGraphParser(
+                    listener = object : OpenGraphCallback {
+                        override fun onError(error: String) {
+                            intent {
+                                reduce { state.copy(openGraphStatus = OpenGraphStatus.Error(error)) }
+                            }
+                        }
+
+                        override fun onPostResponse(openGraphResult: OpenGraphResult) {
+                            intent {
+                                reduce {
+                                    state.copy(
+                                        openGraphStatus = OpenGraphStatus.Success(
+                                            openGraphResult.toOpenGraphData()
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    },
+                    showNullOnEmpty = true,
+                    cacheProvider = OpenGraphCacheProvider(application.applicationContext),
+                ).apply { parse(url) }
+            }
+    }
+
+    private fun addTag(name: String) {
+        intent {
+            tagInsertUseCase.invoke(Tag(name = name))
+
+            postSideEffect(DetailInputSideEffect.TagTextClear)
+        }
+    }
+
+    private fun deleteTag(id: Long) {
+        intent {
             tagDeleteUseCase.invoke(id)
         }
     }
 
-    fun addLink(link: Link) {
-        viewModelScope.safeLaunch(
-            ioDispatcher + CoroutineExceptionHandler { _, throwable ->
-                intent { postSideEffect(SideEffect.LinkInsertFail) }
-            }
-        ) {
-            intent {
+    private fun saveLink(link: Link) {
+        intent {
+            try {
+                reduce { state.copy(linkSaveStatus = LinkSaveStatus.Loading) }
+
                 val id = linkInsertUseCase.invoke(link)
                 updateLinkIdsUseCase.invoke(link.tags.map { it.id ?: 0L }, id)
-                postSideEffect(SideEffect.LinkInsertSuccess)
+
+                reduce { state.copy(linkSaveStatus = LinkSaveStatus.Success) }
+            } catch (e: Exception) {
+                reduce { state.copy(linkSaveStatus = LinkSaveStatus.Error) }
             }
         }
     }
 
+    init {
+        setMode()
+        getTags()
+        getLink()
+        parse()
+    }
+
 }
 
-sealed interface State {
-    object Loading : State
-    data class Success(val openGraphData: OpenGraphData) : State
-    data class Fail(val message: String) : State
-}
-
-sealed interface SideEffect {
-    object LinkInsertSuccess : SideEffect
-    object LinkInsertFail : SideEffect
+sealed interface DetailInputAction {
+    data class AddTag(val name: String) : DetailInputAction
+    data class DeleteTag(val id: Long) : DetailInputAction
+    data class SaveLink(val link: Link) : DetailInputAction
 }

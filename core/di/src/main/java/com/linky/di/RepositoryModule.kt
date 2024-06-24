@@ -1,7 +1,7 @@
 package com.linky.di
 
-import com.linky.data.link.LinkRepository
-import com.linky.data.link.LinkRepositoryImpl
+import com.linky.data.repository.link.LinkRepository
+import com.linky.data.repository.link.LinkRepositoryImpl
 import com.linky.data.repository.pin.PinRepository
 import com.linky.data.repository.pin.PinRepositoryImpl
 import com.linky.data.repository.lock.LockRepository

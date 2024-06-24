@@ -4,7 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Modifier
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.linky.design_system.animation.slideOut
@@ -18,11 +21,20 @@ class LinkActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navHostController = rememberAnimatedNavController()
+            val scaffoldState = rememberScaffoldState()
+
             LinkyLinkTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    LinkNavHost(navHostController)
+                Scaffold(scaffoldState = scaffoldState) { paddingValues ->
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        LinkNavHost(
+                            navHostController = navHostController,
+                            scaffoldState = scaffoldState
+                        )
+                    }
                 }
             }
         }

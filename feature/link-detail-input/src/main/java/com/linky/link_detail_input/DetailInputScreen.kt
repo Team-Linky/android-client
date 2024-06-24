@@ -1,14 +1,21 @@
 package com.linky.link_detail_input
 
-import android.util.Log
+import android.app.Activity
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -16,30 +23,69 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.window.Dialog
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.navigation.animation.composable
+import com.linky.design_system.R
 import com.linky.design_system.ui.component.textfield.addFocusCleaner
 import com.linky.link_detail_input.animation.exitTransition
 import com.linky.link_detail_input.component.DetailInputContent
 import com.linky.link_detail_input.component.DetailInputHeader
+import com.linky.link_detail_input.state.DetailInputSideEffect
+import com.linky.link_detail_input.state.LinkSaveStatus
+import com.linky.link_detail_input.state.Mode
+import com.linky.link_detail_input.state.OpenGraphStatus
 import com.linky.model.Link
 import com.linky.model.Tag
 import com.linky.navigation.link.LinkNavType
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
-fun NavGraphBuilder.detailInputScreen(navController: NavController) {
+fun NavController.navigatorDetailInput(url: String, mode: Int, linkId: Long) {
+    val encodedUrl = URLEncoder.encode(url, StandardCharsets.UTF_8.toString())
+    val route = LinkNavType.DetailInput.route
+        .replace("{url}", encodedUrl)
+        .replace("{mode}", mode.toString())
+        .replace("{linkId}", linkId.toString())
+
+    navigate(route = route) {
+        popUpTo(graph.findStartDestination().id) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
+}
+
+fun NavGraphBuilder.detailInputScreen(
+    scaffoldState: ScaffoldState,
+    onComplete: () -> Unit,
+    onBack: () -> Unit,
+) {
     composable(
         route = LinkNavType.DetailInput.route,
         arguments = listOf(
-            navArgument("url") { type = NavType.StringType }
+            navArgument("url") { type = NavType.StringType },
+            navArgument("mode") { type = NavType.IntType },
+            navArgument("linkId") { type = NavType.LongType }
+        ),
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern =
+                    "android-app://androidx.navigation/link_nav_detail_input/{url}/{mode}/{linkId}"
+            }
         ),
         enterTransition = {
             slideIntoContainer(
@@ -50,25 +96,21 @@ fun NavGraphBuilder.detailInputScreen(navController: NavController) {
         exitTransition = { exitTransition }
     ) {
         DetailInputRoute(
-            onComplete = {
-                navController.navigate(route = LinkNavType.Complete.route) {
-                    popUpTo(navController.graph.findStartDestination().id) {
-                        inclusive = true
-                    }
-                    launchSingleTop = true
-                }
-            },
-            onBack = navController::popBackStack
+            scaffoldState = scaffoldState,
+            onComplete = onComplete,
+            onBack = onBack
         )
     }
 }
 
 @Composable
 private fun DetailInputRoute(
+    scaffoldState: ScaffoldState,
     onComplete: () -> Unit,
     onBack: () -> Unit
 ) {
     DetailInputScreen(
+        scaffoldState = scaffoldState,
         onComplete = onComplete,
         onBack = onBack
     )
@@ -76,24 +118,55 @@ private fun DetailInputRoute(
 
 @Composable
 private fun DetailInputScreen(
-    onComplete: () -> Unit = {},
-    onBack: () -> Unit = {},
-    viewModel: DetailInputViewModel = hiltViewModel()
+    viewModel: DetailInputViewModel = hiltViewModel(),
+    scaffoldState: ScaffoldState,
+    onComplete: () -> Unit,
+    onBack: () -> Unit,
 ) {
-    val state = viewModel.collectAsState().value
-    val tags = viewModel.tagsState.collectAsLazyPagingItems()
-    val focusManager = LocalFocusManager.current
-    var memoText by rememberSaveable { mutableStateOf("") }
-    val memoFocusRequester = remember { FocusRequester() }
+    val state by viewModel.collectAsState()
+    val tags = state.tags.collectAsLazyPagingItems()
+    val mode = state.mode
+    val openGraphStatus = state.openGraphStatus
+    val linkSaveStatus = state.linkSaveStatus
+    val link = state.link
 
-    var tagText by rememberSaveable { mutableStateOf("") }
+    val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
+    val memoFocusRequester = remember { FocusRequester() }
     val tagFocusRequester = remember { FocusRequester() }
-    var selectedTagIds by remember { mutableStateOf(emptyList<Tag>()) }
+
+    var memoText by remember(link) { mutableStateOf(link?.memo ?: "") }
+    var tagText by rememberSaveable { mutableStateOf("") }
+
+    val tagStore = remember { mutableStateMapOf<Tag, Boolean>() }
+    val selectedTags by remember(tagStore) {
+        derivedStateOf { tagStore.filter { it.value }.map { it.key } }
+    }
+
+    var showLoading by rememberSaveable { mutableStateOf(false) }
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            is SideEffect.LinkInsertFail -> Log.d("123123", "실패!")
-            is SideEffect.LinkInsertSuccess -> onComplete.invoke()
+            is DetailInputSideEffect.TagTextClear -> {
+                tagText = ""
+            }
+        }
+    }
+
+    LaunchedEffect(linkSaveStatus) {
+        showLoading = linkSaveStatus is LinkSaveStatus.Loading
+
+        if (linkSaveStatus is LinkSaveStatus.Loading) {
+            onComplete.invoke()
+        }
+
+        if (linkSaveStatus is LinkSaveStatus.Error) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                ContextCompat.getString(
+                    context.applicationContext,
+                    R.string.link_detail_input_save_error
+                )
+            )
         }
     }
 
@@ -105,25 +178,34 @@ private fun DetailInputScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         DetailInputHeader(
-            isNextActive = true,
+            mode = mode,
+            isNextActive = openGraphStatus is OpenGraphStatus.Success,
             onComplete = {
-                if (state is State.Success) {
-                    val link = Link(
-                        memo = memoText,
-                        openGraphData = state.openGraphData,
-                        tags = selectedTagIds,
-                    )
-                    viewModel.addLink(link)
-                } else {
-                    Log.d("123123", "올바른 url이 아닙니다.")
-                }
+                val newLink = link?.copy(
+                    memo = memoText,
+                    tags = selectedTags,
+                ) ?: Link(
+                    memo = memoText,
+                    tags = selectedTags,
+                    openGraphData = (state.openGraphStatus as OpenGraphStatus.Success).openGraphData
+                )
+                viewModel.doAction(DetailInputAction.SaveLink(newLink))
             },
-            onBack = onBack
+            onBack = {
+                if (mode == Mode.Creator) {
+                    onBack.invoke()
+                } else {
+                    (context as Activity).finish()
+                }
+            }
         )
         DetailInputContent(
-            state = state,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
             tags = tags,
-            selectTags = selectedTagIds,
+            openGraphStatus = openGraphStatus,
+            selectTags = selectedTags,
             memoValue = memoText,
             memoOnValueChange = { value ->
                 memoText = if (value.length > 8) {
@@ -139,23 +221,28 @@ private fun DetailInputScreen(
             tagOnClear = { tagText = "" },
             tagFocusRequester = tagFocusRequester,
             focusManager = focusManager,
-            onSelectTag = { tag ->
-                val newList = selectedTagIds.toMutableList()
-                newList.add(tag)
-                selectedTagIds = newList
-            },
-            onUnSelectTag = { tag ->
-                val newList = selectedTagIds.toMutableList()
-                newList.remove(tag)
-                selectedTagIds = newList
-            },
-            onDeleteTag = { tag ->
-                viewModel.deleteTag(tag.id!!)
-            },
-            onCreateTag = { newTag ->
-                viewModel.addTag(newTag)
-                tagText = ""
-            },
+            onSelectTag = { tagStore[it] = true },
+            onUnSelectTag = { tagStore[it] = false },
+            onDeleteTag = { viewModel.doAction(DetailInputAction.DeleteTag(it.id!!)) },
+            onCreateTag = { viewModel.doAction(DetailInputAction.AddTag(it)) },
         )
+    }
+
+    if (showLoading) {
+        LoadingDialog()
+    }
+}
+
+@Composable
+private fun LoadingDialog(
+    onDismissRequest: () -> Unit = {}
+) {
+    Dialog(onDismissRequest = onDismissRequest) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
     }
 }

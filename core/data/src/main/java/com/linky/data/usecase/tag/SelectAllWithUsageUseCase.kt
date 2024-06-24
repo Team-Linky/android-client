@@ -6,5 +6,5 @@ import javax.inject.Inject
 class SelectAllWithUsageUseCase @Inject constructor(
     private val tagRepository: TagRepository
 ) {
-    operator fun invoke(linkId: Long) = tagRepository.selectAllWithUsage(linkId)
+    operator fun invoke(linkId: Long) = tagRepository.selectAllWithUsage(linkId, 100)
 }

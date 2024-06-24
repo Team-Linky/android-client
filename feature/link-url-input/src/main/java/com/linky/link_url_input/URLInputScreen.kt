@@ -28,7 +28,6 @@ import com.linky.design_system.ui.theme.LinkyLinkTheme
 import com.linky.link_url_input.component.URLInputContent
 import com.linky.link_url_input.component.URLInputHeader
 import com.linky.navigation.link.LinkNavType
-import okio.ByteString.Companion.encodeUtf8
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -39,7 +38,11 @@ fun NavGraphBuilder.urlInputScreen(navController: NavController) {
         URLInputRoute(
             onNext = { url ->
                 val encodedUrl = URLEncoder.encode(url, StandardCharsets.UTF_8.toString())
-                navController.navigate(route = LinkNavType.DetailInput.route.replace("{url}", encodedUrl)) {
+                navController.navigate(route = LinkNavType.DetailInput.route
+                    .replace("{url}", encodedUrl)
+                    .replace("{mode}", "1")
+                    .replace("{linkId}", "-1")
+                ) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = true
                     }

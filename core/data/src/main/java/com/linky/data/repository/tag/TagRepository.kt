@@ -19,6 +19,6 @@ interface TagRepository {
 
     suspend fun updateUsedLink(tagIds: List<Long>, linkId: Long)
 
-    fun selectAllWithUsage(linkId: Long): Flow<PagingData<TagWithUsage>>
+    fun selectAllWithUsage(linkId: Long, pageSize: Int): Flow<PagingData<TagWithUsage>>
 
 }

@@ -1,4 +1,4 @@
-package com.linky.data.link
+package com.linky.data.repository.link
 
 import androidx.paging.PagingData
 import com.linky.model.Link
@@ -9,6 +9,8 @@ interface LinkRepository {
     suspend fun insert(link: Link): Long
 
     suspend fun delete(id: Long)
+
+    suspend fun findLinkById(id: Long): Link?
 
     fun selectPage(): Flow<PagingData<Link>>
 

@@ -77,6 +77,14 @@ class MainActivity : ComponentActivity() {
                             onShowLinkActivity = ::launchLinkActivity,
                             onShowTimeLineActivity = ::launchTimeLineActivity,
                             onShowMoreActivity = ::launchMoreActivity,
+                            onEdit = { link ->
+                                launchLinkActivity(
+                                    startDestination = "link_edit",
+                                    mode = 2,
+                                    url = link.openGraphData.url,
+                                    linkId = link.id,
+                                )
+                            }
                         )
                     }
                 }

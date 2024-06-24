@@ -1,13 +1,10 @@
 package com.linky.data.usecase.link
 
 import com.linky.data.repository.link.LinkRepository
-import com.linky.model.Link
 import javax.inject.Inject
 
-class LinkInsertUseCase @Inject constructor(
+class FindLinkByIdUseCase @Inject constructor(
     private val linkRepository: LinkRepository
 ) {
-
-    suspend operator fun invoke(link: Link) = linkRepository.insert(link)
-
+    suspend operator fun invoke(id: Long) = linkRepository.findLinkById(id)
 }

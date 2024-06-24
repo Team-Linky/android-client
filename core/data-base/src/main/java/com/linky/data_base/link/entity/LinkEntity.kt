@@ -42,7 +42,7 @@ data class LinkEntity(
             isRemove = isRemove
         )
 
-        fun LinkEntity.toLink(tags: List<TagEntity>): Link = Link(
+        fun LinkEntity.toLink(tags: List<TagEntity> = listOf()): Link = Link(
             id = id,
             memo = memo,
             tags = tags.map { it.toTag() },

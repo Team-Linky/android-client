@@ -43,9 +43,9 @@ class TagRepositoryImpl @Inject constructor(
     override suspend fun updateUsedLink(tagIds: List<Long>, linkId: Long) =
         tagDataSource.updateUsedLink(tagIds, linkId)
 
-    override fun selectAllWithUsage(linkId: Long): Flow<PagingData<TagWithUsage>> = Pager(
+    override fun selectAllWithUsage(linkId: Long, pageSize: Int): Flow<PagingData<TagWithUsage>> = Pager(
         config = PagingConfig(
-            pageSize = 20,
+            pageSize = pageSize,
             enablePlaceholders = false
         ),
         pagingSourceFactory = { tagDataSource.selectAllWithUsage(linkId) }

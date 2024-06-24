@@ -183,7 +183,14 @@ class TimeLineActivity : FragmentActivity() {
                                     state = listState,
                                     imageLoader = imageLoader,
                                     links = links,
-                                    onEdit = {},
+                                    onEdit = { link ->
+                                        launchLinkActivity(
+                                            startDestination = "link_edit",
+                                            mode = 2,
+                                            url = link.openGraphData.url,
+                                            linkId = link.id,
+                                        )
+                                    },
                                     onRemove = { viewModel.doAction(TimeLineAction.RemoveTimeLine(it)) },
                                     onClick = { link ->
                                         link.openGraphData.url?.also { url ->

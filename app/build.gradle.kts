@@ -59,6 +59,7 @@ dependencies {
     implementation(projects.core.designSystem)
     implementation(projects.core.di)
     implementation(projects.core.data)
+    implementation(projects.core.model)
     implementation(projects.feature.navigation)
     implementation(projects.feature.timeline)
     implementation(projects.feature.tag)
