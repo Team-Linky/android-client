@@ -12,6 +12,8 @@ interface TagDataSource {
 
     fun selectAll(): PagingSource<Int, TagEntity>
 
+    fun selectAllWithLinkCount(count: Int): PagingSource<Int, TagEntity>
+
     suspend fun selectByIds(ids: List<Long>): List<TagEntity>
 
     suspend fun updateUsedLink(tagIds: List<Long>, linkId: Long)

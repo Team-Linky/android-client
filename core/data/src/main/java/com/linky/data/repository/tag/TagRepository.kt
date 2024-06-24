@@ -13,6 +13,8 @@ interface TagRepository {
 
     fun selectAll(): Flow<PagingData<Tag>>
 
+    fun selectAllWithLinkCount(count: Int): Flow<PagingData<Tag>>
+
     suspend fun selectByIds(ids: List<Long>): List<Tag>
 
     suspend fun updateUsedLink(tagIds: List<Long>, linkId: Long)

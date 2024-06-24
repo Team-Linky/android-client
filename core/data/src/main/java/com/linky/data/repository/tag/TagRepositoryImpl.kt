@@ -29,6 +29,14 @@ class TagRepositoryImpl @Inject constructor(
         pagingSourceFactory = tagDataSource::selectAll
     ).flow.toTags()
 
+    override fun selectAllWithLinkCount(count: Int): Flow<PagingData<Tag>> = Pager(
+        config = PagingConfig(
+            pageSize = 20,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = { tagDataSource.selectAllWithLinkCount(count) }
+    ).flow.toTags()
+
     override suspend fun selectByIds(ids: List<Long>): List<Tag> =
         tagDataSource.selectByIds(ids).map { it.toTag() }
 

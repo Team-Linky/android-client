@@ -24,9 +24,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray999
-import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
 import com.linky.design_system.ui.theme.ColorFamilyGray600AndGray400
+import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
+import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray999
 import com.linky.design_system.ui.theme.NoRippleTheme
 import com.linky.intercation.vibrate.vibrateCompat
 
@@ -70,14 +70,16 @@ fun LinkyBottomNavigation(navController: NavHostController) {
                             )
                         },
                         onClick = {
-                            navController.navigate(route = navItem.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+                            if (currentRoute != navItem.route) {
+                                navController.navigate(route = navItem.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
                                 }
-                                launchSingleTop = true
-                                restoreState = true
+                                vibrator.vibrateCompat()
                             }
-                            vibrator.vibrateCompat()
                         },
                         label = {
                             val fontWeight = if (selected) {

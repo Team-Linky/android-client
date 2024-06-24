@@ -19,6 +19,9 @@ class TagDataSourceImpl @Inject constructor(
 
     override fun selectAll(): PagingSource<Int, TagEntity> = tagDao.selectAll()
 
+    override fun selectAllWithLinkCount(count: Int): PagingSource<Int, TagEntity> =
+        tagDao.selectAllWithLinkCount(count)
+
     override suspend fun selectByIds(ids: List<Long>): List<TagEntity> = tagDao.selectByIds(ids)
 
     override suspend fun updateUsedLink(tagIds: List<Long>, linkId: Long) {
