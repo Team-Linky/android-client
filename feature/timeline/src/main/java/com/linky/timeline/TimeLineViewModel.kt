@@ -1,5 +1,6 @@
 package com.linky.timeline
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -7,6 +8,8 @@ import com.linky.common.safe_coroutine.builder.safeLaunch
 import com.linky.data.usecase.link.GetLinksUseCase
 import com.linky.data.usecase.link.IncrementLinkReadCountUseCase
 import com.linky.data.usecase.link.LinkSetIsRemoveUseCase
+import com.linky.data.usecase.link.SelectLinkByTagNameUseCase
+import com.linky.timeline.external.INTENT_KEY_TAG_NAME
 import com.linky.timeline.state.Sort
 import com.linky.timeline.state.TimeLineSideEffect
 import com.linky.timeline.state.TimeLineState
@@ -21,7 +24,9 @@ import javax.inject.Inject
 class TimeLineViewModel @Inject constructor(
     private val getLinksUseCase: GetLinksUseCase,
     private val incrementLinkReadCountUseCase: IncrementLinkReadCountUseCase,
-    private val linkSetIsRemoveUseCase: LinkSetIsRemoveUseCase
+    private val linkSetIsRemoveUseCase: LinkSetIsRemoveUseCase,
+    private val selectLinkByTagNameUseCase: SelectLinkByTagNameUseCase,
+    private val savedStateHandle: SavedStateHandle,
 ) : ContainerHost<TimeLineState, TimeLineSideEffect>, ViewModel() {
 
     override val container = container<TimeLineState, TimeLineSideEffect>(TimeLineState.Init)
@@ -54,9 +59,11 @@ class TimeLineViewModel @Inject constructor(
 
     init {
         intent {
-            val links = getLinksUseCase.invoke().cachedIn(viewModelScope)
+            val links = savedStateHandle.get<String>(INTENT_KEY_TAG_NAME)
+                ?.let { selectLinkByTagNameUseCase.invoke(it) }
+                ?: getLinksUseCase.invoke()
 
-            reduce { state.copy(linksState = links) }
+            reduce { state.copy(linksState = links.cachedIn(viewModelScope)) }
         }
     }
 }

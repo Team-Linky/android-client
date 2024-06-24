@@ -26,16 +26,12 @@ import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray400
 import com.linky.timeline.state.Sort
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun TimeLineHeader(
     sorts: List<Sort>,
     sortType: Sort,
     onChangeSort: (Sort) -> Unit,
 ) {
-    var expanded by remember {
-        mutableStateOf(false)
-    }
     LinkyHeader(modifier = Modifier.padding(start = 20.dp, end = 16.dp)) {
         Image(
             painter = painterResource(R.drawable.icon_appbar_logo),
@@ -48,27 +44,45 @@ internal fun TimeLineHeader(
             modifier = Modifier.padding(start = 6.dp)
         )
         Spacer(modifier = Modifier.weight(1f))
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = it }
-        ) {
-            MenuText(sortType = sortType)
+        TimeLineMenuBox(
+            sorts = sorts,
+            sortType = sortType,
+            onChangeSort = onChangeSort
+        )
+    }
+}
 
-            ExposedDropdownMenu(
-                modifier = Modifier.width(90.dp),
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                sorts.forEach { sort ->
-                    DropdownMenuItem(
-                        enabled = sortType != sort,
-                        onClick = {
-                            onChangeSort.invoke(sort)
-                            expanded = false
-                        }
-                    ) {
-                        MenuText(sortType = sort)
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+internal fun TimeLineMenuBox(
+    sorts: List<Sort>,
+    sortType: Sort,
+    onChangeSort: (Sort) -> Unit,
+) {
+    var expanded by remember {
+        mutableStateOf(false)
+    }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = it }
+    ) {
+        MenuText(sortType = sortType)
+
+        ExposedDropdownMenu(
+            modifier = Modifier.width(90.dp),
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            sorts.forEach { sort ->
+                DropdownMenuItem(
+                    enabled = sortType != sort,
+                    onClick = {
+                        onChangeSort.invoke(sort)
+                        expanded = false
                     }
+                ) {
+                    MenuText(sortType = sort)
                 }
             }
         }

@@ -4,7 +4,6 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.linky.feature.tag_modifier.tagModifierScreen
 import com.linky.more.moreScreen
 import com.linky.navigation.MainNavType
 import com.linky.tag.tagScreen
@@ -15,8 +14,8 @@ fun MainNavHost(
     scaffoldState: ScaffoldState,
     navHostController: NavHostController,
     onShowLinkActivity: () -> Unit,
+    onShowTimeLineActivity: (String) -> Unit,
     onShowMoreActivity: (String) -> Unit,
-    onClickTagAdd: (Long) -> Unit,
 ) {
     AnimatedNavHost(
         navController = navHostController,
@@ -25,16 +24,13 @@ fun MainNavHost(
         timelineScreen(
             scaffoldState = scaffoldState,
             onShowLinkActivity = onShowLinkActivity,
-            onClickTagAdd = onClickTagAdd
         )
         tagScreen(
-            onShowLinkActivity = onShowLinkActivity
+            onShowLinkActivity = onShowLinkActivity,
+            onShowTimeLineActivity = onShowTimeLineActivity,
         )
         moreScreen(
             onShowMoreActivity = onShowMoreActivity
-        )
-        tagModifierScreen(
-            onBack = navHostController::popBackStack
         )
     }
 }

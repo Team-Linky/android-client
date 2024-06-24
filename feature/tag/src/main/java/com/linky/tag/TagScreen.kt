@@ -42,6 +42,7 @@ import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.component.textfield.addFocusCleaner
 import com.linky.design_system.ui.theme.ShadowBlack
 import com.linky.design_system.ui.theme.White
+import com.linky.design_system.util.clickableRipple
 import com.linky.model.Tag
 import com.linky.navigation.MainNavType
 import com.linky.tag.animation.enterTransition
@@ -52,7 +53,8 @@ import com.linky.tag.state.TagState
 import org.orbitmvi.orbit.compose.collectAsState
 
 fun NavGraphBuilder.tagScreen(
-    onShowLinkActivity: () -> Unit
+    onShowLinkActivity: () -> Unit,
+    onShowTimeLineActivity: (String) -> Unit,
 ) {
     composable(
         route = MainNavType.Tag.route,
@@ -60,7 +62,8 @@ fun NavGraphBuilder.tagScreen(
         exitTransition = { exitTransition }
     ) {
         TagRoute(
-            onShowLinkActivity = onShowLinkActivity
+            onShowLinkActivity = onShowLinkActivity,
+            onShowTimeLineActivity = onShowTimeLineActivity
         )
     }
 }
@@ -69,12 +72,14 @@ fun NavGraphBuilder.tagScreen(
 private fun TagRoute(
     viewModel: TagViewModel = hiltViewModel(),
     onShowLinkActivity: () -> Unit,
+    onShowTimeLineActivity: (String) -> Unit,
 ) {
     val state by viewModel.collectAsState()
 
     TagScreen(
         state = state,
         onShowLinkActivity = onShowLinkActivity,
+        onShowTimeLineActivity = onShowTimeLineActivity,
     )
 }
 
@@ -82,6 +87,7 @@ private fun TagRoute(
 private fun TagScreen(
     state: TagState,
     onShowLinkActivity: () -> Unit,
+    onShowTimeLineActivity: (String) -> Unit,
 ) {
     var searchText by rememberSaveable { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
@@ -153,7 +159,12 @@ private fun TagScreen(
                     backgroundColor = tag.color,
                 ) {
                     Box(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clickableRipple(
+                                enableRipple = false,
+                                onClick = { onShowTimeLineActivity.invoke(tag.name) }
+                            ),
                         contentAlignment = Alignment.Center
                     ) {
                         LinkyText(

@@ -10,21 +10,18 @@ import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.linky.common.safe_coroutine.builder.safeLaunch
 import com.linky.design_system.ui.component.floating.LinkyFloatingActionButton
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
-import com.linky.feature.tag_modifier.navigatorTagModifierScreen
-import com.linky.feature.tag_modifier.state.Mode
 import com.linky.link.extension.launchLinkActivity
 import com.linky.more_activity.extension.launchMoreActivity
 import com.linky.navigation.LinkyBottomNavigation
 import com.linky.pin.extension.launchPinActivity
 import com.linky.process_lifecycle.ProcessLifecycle
+import com.linky.timeline.external.launchTimeLineActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -56,18 +53,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navHostController = rememberAnimatedNavController()
             val scaffoldState = rememberScaffoldState()
-            val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+
             LinkyDefaultTheme {
                 Scaffold(
                     bottomBar = {
-                        if (navBackStackEntry?.destination?.route?.contains("tagModifierScreen") != true) {
-                            LinkyBottomNavigation(navHostController)
-                        }
+                        LinkyBottomNavigation(navHostController)
                     },
                     floatingActionButton = {
-                        if (navBackStackEntry?.destination?.route?.contains("tagModifierScreen") != true) {
-                            LinkyFloatingActionButton(::launchLinkActivity)
-                        }
+                        LinkyFloatingActionButton(::launchLinkActivity)
                     },
                     floatingActionButtonPosition = FabPosition.End,
                     isFloatingActionButtonDocked = true,
@@ -82,8 +75,8 @@ class MainActivity : ComponentActivity() {
                             scaffoldState = scaffoldState,
                             navHostController = navHostController,
                             onShowLinkActivity = ::launchLinkActivity,
+                            onShowTimeLineActivity = ::launchTimeLineActivity,
                             onShowMoreActivity = ::launchMoreActivity,
-                            onClickTagAdd = { navHostController.navigatorTagModifierScreen(it, Mode.Creator) },
                         )
                     }
                 }

@@ -20,12 +20,6 @@ class TagViewModel @Inject constructor(
 
     override val container = container<TagState, TagSideEffect>(TagState.Init)
 
-    fun doAction(action: Action) {
-//        when (action) {
-//            is Action.SearchTimeLine -> searchTimeLine(action.tag)
-//        }
-    }
-
     private fun getTags() {
         intent {
             val tags = getTagsUseCase
@@ -39,9 +33,5 @@ class TagViewModel @Inject constructor(
     init {
         getTags()
     }
-
-}
-
-sealed interface Action {
 
 }

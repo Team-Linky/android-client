@@ -74,7 +74,6 @@ internal fun TimeLineList(
     onRemove: (Long) -> Unit,
     onClick: (Link) -> Unit,
     onCopyLink: (Link) -> Unit,
-    onClickTagAdd: (Long) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier,

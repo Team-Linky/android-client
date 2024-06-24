@@ -44,8 +44,8 @@ import com.google.accompanist.navigation.animation.composable
 import com.linky.common.safe_coroutine.builder.safeLaunch
 import com.linky.design_system.R
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.LinkyDefaultTheme
 import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray300
+import com.linky.design_system.ui.theme.LinkyDefaultTheme
 import com.linky.design_system.ui.theme.Nav700
 import com.linky.design_system.util.clickableRipple
 import com.linky.design_system.util.rememberImageLoader
@@ -63,7 +63,6 @@ import org.orbitmvi.orbit.compose.collectAsState
 fun NavGraphBuilder.timelineScreen(
     scaffoldState: ScaffoldState,
     onShowLinkActivity: () -> Unit,
-    onClickTagAdd: (Long) -> Unit,
 ) {
     composable(
         route = MainNavType.TimeLine.route,
@@ -73,7 +72,6 @@ fun NavGraphBuilder.timelineScreen(
         TimeLineRoute(
             scaffoldState = scaffoldState,
             onShowLinkActivity = onShowLinkActivity,
-            onClickTagAdd = onClickTagAdd
         )
     }
 }
@@ -83,7 +81,6 @@ private fun TimeLineRoute(
     viewModel: TimeLineViewModel = hiltViewModel(),
     scaffoldState: ScaffoldState,
     onShowLinkActivity: () -> Unit,
-    onClickTagAdd: (Long) -> Unit,
 ) {
     val activity = LocalContext.current as ComponentActivity
     val coroutineScope = rememberCoroutineScope()
@@ -132,7 +129,6 @@ private fun TimeLineRoute(
             coroutineScope.safeLaunch { listState.animateScrollToItem(0) }
         },
         onChangeSort = { viewModel.doAction(TimeLineAction.ChangeSort(it)) },
-        onClickTagAdd = onClickTagAdd,
     )
 }
 
@@ -150,7 +146,6 @@ private fun TimeLineScreen(
     onCopyLink: (Link) -> Unit,
     onScrollTop: () -> Unit,
     onChangeSort: (Sort) -> Unit,
-    onClickTagAdd: (Long) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -228,7 +223,6 @@ private fun TimeLineScreen(
                     onRemove = onRemoveTimeLine,
                     onClick = onShowWebView,
                     onCopyLink = onCopyLink,
-                    onClickTagAdd = onClickTagAdd,
                 )
             }
 
@@ -274,7 +268,6 @@ private fun TimeLinePreview() {
             onCopyLink = {},
             onScrollTop = {},
             onChangeSort = {},
-            onClickTagAdd = {}
         )
     }
 }

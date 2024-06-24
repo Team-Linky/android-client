@@ -96,6 +96,7 @@ internal fun TagHeader(
                             modifier = Modifier
                                 .padding(horizontal = 4.dp, vertical = 6.dp)
                                 .clickableRipple(enableRipple = false) {
+                                    onClear.invoke()
                                     focusRequester.freeFocus()
                                     focusManager.clearFocus()
                                 },
