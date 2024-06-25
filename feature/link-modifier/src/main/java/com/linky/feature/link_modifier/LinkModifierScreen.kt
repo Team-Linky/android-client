@@ -200,7 +200,7 @@ private fun LinkModifierScreen(
     ) {
         LinkModifierHeader(
             mode = mode,
-            isNextActive = isNextActive,
+            isActiveComplete = isNextActive,
             onComplete = {
                 val newLink = link?.copy(
                     memo = memoText,

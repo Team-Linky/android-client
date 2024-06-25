@@ -34,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,6 +51,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
+import com.linky.common.safe_coroutine.builder.safeLaunch
 import com.linky.design_system.R
 import com.linky.design_system.animation.slideIn
 import com.linky.design_system.animation.slideOut
@@ -58,15 +60,17 @@ import com.linky.design_system.ui.component.button.LinkyButton
 import com.linky.design_system.ui.component.header.LinkyHeader
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.ColorFamilyGray600AndGray400
+import com.linky.design_system.ui.theme.ColorFamilyGray600AndGray800
 import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
 import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray999
 import com.linky.design_system.ui.theme.Gray300
-import com.linky.design_system.ui.theme.Gray600
 import com.linky.design_system.ui.theme.LinkyLinkTheme
 import com.linky.design_system.ui.theme.MainColor
 import com.linky.design_system.ui.theme.SubColor
 import com.linky.design_system.util.clickableRipple
 import com.linky.design_system.util.throttleClickRipple
+import com.linky.feature.tag_setting.add.launchTagModifierActivity
+import com.linky.feature.tag_setting.add.rememberLaunchTagModifierActivityResult
 import com.linky.feature.tag_setting.component.DeleteTagConfirmDialog
 import com.linky.feature.tag_setting.component.TagDeleteDialogDirector.Companion.Init
 import com.linky.feature.tag_setting.state.SnackBarAction
@@ -95,6 +99,24 @@ class TagSettingActivity : FragmentActivity() {
                 val state by viewModel.collectAsState()
                 val tagWithLinkCounts = state.tagWithLinkCounts.collectAsLazyPagingItems()
                 val scaffoldState = rememberScaffoldState()
+                val coroutineScope = rememberCoroutineScope()
+
+                val tagModifierActivityLauncher = rememberLaunchTagModifierActivityResult(
+                    onSuccess = { intent ->
+                        coroutineScope.safeLaunch {
+                            val tagName = intent?.getStringExtra("tagName")
+                            val mode = intent?.getStringExtra("cmd").let { cmd ->
+                                when (cmd) {
+                                    "edit" -> "수정"
+                                    else -> "추가"
+                                }
+                            }
+                            val message = String.format(getString(R.string.tag_add_complete), tagName, mode)
+
+                            scaffoldState.snackbarHostState.showSnackbar(message)
+                        }
+                    }
+                )
 
                 var tagDeleteDialogDirector by remember { mutableStateOf(Init) }
 
@@ -165,7 +187,14 @@ class TagSettingActivity : FragmentActivity() {
                         TagSettingHeader(
                             tagEditActive = tagEditActive,
                             tagDeleteActive = tagDeleteActive,
-                            onTagEdit = { selectTags.first() },
+                            onTagEdit = {
+                                selectTags.firstOrNull()?.let { tag ->
+                                    tagModifierActivityLauncher.launchTagModifierActivity(
+                                        activity = this@TagSettingActivity,
+                                        tag = tag
+                                    )
+                                }
+                            },
                             onTagDelete = {
                                 tagDeleteDialogDirector =
                                     tagDeleteDialogDirector.copy(isShow = true)
@@ -197,7 +226,7 @@ class TagSettingActivity : FragmentActivity() {
                                 modifier = Modifier.height(36.dp),
                                 text = stringResource(R.string.tag_setting_add_button),
                                 fontSize = 13.sp,
-                                onClick = ::addTag
+                                onClick = { tagModifierActivityLauncher.launchTagModifierActivity(this@TagSettingActivity) }
                             )
                         }
                         Spacer(modifier = Modifier.height(32.dp))
@@ -228,7 +257,7 @@ class TagSettingActivity : FragmentActivity() {
                                         val rowModifier = if (isCheck) {
                                             Modifier.background(MainColor, CircleShape)
                                         } else {
-                                            Modifier.border(1.dp, Gray600, CircleShape)
+                                            Modifier.border(1.dp, ColorFamilyGray600AndGray800, CircleShape)
                                         }
                                         Column(
                                             modifier = Modifier
@@ -306,10 +335,6 @@ class TagSettingActivity : FragmentActivity() {
             slideOut()
         }
         super.onPause()
-    }
-
-    private fun addTag() {
-
     }
 
 }

@@ -3,6 +3,7 @@ package com.linky.link_url_input.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,6 +29,17 @@ internal fun URLInputHeader(
         ColorFamilyGray400AndGray600
     }
 
+    val modifier = remember(isNextActive) {
+        if (isNextActive) {
+            Modifier.throttleClickRipple(
+                radius = 12.dp,
+                onClick = onNext
+            )
+        } else {
+            Modifier
+        }
+    }
+
     LinkyHeader(
         modifier = Modifier.padding(start = 12.dp, end = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -40,11 +52,7 @@ internal fun URLInputHeader(
             color = textColor,
             modifier = Modifier
                 .padding(start = 6.dp)
-                .throttleClickRipple(
-                    enableRipple = isNextActive,
-                    radius = 12.dp,
-                    onClick = onNext
-                )
+                .then(modifier)
         )
     }
 }

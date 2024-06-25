@@ -18,6 +18,8 @@
     <string name="open_graph_error">사이트 정보를 불러오는데 실패했습니다.</string>
     <string name="tag_delete_confirm_title">\&quot;%s\&quot; 태그를 삭제할까요?</string>
     <string name="tag_delete_confirm_desc">연결된 모든 링크에서 태그가 삭제됩니다.</string>
+    <string name="tag_add_placeholder">추가할 태그를 입력해 주세요.</string>
+    <string name="tag_add_complete">\&quot;%s\&quot; 태그 %s 완료!</string>
 
     <!-- :common:biometric-compose -->
     <string name="biometric_default_title">생체 인증</string>

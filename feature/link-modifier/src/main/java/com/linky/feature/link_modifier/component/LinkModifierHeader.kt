@@ -3,6 +3,7 @@ package com.linky.feature.link_modifier.component
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -20,23 +21,38 @@ import com.linky.feature.link_modifier.state.Mode
 @Composable
 internal fun LinkModifierHeader(
     mode: Mode,
-    isNextActive: Boolean = false,
+    isActiveComplete: Boolean = false,
     onComplete: () -> Unit = {},
     onBack: () -> Unit = {}
 ) {
-    val textColor = if (isNextActive) {
+    val textColor = if (isActiveComplete) {
         MainColor
     } else {
         ColorFamilyGray400AndGray600
     }
 
-    val titleRes = if (mode == Mode.Creator) {
-        R.string.link_add
-    } else {
-        R.string.link_edit
+    val titleRes = remember(mode) {
+        if (mode == Mode.Creator) {
+            R.string.link_add
+        } else {
+            R.string.link_edit
+        }
     }
 
-    LinkyHeader(modifier = Modifier.padding(start = 12.dp, end = 16.dp)) {
+    val modifier = remember(isActiveComplete) {
+        if (isActiveComplete) {
+            Modifier.throttleClickRipple(
+                radius = 12.dp,
+                onClick = onComplete
+            )
+        } else {
+            Modifier
+        }
+    }
+
+    LinkyHeader(
+        modifier = Modifier.padding(start = 12.dp, end = 16.dp)
+    ) {
         LinkyBackArrowButton(onClick = onBack)
         LinkyText(
             text = stringResource(titleRes),
@@ -52,10 +68,7 @@ internal fun LinkModifierHeader(
             color = textColor,
             modifier = Modifier
                 .padding(start = 6.dp)
-                .throttleClickRipple(
-                    radius = 12.dp,
-                    onClick = onComplete
-                )
+                .then(modifier)
         )
     }
 }
