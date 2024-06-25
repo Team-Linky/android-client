@@ -6,7 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,14 +18,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Icon
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarResult.ActionPerformed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -38,7 +33,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -57,15 +51,14 @@ import com.linky.design_system.animation.slideIn
 import com.linky.design_system.animation.slideOut
 import com.linky.design_system.ui.component.button.LinkyBackArrowButton
 import com.linky.design_system.ui.component.button.LinkyButton
+import com.linky.design_system.ui.component.check.LinkyCheck
 import com.linky.design_system.ui.component.header.LinkyHeader
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.ColorFamilyGray600AndGray400
-import com.linky.design_system.ui.theme.ColorFamilyGray600AndGray800
 import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
 import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray999
 import com.linky.design_system.ui.theme.Gray300
 import com.linky.design_system.ui.theme.LinkyLinkTheme
-import com.linky.design_system.ui.theme.MainColor
 import com.linky.design_system.ui.theme.SubColor
 import com.linky.design_system.util.clickableRipple
 import com.linky.design_system.util.throttleClickRipple
@@ -254,11 +247,6 @@ class TagSettingActivity : FragmentActivity() {
                                         val isCheck by remember(selectTags) {
                                             derivedStateOf { selectTags.contains(tag) }
                                         }
-                                        val rowModifier = if (isCheck) {
-                                            Modifier.background(MainColor, CircleShape)
-                                        } else {
-                                            Modifier.border(1.dp, ColorFamilyGray600AndGray800, CircleShape)
-                                        }
                                         Column(
                                             modifier = Modifier
                                                 .fillMaxWidth()
@@ -286,21 +274,12 @@ class TagSettingActivity : FragmentActivity() {
                                                     .padding(horizontal = 20.dp),
                                                 verticalAlignment = Alignment.CenterVertically
                                             ) {
-                                                Box(
+                                                LinkyCheck(
                                                     modifier = Modifier
-                                                        .then(rowModifier)
                                                         .size(24.dp)
                                                         .padding(4.dp),
-                                                    contentAlignment = Alignment.Center
-                                                ) {
-                                                    if (isCheck) {
-                                                        Icon(
-                                                            imageVector = Icons.Filled.Check,
-                                                            contentDescription = "check",
-                                                            tint = Color.White,
-                                                        )
-                                                    }
-                                                }
+                                                    checked = isCheck,
+                                                )
                                                 Spacer(modifier = Modifier.width(6.dp))
                                                 LinkyText(
                                                     text = tagWithLinkCount.tag.name,
