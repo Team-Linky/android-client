@@ -143,7 +143,13 @@ private fun DetailInputScreen(
         derivedStateOf { tagStore.filter { it.value }.map { it.key } }
     }
 
-    var showLoading by rememberSaveable { mutableStateOf(false) }
+    val isNextActive by remember(state) {
+        derivedStateOf {
+            openGraphStatus is OpenGraphStatus.Success &&
+                    linkSaveStatus !is LinkSaveStatus.Loading &&
+                    linkSaveStatus !is LinkSaveStatus.Success
+        }
+    }
 
     var tagDeleteDialogDirector by remember { mutableStateOf(TagDeleteDialogDirector.Init) }
 
@@ -165,8 +171,6 @@ private fun DetailInputScreen(
     }
 
     LaunchedEffect(linkSaveStatus) {
-        showLoading = linkSaveStatus is LinkSaveStatus.Loading
-
         if (linkSaveStatus is LinkSaveStatus.Success) {
             if (mode == Mode.Creator) {
                 onCompleteCreate.invoke()
@@ -196,7 +200,7 @@ private fun DetailInputScreen(
     ) {
         DetailInputHeader(
             mode = mode,
-            isNextActive = openGraphStatus is OpenGraphStatus.Success,
+            isNextActive = isNextActive,
             onComplete = {
                 val newLink = link?.copy(
                     memo = memoText,
@@ -243,10 +247,6 @@ private fun DetailInputScreen(
             onDeleteTag = { tagDeleteDialogDirector = it.of() },
             onCreateTag = { viewModel.doAction(DetailInputAction.AddTag(it)) },
         )
-    }
-
-    if (showLoading) {
-        LoadingDialog()
     }
 }
 
