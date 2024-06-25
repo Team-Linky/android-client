@@ -1,4 +1,4 @@
-package com.linky.link_detail_input.state
+package com.linky.feature.link_modifier.state
 
 import androidx.paging.PagingData
 import com.linky.model.Link
@@ -7,7 +7,7 @@ import com.linky.model.open_graph.OpenGraphData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-data class DetailInputState(
+data class LinkModifierState(
     val mode: Mode,
     val link: Link?,
     val tags: Flow<PagingData<TagWithUsage>>,
@@ -15,7 +15,7 @@ data class DetailInputState(
     val linkSaveStatus: LinkSaveStatus,
 ) {
     companion object {
-        val Init get() = DetailInputState(
+        val Init get() = LinkModifierState(
             mode = Mode.Creator,
             link = null,
             tags = flowOf(),

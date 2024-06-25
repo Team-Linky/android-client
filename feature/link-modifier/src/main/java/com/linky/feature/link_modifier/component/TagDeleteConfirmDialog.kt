@@ -1,4 +1,4 @@
-package com.linky.link_detail_input.component
+package com.linky.feature.link_modifier.component
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog

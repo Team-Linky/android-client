@@ -1,4 +1,4 @@
-package com.linky.link_detail_input.animation
+package com.linky.feature.link_modifier.animation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ExitTransition

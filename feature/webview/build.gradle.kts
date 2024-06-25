@@ -12,7 +12,7 @@ dependencies {
     implementation(projects.core.designSystem)
     implementation(projects.feature.navigation)
     implementation(projects.feature.linkUrlInput)
-    implementation(projects.feature.linkDetailInput)
+    implementation(projects.feature.linkModifier)
     implementation(projects.feature.linkInputComplete)
 
     implementation(libs.androidx.core.ktx)

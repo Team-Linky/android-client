@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.linky.link_detail_input"
+    namespace = "com.linky.feature.link_modifier"
 }
 
 dependencies {

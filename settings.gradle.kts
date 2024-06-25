@@ -34,7 +34,7 @@ include(
     ":feature:more",
     ":feature:link",
     ":feature:link-url-input",
-    ":feature:link-detail-input",
+    ":feature:link-modifier",
     ":feature:link-input-complete",
     ":feature:tip",
     ":feature:more-activity",

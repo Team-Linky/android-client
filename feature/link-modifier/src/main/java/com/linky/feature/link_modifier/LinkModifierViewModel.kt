@@ -1,4 +1,4 @@
-package com.linky.link_detail_input
+package com.linky.feature.link_modifier
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -15,13 +15,13 @@ import com.linky.data.usecase.tag.SelectAllWithUsageUseCase
 import com.linky.data.usecase.tag.TagDeleteUseCase
 import com.linky.data.usecase.tag.TagInsertUseCase
 import com.linky.data.usecase.tag.UpdateLinkIdsUseCase
-import com.linky.link_detail_input.model.toOpenGraphData
-import com.linky.link_detail_input.state.DetailInputSideEffect
-import com.linky.link_detail_input.state.DetailInputState
-import com.linky.link_detail_input.state.DetailInputState.Companion.Init
-import com.linky.link_detail_input.state.LinkSaveStatus
-import com.linky.link_detail_input.state.Mode
-import com.linky.link_detail_input.state.OpenGraphStatus
+import com.linky.feature.link_modifier.model.toOpenGraphData
+import com.linky.feature.link_modifier.state.LinkModifierSideEffect
+import com.linky.feature.link_modifier.state.LinkModifierState
+import com.linky.feature.link_modifier.state.LinkModifierState.Companion.Init
+import com.linky.feature.link_modifier.state.LinkSaveStatus
+import com.linky.feature.link_modifier.state.Mode
+import com.linky.feature.link_modifier.state.OpenGraphStatus
 import com.linky.model.Link
 import com.linky.model.Tag
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,7 +35,7 @@ import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailInputViewModel @Inject constructor(
+class LinkModifierViewModel @Inject constructor(
     private val application: Application,
     private val savedStateHandle: SavedStateHandle,
     private val selectAllWithUsageUseCase: SelectAllWithUsageUseCase,
@@ -44,15 +44,15 @@ class DetailInputViewModel @Inject constructor(
     private val tagDeleteUseCase: TagDeleteUseCase,
     private val linkInsertUseCase: LinkInsertUseCase,
     private val updateLinkIdsUseCase: UpdateLinkIdsUseCase,
-) : ContainerHost<DetailInputState, DetailInputSideEffect>, AndroidViewModel(application) {
+) : ContainerHost<LinkModifierState, LinkModifierSideEffect>, AndroidViewModel(application) {
 
-    override val container = container<DetailInputState, DetailInputSideEffect>(Init)
+    override val container = container<LinkModifierState, LinkModifierSideEffect>(Init)
 
-    fun doAction(action: DetailInputAction) {
+    fun doAction(action: LinkModifierAction) {
         when (action) {
-            is DetailInputAction.AddTag -> addTag(action.name)
-            is DetailInputAction.DeleteTag -> deleteTag(action.id)
-            is DetailInputAction.SaveLink -> saveLink(action.link)
+            is LinkModifierAction.AddTag -> addTag(action.name)
+            is LinkModifierAction.DeleteTag -> deleteTag(action.id)
+            is LinkModifierAction.SaveLink -> saveLink(action.link)
         }
     }
 
@@ -126,7 +126,7 @@ class DetailInputViewModel @Inject constructor(
         intent {
             tagInsertUseCase.invoke(Tag(name = name))
 
-            postSideEffect(DetailInputSideEffect.TagTextClear)
+            postSideEffect(LinkModifierSideEffect.TagTextClear)
         }
     }
 
@@ -160,8 +160,8 @@ class DetailInputViewModel @Inject constructor(
 
 }
 
-sealed interface DetailInputAction {
-    data class AddTag(val name: String) : DetailInputAction
-    data class DeleteTag(val id: Long) : DetailInputAction
-    data class SaveLink(val link: Link) : DetailInputAction
+sealed interface LinkModifierAction {
+    data class AddTag(val name: String) : LinkModifierAction
+    data class DeleteTag(val id: Long) : LinkModifierAction
+    data class SaveLink(val link: Link) : LinkModifierAction
 }

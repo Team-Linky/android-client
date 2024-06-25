@@ -1,4 +1,4 @@
-package com.linky.link_detail_input.model
+package com.linky.feature.link_modifier.model
 
 import com.kedia.ogparser.OpenGraphResult
 import com.linky.model.open_graph.OpenGraphData

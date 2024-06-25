@@ -1,4 +1,4 @@
-package com.linky.link_detail_input.component
+package com.linky.feature.link_modifier.component
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -15,10 +15,10 @@ import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.ColorFamilyGray400AndGray600
 import com.linky.design_system.ui.theme.MainColor
 import com.linky.design_system.util.throttleClickRipple
-import com.linky.link_detail_input.state.Mode
+import com.linky.feature.link_modifier.state.Mode
 
 @Composable
-internal fun DetailInputHeader(
+internal fun LinkModifierHeader(
     mode: Mode,
     isNextActive: Boolean = false,
     onComplete: () -> Unit = {},

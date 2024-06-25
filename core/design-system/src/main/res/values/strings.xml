@@ -55,9 +55,9 @@
     <string name="pin_setting_fail_description">전에 입력한 번호와 일치하지 않아요.</string>
 
     <!-- :feature:link-detail-input -->
-    <string name="link_detail_input_link_memo_placeholder">ex. 엄마가 공유해 줌</string>
-    <string name="link_detail_input_tag_add_placeholder">추가할 태그를 입력해 주세요.</string>
-    <string name="link_detail_input_save_error">데이터 저장을 실패하였습니다.</string>
+    <string name="link_modifier_link_memo_placeholder">ex. 엄마가 공유해 줌</string>
+    <string name="link_modifier_tag_add_placeholder">추가할 태그를 입력해 주세요.</string>
+    <string name="link_modifier_save_error">데이터 저장을 실패하였습니다.</string>
 
     <!-- :feature:tag-modifier -->
     <string name="tag_modifier_desc">새로운 태그 이름을 입력해주세요.</string>

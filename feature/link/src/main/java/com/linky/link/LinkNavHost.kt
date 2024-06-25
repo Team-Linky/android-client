@@ -12,8 +12,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-import com.linky.link_detail_input.detailInputScreen
-import com.linky.link_detail_input.navigatorDetailInput
+import com.linky.feature.link_modifier.linkModifierScreen
+import com.linky.feature.link_modifier.navigatorLinkModifier
 import com.linky.link_input_complete.inputCompleteInputScreen
 import com.linky.link_url_input.urlInputScreen
 import com.linky.navigation.link.LinkNavType
@@ -34,7 +34,7 @@ internal fun LinkNavHost(
         urlInputScreen(
             navController = navHostController
         )
-        detailInputScreen(
+        linkModifierScreen(
             scaffoldState = scaffoldState,
             onCompleteCreate = {
                 navHostController.navigate(route = LinkNavType.Complete.route) {
@@ -71,7 +71,7 @@ private fun NavGraphBuilder.defaultScreen(
         val linkId = intent.getLongExtra("linkId", 0L)
 
         when (intent.getStringExtra("startDestination")) {
-            "link_edit" -> navController.navigatorDetailInput(url!!, mode, linkId)
+            "link_edit" -> navController.navigatorLinkModifier(url!!, mode, linkId)
             else -> navController.navigate(LinkNavType.URLInput.route)
         }
     }

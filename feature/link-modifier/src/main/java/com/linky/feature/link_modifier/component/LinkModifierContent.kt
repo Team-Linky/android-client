@@ -1,4 +1,4 @@
-package com.linky.link_detail_input.component
+package com.linky.feature.link_modifier.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -35,13 +35,13 @@ import com.linky.design_system.ui.theme.ColorFamilyGray300AndGray800
 import com.linky.design_system.ui.theme.ColorFamilyGray600AndGray400
 import com.linky.design_system.ui.theme.ColorFamilyGray800AndGray300
 import com.linky.design_system.ui.theme.SubColor
-import com.linky.link_detail_input.state.OpenGraphStatus
+import com.linky.feature.link_modifier.state.OpenGraphStatus
 import com.linky.model.Tag
 import com.linky.model.TagWithUsage
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-internal fun DetailInputContent(
+internal fun LinkModifierContent(
     modifier: Modifier = Modifier,
     tags: LazyPagingItems<TagWithUsage>,
     openGraphStatus: OpenGraphStatus,
@@ -78,7 +78,7 @@ internal fun DetailInputContent(
             Spacer(modifier = Modifier.padding(top = 8.dp))
             LinkyUrlInputTextField(
                 value = memoValue,
-                placeholder = stringResource(R.string.link_detail_input_link_memo_placeholder),
+                placeholder = stringResource(R.string.link_modifier_link_memo_placeholder),
                 onValueChange = memoOnValueChange,
                 onClear = memoOnClear,
                 onFocusChanged = memoOnFocusChanged,
@@ -99,7 +99,7 @@ internal fun DetailInputContent(
             LinkyUrlInputTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = tagValue,
-                placeholder = stringResource(R.string.link_detail_input_tag_add_placeholder),
+                placeholder = stringResource(R.string.link_modifier_tag_add_placeholder),
                 onValueChange = tagOnValueChange,
                 onClear = tagOnClear,
                 onFocusChanged = tagOnFocusChanged,

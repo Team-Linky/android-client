@@ -1,4 +1,4 @@
-package com.linky.link_detail_input
+package com.linky.feature.link_modifier
 
 import android.app.Activity
 import androidx.compose.animation.AnimatedContentTransitionScope
@@ -36,16 +36,16 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.navigation.animation.composable
 import com.linky.design_system.R
 import com.linky.design_system.ui.component.textfield.addFocusCleaner
-import com.linky.link_detail_input.animation.exitTransition
-import com.linky.link_detail_input.component.DetailInputContent
-import com.linky.link_detail_input.component.DetailInputHeader
-import com.linky.link_detail_input.component.TagDeleteDialog
-import com.linky.link_detail_input.component.TagDeleteDialogDirector
-import com.linky.link_detail_input.component.TagDeleteDialogDirector.Companion.of
-import com.linky.link_detail_input.state.DetailInputSideEffect
-import com.linky.link_detail_input.state.LinkSaveStatus
-import com.linky.link_detail_input.state.Mode
-import com.linky.link_detail_input.state.OpenGraphStatus
+import com.linky.feature.link_modifier.animation.exitTransition
+import com.linky.feature.link_modifier.component.LinkModifierContent
+import com.linky.feature.link_modifier.component.LinkModifierHeader
+import com.linky.feature.link_modifier.component.TagDeleteDialog
+import com.linky.feature.link_modifier.component.TagDeleteDialogDirector
+import com.linky.feature.link_modifier.component.TagDeleteDialogDirector.Companion.of
+import com.linky.feature.link_modifier.state.LinkModifierSideEffect
+import com.linky.feature.link_modifier.state.LinkSaveStatus
+import com.linky.feature.link_modifier.state.Mode
+import com.linky.feature.link_modifier.state.OpenGraphStatus
 import com.linky.model.Link
 import com.linky.model.Tag
 import com.linky.navigation.link.LinkNavType
@@ -54,13 +54,13 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-fun NavController.navigatorDetailInput(
+fun NavController.navigatorLinkModifier(
     url: String,
     mode: Int,
     linkId: Long
 ) {
     val encodedUrl = URLEncoder.encode(url, StandardCharsets.UTF_8.toString())
-    val route = LinkNavType.DetailInput.route
+    val route = LinkNavType.LinkModifier.route
         .replace("{url}", encodedUrl)
         .replace("{mode}", mode.toString())
         .replace("{linkId}", linkId.toString())
@@ -70,14 +70,14 @@ fun NavController.navigatorDetailInput(
     }
 }
 
-fun NavGraphBuilder.detailInputScreen(
+fun NavGraphBuilder.linkModifierScreen(
     scaffoldState: ScaffoldState,
     onCompleteCreate: () -> Unit,
     onCompleteEdit: (String) -> Unit,
     onBack: () -> Unit,
 ) {
     composable(
-        route = LinkNavType.DetailInput.route,
+        route = LinkNavType.LinkModifier.route,
         arguments = listOf(
             navArgument("url") { type = NavType.StringType },
             navArgument("mode") { type = NavType.IntType },
@@ -91,7 +91,7 @@ fun NavGraphBuilder.detailInputScreen(
         },
         exitTransition = { exitTransition }
     ) {
-        DetailInputRoute(
+        LinkModifierRoute(
             scaffoldState = scaffoldState,
             onCompleteCreate = onCompleteCreate,
             onCompleteEdit = onCompleteEdit,
@@ -101,13 +101,13 @@ fun NavGraphBuilder.detailInputScreen(
 }
 
 @Composable
-private fun DetailInputRoute(
+private fun LinkModifierRoute(
     scaffoldState: ScaffoldState,
     onCompleteCreate: () -> Unit,
     onCompleteEdit: (String) -> Unit,
     onBack: () -> Unit
 ) {
-    DetailInputScreen(
+    LinkModifierScreen(
         scaffoldState = scaffoldState,
         onCompleteCreate = onCompleteCreate,
         onCompleteEdit = onCompleteEdit,
@@ -116,8 +116,8 @@ private fun DetailInputRoute(
 }
 
 @Composable
-private fun DetailInputScreen(
-    viewModel: DetailInputViewModel = hiltViewModel(),
+private fun LinkModifierScreen(
+    viewModel: LinkModifierViewModel = hiltViewModel(),
     scaffoldState: ScaffoldState,
     onCompleteCreate: () -> Unit,
     onCompleteEdit: (String) -> Unit,
@@ -157,14 +157,14 @@ private fun DetailInputScreen(
         director = tagDeleteDialogDirector,
         onCancel = { tagDeleteDialogDirector = TagDeleteDialogDirector.Init },
         onDelete = { tag ->
-            viewModel.doAction(DetailInputAction.DeleteTag(tag.id!!))
+            viewModel.doAction(LinkModifierAction.DeleteTag(tag.id!!))
             tagDeleteDialogDirector = TagDeleteDialogDirector.Init
         }
     )
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            is DetailInputSideEffect.TagTextClear -> {
+            is LinkModifierSideEffect.TagTextClear -> {
                 tagText = ""
             }
         }
@@ -185,7 +185,7 @@ private fun DetailInputScreen(
             scaffoldState.snackbarHostState.showSnackbar(
                 ContextCompat.getString(
                     context.applicationContext,
-                    R.string.link_detail_input_save_error
+                    R.string.link_modifier_save_error
                 )
             )
         }
@@ -198,7 +198,7 @@ private fun DetailInputScreen(
             .addFocusCleaner(focusManager),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        DetailInputHeader(
+        LinkModifierHeader(
             mode = mode,
             isNextActive = isNextActive,
             onComplete = {
@@ -210,7 +210,7 @@ private fun DetailInputScreen(
                     tags = selectedTags,
                     openGraphData = (state.openGraphStatus as OpenGraphStatus.Success).openGraphData
                 )
-                viewModel.doAction(DetailInputAction.SaveLink(newLink))
+                viewModel.doAction(LinkModifierAction.SaveLink(newLink))
             },
             onBack = {
                 if (mode == Mode.Creator) {
@@ -220,7 +220,7 @@ private fun DetailInputScreen(
                 }
             }
         )
-        DetailInputContent(
+        LinkModifierContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
@@ -245,7 +245,7 @@ private fun DetailInputScreen(
             onSelectTag = { tagStore[it] = true },
             onUnSelectTag = { tagStore[it] = false },
             onDeleteTag = { tagDeleteDialogDirector = it.of() },
-            onCreateTag = { viewModel.doAction(DetailInputAction.AddTag(it)) },
+            onCreateTag = { viewModel.doAction(LinkModifierAction.AddTag(it)) },
         )
     }
 }

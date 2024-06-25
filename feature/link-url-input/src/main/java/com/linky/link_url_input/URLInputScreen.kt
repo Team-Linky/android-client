@@ -37,7 +37,7 @@ fun NavGraphBuilder.urlInputScreen(navController: NavController) {
         URLInputRoute(
             onNext = { url ->
                 val encodedUrl = URLEncoder.encode(url, StandardCharsets.UTF_8.toString())
-                val route = LinkNavType.DetailInput.route
+                val route = LinkNavType.LinkModifier.route
                     .replace("{url}", encodedUrl)
                     .replace("{mode}", "1")
                     .replace("{linkId}", "-1")
