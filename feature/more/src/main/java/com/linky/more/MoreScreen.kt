@@ -15,21 +15,38 @@ import com.linky.more.component.MoreContent
 import com.linky.more.component.MoreHeader
 import com.linky.navigation.MainNavType
 
-fun NavGraphBuilder.moreScreen(onShowMoreActivity: (String) -> Unit) {
+fun NavGraphBuilder.moreScreen(
+    onShowMoreActivity: (String) -> Unit,
+    onShowTagSettingActivity: () -> Unit,
+) {
     composable(
         route = MainNavType.More.route,
         enterTransition = { enterTransition },
         exitTransition = { exitTransition }
-    ) { MoreRoute(onShowMoreActivity) }
+    ) {
+        MoreRoute(
+            onShowMoreActivity = onShowMoreActivity,
+            onShowTagSettingActivity = onShowTagSettingActivity,
+        )
+    }
 }
 
 @Composable
-private fun MoreRoute(onShowMoreActivity: (String) -> Unit) {
-    MoreScreen(onShowMoreActivity)
+private fun MoreRoute(
+    onShowMoreActivity: (String) -> Unit,
+    onShowTagSettingActivity: () -> Unit,
+) {
+    MoreScreen(
+        onShowMoreActivity = onShowMoreActivity,
+        onShowTagSettingActivity = onShowTagSettingActivity,
+    )
 }
 
 @Composable
-private fun MoreScreen(onShowMoreActivity: (String) -> Unit = {}) {
+private fun MoreScreen(
+    onShowMoreActivity: (String) -> Unit = {},
+    onShowTagSettingActivity: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -37,6 +54,9 @@ private fun MoreScreen(onShowMoreActivity: (String) -> Unit = {}) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MoreHeader()
-        MoreContent(onClick = onShowMoreActivity)
+        MoreContent(
+            onShowMoreActivity = onShowMoreActivity,
+            onShowTagSettingActivity = onShowTagSettingActivity,
+        )
     }
 }

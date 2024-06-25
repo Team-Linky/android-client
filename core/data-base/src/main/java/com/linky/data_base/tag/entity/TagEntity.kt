@@ -8,6 +8,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.linky.data_base.tag.entity.TagEntity.Companion.toTag
 import com.linky.model.Tag
+import com.linky.model.TagWithLinkCount
 import com.linky.model.TagWithUsage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -45,7 +46,16 @@ data class TagEntity(
 data class TagWithLinkCountEntity(
     @Embedded val tag: TagEntity,
     val linkCount: Int
-)
+) {
+    companion object Mapper {
+        fun TagWithLinkCountEntity.toTagWithLinkCount() = TagWithLinkCount(
+            tag = tag.toTag(),
+            linkCount = linkCount
+        )
+
+        fun Flow<PagingData<TagWithLinkCountEntity>>.toTagWithLinkCount() = map { it.map { it.toTagWithLinkCount() } }
+    }
+}
 
 data class TagWithUsageEntity(
     @Embedded val tag: TagEntity,

@@ -17,6 +17,7 @@ fun MainNavHost(
     onShowLinkActivity: () -> Unit,
     onShowTimeLineActivity: (String) -> Unit,
     onShowMoreActivity: (String) -> Unit,
+    onShowTagSettingActivity: () -> Unit,
     onEdit: (Link) -> Unit,
 ) {
     AnimatedNavHost(
@@ -33,7 +34,8 @@ fun MainNavHost(
             onShowTimeLineActivity = onShowTimeLineActivity,
         )
         moreScreen(
-            onShowMoreActivity = onShowMoreActivity
+            onShowMoreActivity = onShowMoreActivity,
+            onShowTagSettingActivity = onShowTagSettingActivity
         )
     }
 }

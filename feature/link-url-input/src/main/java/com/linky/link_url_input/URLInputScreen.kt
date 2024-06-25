@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -84,6 +85,9 @@ private fun URLInputScreen(
             }
         }
     }
+    val isNextActive by remember(text) {
+        derivedStateOf { text.startsWith("https://") }
+    }
 
     DisposableEffect(backDispatcher, onBackPressCallback) {
         backDispatcher?.onBackPressedDispatcher?.addCallback(onBackPressCallback)
@@ -99,8 +103,10 @@ private fun URLInputScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         URLInputHeader(
-            isNextActive = !isFocus && text.isNotEmpty(),
-            onNext = { onNext.invoke(text) },
+            isNextActive = isNextActive,
+            onNext = {
+                if (isNextActive) onNext.invoke(text)
+            },
             onBack = onBack,
         )
         URLInputContent(

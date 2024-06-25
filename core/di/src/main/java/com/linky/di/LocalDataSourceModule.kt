@@ -4,8 +4,8 @@ import com.linky.data_base.link.data_source.LinkDataSource
 import com.linky.data_base.link.data_source.LinkDataSourceImpl
 import com.linky.data_base.tag.data_source.TagDataSource
 import com.linky.data_base.tag.data_source.TagDataSourceImpl
-import com.linky.data_store.data_source.certification.PinDataSource
-import com.linky.data_store.data_source.certification.PinDataSourceImpl
+import com.linky.data_store.data_source.pin.PinDataSource
+import com.linky.data_store.data_source.pin.PinDataSourceImpl
 import com.linky.data_store.data_source.lock.LockDataSource
 import com.linky.data_store.data_source.lock.LockDataSourceImpl
 import dagger.Binds
@@ -18,8 +18,8 @@ import dagger.hilt.components.SingletonComponent
 interface LocalDataSourceModule {
 
     @Binds
-    fun bindsCertificationDataSource(
-        certificationDataSource: PinDataSourceImpl
+    fun bindsPinDataSource(
+        pinDataSource: PinDataSourceImpl
     ): PinDataSource
 
     @Binds

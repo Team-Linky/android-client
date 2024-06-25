@@ -21,8 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.component.text.LinkyText
-import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray999
 import com.linky.design_system.ui.theme.ColorFamilyGray100AndGray800
+import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray999
 import com.linky.design_system.util.clickableRipple
 import com.linky.more.R
 import com.linky.navigation.more.MoreNavType
@@ -30,7 +30,8 @@ import com.linky.navigation.more.MoreNavType
 @Composable
 internal fun MoreContent(
     modifier: Modifier = Modifier,
-    onClick: (String) -> Unit
+    onShowMoreActivity: (String) -> Unit,
+    onShowTagSettingActivity: () -> Unit,
 ) {
     Card(
         shape = RoundedCornerShape(12.dp),
@@ -54,26 +55,26 @@ internal fun MoreContent(
             MoreContentItem(
                 iconResource = R.drawable.icon_content_tip,
                 textResource = R.string.more_content_tip,
-                onClick = { onClick.invoke(MoreNavType.Tip.route) }
+                onClick = { onShowMoreActivity.invoke(MoreNavType.Tip.route) }
             )
             MoreContentItemLine()
             MoreContentItem(
                 iconResource = R.drawable.icon_content_lock,
                 textResource = R.string.more_content_lock,
-                onClick = { onClick.invoke(MoreNavType.Lock.route) }
+                onClick = { onShowMoreActivity.invoke(MoreNavType.Lock.route) }
             )
             MoreContentItemLine()
             MoreContentItem(
                 iconResource = R.drawable.icon_content_tag,
                 textResource = R.string.more_content_tag,
-                onClick = { onClick.invoke(MoreNavType.Tag.route) }
+                onClick = onShowTagSettingActivity
             )
-            MoreContentItemLine()
-            MoreContentItem(
-                iconResource = R.drawable.icon_content_link,
-                textResource = R.string.more_content_link,
-                onClick = { onClick.invoke(MoreNavType.Link.route) }
-            )
+//            MoreContentItemLine()
+//            MoreContentItem(
+//                iconResource = R.drawable.icon_content_link,
+//                textResource = R.string.more_content_link,
+//                onClick = { onClick.invoke(MoreNavType.Link.route) }
+//            )
         }
     }
 }

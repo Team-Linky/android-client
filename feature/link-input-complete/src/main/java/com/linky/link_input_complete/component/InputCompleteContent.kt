@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,8 +40,11 @@ internal fun ColumnScope.InputCompleteContent(onCreate: () -> Unit) {
         )
         Spacer(modifier = Modifier.weight(0.2f))
         LinkyButton(
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .fillMaxWidth()
+                .height(46.dp),
             text = stringResource(R.string.link_create_text),
-            modifier = Modifier.padding(horizontal = 24.dp),
             onClick = onCreate
         )
         Spacer(modifier = Modifier.weight(0.5f))

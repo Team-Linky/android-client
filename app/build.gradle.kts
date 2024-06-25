@@ -63,6 +63,7 @@ dependencies {
     implementation(projects.feature.navigation)
     implementation(projects.feature.timeline)
     implementation(projects.feature.tag)
+    implementation(projects.feature.tagSetting)
     implementation(projects.feature.more)
     implementation(projects.feature.link)
     implementation(projects.feature.moreActivity)

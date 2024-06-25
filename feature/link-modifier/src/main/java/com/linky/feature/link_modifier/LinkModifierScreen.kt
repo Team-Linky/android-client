@@ -229,8 +229,8 @@ private fun LinkModifierScreen(
             selectTags = selectedTags,
             memoValue = memoText,
             memoOnValueChange = { value ->
-                memoText = if (value.length > 8) {
-                    value.substring(0, 8)
+                memoText = if (value.length > 30) {
+                    value.substring(0, 30)
                 } else {
                     value
                 }
@@ -238,7 +238,13 @@ private fun LinkModifierScreen(
             memoOnClear = { memoText = "" },
             memoFocusRequester = memoFocusRequester,
             tagValue = tagText,
-            tagOnValueChange = { tagText = it },
+            tagOnValueChange = { value ->
+                tagText = if (value.length > 8) {
+                    value.substring(0, 8)
+                } else {
+                    value
+                }
+            },
             tagOnClear = { tagText = "" },
             tagFocusRequester = tagFocusRequester,
             focusManager = focusManager,

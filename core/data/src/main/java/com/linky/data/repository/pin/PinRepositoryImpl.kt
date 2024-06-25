@@ -1,6 +1,6 @@
 package com.linky.data.repository.pin
 
-import com.linky.data_store.data_source.certification.PinDataSource
+import com.linky.data_store.data_source.pin.PinDataSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

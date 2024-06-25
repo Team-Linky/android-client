@@ -78,7 +78,7 @@ internal fun LinkModifierContent(
             Spacer(modifier = Modifier.padding(top = 8.dp))
             LinkyUrlInputTextField(
                 value = memoValue,
-                placeholder = stringResource(R.string.link_modifier_link_memo_placeholder),
+                placeholder = stringResource(R.string.link_modifier_memo_placeholder),
                 onValueChange = memoOnValueChange,
                 onClear = memoOnClear,
                 onFocusChanged = memoOnFocusChanged,
@@ -99,7 +99,7 @@ internal fun LinkModifierContent(
             LinkyUrlInputTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = tagValue,
-                placeholder = stringResource(R.string.link_modifier_tag_add_placeholder),
+                placeholder = stringResource(R.string.tag_modifier_placeholder),
                 onValueChange = tagOnValueChange,
                 onClear = tagOnClear,
                 onFocusChanged = tagOnFocusChanged,

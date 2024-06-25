@@ -13,7 +13,7 @@ import com.linky.design_system.ui.component.header.LinkyHeader
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.ColorFamilyGray400AndGray600
 import com.linky.design_system.ui.theme.MainColor
-import com.linky.design_system.util.clickableRipple
+import com.linky.design_system.util.throttleClickRipple
 import com.linky.link_url_input.R
 
 @Composable
@@ -40,7 +40,8 @@ internal fun URLInputHeader(
             color = textColor,
             modifier = Modifier
                 .padding(start = 6.dp)
-                .clickableRipple(
+                .throttleClickRipple(
+                    enableRipple = isNextActive,
                     radius = 12.dp,
                     onClick = onNext
                 )
