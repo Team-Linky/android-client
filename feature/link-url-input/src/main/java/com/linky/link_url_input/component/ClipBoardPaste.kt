@@ -19,7 +19,7 @@ import com.linky.link_url_input.R
 internal fun ClipBoardPaste(onClick: () -> Unit) {
     LinkyText(
         text = stringResource(R.string.link_clipboard_paste),
-        fontSize = 12.sp,
+        fontSize = 12.dp,
         color = ColorFamilyNav700AndNav300,
         fontWeight = FontWeight.Medium,
         modifier = Modifier

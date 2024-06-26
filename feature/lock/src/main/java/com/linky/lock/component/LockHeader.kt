@@ -20,7 +20,7 @@ internal fun LockHeader(onBack: () -> Unit) {
         LinkyText(
             text = stringResource(R.string.lock_header),
             fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
+            fontSize = 18.dp,
             color = ColorFamilyGray900AndGray100,
             modifier = Modifier.padding(start = 6.dp)
         )

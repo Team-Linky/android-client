@@ -11,12 +11,15 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun LinkyBasicTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit = {},
+    fontSize: Dp = 14.dp,
     focusRequester: FocusRequester,
     onFocusChanged: (FocusState) -> Unit = {},
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -39,6 +42,7 @@ fun LinkyBasicTextField(
                 value = value,
                 placeholder = placeholder,
                 onValueChange = onValueChange,
+                fontSize = fontSize,
                 keyboardOptions = keyboardOptions,
                 keyboardActions = keyboardActions,
                 modifier = Modifier

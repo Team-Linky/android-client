@@ -12,9 +12,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.ColorFamilyGray400AndGray600
 import com.linky.design_system.ui.theme.MainColor
@@ -24,7 +23,7 @@ import com.linky.design_system.ui.theme.White
 fun LinkyButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    fontSize: TextUnit = 15.sp,
+    fontSize: Dp = 15.dp,
     fontWeight: FontWeight = FontWeight.Bold,
     onClick: () -> Unit,
     enabled: Boolean = true,

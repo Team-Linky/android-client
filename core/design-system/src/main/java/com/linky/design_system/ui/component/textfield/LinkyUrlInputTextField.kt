@@ -52,7 +52,7 @@ fun LinkyUrlInputTextField(
                 placeholder = {
                     LinkyText(
                         text = placeholder,
-                        fontSize = 14.sp,
+                        fontSize = 14.dp,
                         fontWeight = FontWeight.Medium,
                         color = ColorFamilyGray600AndGray400
                     )

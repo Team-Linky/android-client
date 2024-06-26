@@ -32,7 +32,7 @@ internal fun TimeLineEmptyScreen(
         )
         LinkyText(
             text = stringResource(R.string.link_create_description),
-            fontSize = 15.sp,
+            fontSize = 15.dp,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center,
             color = ColorFamilyGray800AndGray300,

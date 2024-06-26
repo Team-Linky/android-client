@@ -62,7 +62,7 @@ internal fun TagHeader(
                 LinkyText(
                     text = stringResource(R.string.tag_text),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 22.sp,
+                    fontSize = 22.dp,
                     color = ColorFamilyGray900AndGray100
                 )
             }
@@ -101,7 +101,7 @@ internal fun TagHeader(
                                     focusManager.clearFocus()
                                 },
                             text = stringResource(R.string.cancel),
-                            fontSize = 14.sp,
+                            fontSize = 14.dp,
                             fontWeight = FontWeight.SemiBold,
                             color = ColorFamilyGray600AndGray400
                         )

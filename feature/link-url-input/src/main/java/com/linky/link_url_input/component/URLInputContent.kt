@@ -68,6 +68,6 @@ fun StableURLInputContent() {
     LinkyText(
         text = stringResource(R.string.link_add),
         fontWeight = FontWeight.SemiBold,
-        fontSize = 22.sp
+        fontSize = 22.dp
     )
 }

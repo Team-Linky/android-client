@@ -32,7 +32,7 @@ fun TimeLineTagChip(
         LinkyText(
             text = tagName,
             color = ColorFamilyGray800AndGray300,
-            fontSize = 11.sp,
+            fontSize = 11.dp,
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center,
             lineHeight = 11.sp,

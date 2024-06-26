@@ -203,14 +203,14 @@ class TagSettingActivity : FragmentActivity() {
                                     stringResource(R.string.tag_setting_title),
                                     state.tagCount
                                 ),
-                                fontSize = 22.sp,
+                                fontSize = 22.dp,
                                 fontWeight = FontWeight.SemiBold,
                                 color = ColorFamilyGray900AndGray100
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             LinkyText(
                                 text = stringResource(R.string.tag_setting_desc),
-                                fontSize = 13.sp,
+                                fontSize = 13.dp,
                                 fontWeight = FontWeight.Medium,
                                 color = ColorFamilyGray600AndGray400
                             )
@@ -218,7 +218,7 @@ class TagSettingActivity : FragmentActivity() {
                             LinkyButton(
                                 modifier = Modifier.height(36.dp),
                                 text = stringResource(R.string.tag_setting_add_button),
-                                fontSize = 13.sp,
+                                fontSize = 13.dp,
                                 onClick = { tagModifierActivityLauncher.launchTagModifierActivity(this@TagSettingActivity) }
                             )
                         }
@@ -284,7 +284,7 @@ class TagSettingActivity : FragmentActivity() {
                                                 LinkyText(
                                                     text = tagWithLinkCount.tag.name,
                                                     fontWeight = FontWeight.Medium,
-                                                    fontSize = 16.sp,
+                                                    fontSize = 16.dp,
                                                     overflow = TextOverflow.Ellipsis,
                                                     color = ColorFamilyGray900AndGray100
                                                 )
@@ -292,7 +292,7 @@ class TagSettingActivity : FragmentActivity() {
                                                 LinkyText(
                                                     text = "${tagWithLinkCount.linkCount}",
                                                     fontWeight = FontWeight.Bold,
-                                                    fontSize = 16.sp,
+                                                    fontSize = 16.dp,
                                                     color = SubColor
                                                 )
                                             }
@@ -368,7 +368,7 @@ internal fun TagSettingHeader(
         LinkyText(
             text = stringResource(R.string.tag_setting),
             fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
+            fontSize = 18.dp,
             color = ColorFamilyGray900AndGray100,
             modifier = Modifier.padding(start = 6.dp)
         )

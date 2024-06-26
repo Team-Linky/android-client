@@ -54,7 +54,7 @@ internal fun TagDeleteDialog(
                         text = stringResource(R.string.delete),
                         fontWeight = FontWeight.SemiBold,
                         color = ErrorColor,
-                        fontSize = 14.sp
+                        fontSize = 14.dp
                     )
                 }
             },
@@ -63,7 +63,7 @@ internal fun TagDeleteDialog(
                     LinkyText(
                         text = stringResource(R.string.cancel),
                         fontWeight = FontWeight.Medium,
-                        fontSize = 14.sp
+                        fontSize = 14.dp
                     )
                 }
             }

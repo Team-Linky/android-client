@@ -48,7 +48,7 @@ internal fun URLInputHeader(
         LinkyText(
             text = stringResource(R.string.complete),
             fontWeight = FontWeight.Medium,
-            fontSize = 14.sp,
+            fontSize = 14.dp,
             color = textColor,
             modifier = Modifier
                 .padding(start = 6.dp)

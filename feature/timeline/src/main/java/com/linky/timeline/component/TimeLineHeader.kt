@@ -40,7 +40,7 @@ internal fun TimeLineHeader(
         LinkyText(
             text = stringResource(R.string.app_name).uppercase(),
             fontWeight = FontWeight.Bold,
-            fontSize = 24.sp,
+            fontSize = 24.dp,
             modifier = Modifier.padding(start = 6.dp)
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -100,7 +100,7 @@ private fun MenuText(
             text = sortType.text,
             color = ColorFamilyGray800AndGray400,
             maxLines = 1,
-            fontSize = 15.sp,
+            fontSize = 15.dp,
             fontWeight = FontWeight.Medium
         )
         Image(

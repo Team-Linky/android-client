@@ -103,7 +103,7 @@ private fun MoreContentItem(
         )
         LinkyText(
             text = stringResource(textResource),
-            fontSize = 16.sp,
+            fontSize = 16.dp,
             fontWeight = FontWeight.Medium,
             modifier = Modifier.padding(start = 8.dp)
         )

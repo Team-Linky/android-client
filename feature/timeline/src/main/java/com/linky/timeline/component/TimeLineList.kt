@@ -112,7 +112,7 @@ internal fun TimeLineList(
                                 LinkyText(
                                     text = link.createAtFormat,
                                     color = ColorFamilyGray800AndGray300,
-                                    fontSize = 11.sp,
+                                    fontSize = 11.dp,
                                     fontWeight = FontWeight.Medium
                                 )
                                 Spacer(
@@ -125,7 +125,7 @@ internal fun TimeLineList(
                                 LinkyText(
                                     text = link.readCountFormat,
                                     color = ColorFamilyGray800AndGray300,
-                                    fontSize = 11.sp,
+                                    fontSize = 11.dp,
                                     fontWeight = FontWeight.Medium
                                 )
                             }
@@ -158,7 +158,7 @@ internal fun TimeLineList(
                                     LinkyText(
                                         text = link.memo,
                                         color = ColorFamilyGray900AndGray100,
-                                        fontSize = 15.sp,
+                                        fontSize = 15.dp,
                                         fontWeight = FontWeight.SemiBold,
                                         lineHeight = 20.sp
                                     )
@@ -193,7 +193,7 @@ internal fun TimeLineList(
                                     LinkyText(
                                         text = link.openGraphData.title ?: "",
                                         color = ColorFamilyGray800AndGray300,
-                                        fontSize = 12.sp,
+                                        fontSize = 12.dp,
                                         fontWeight = FontWeight.SemiBold,
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis,
@@ -280,7 +280,7 @@ private fun RowScope.MenuButton(
                         LinkyText(
                             text = stringResource(R.string.link_menu_edit),
                             fontWeight = FontWeight.Medium,
-                            fontSize = 14.sp,
+                            fontSize = 14.dp,
                             modifier = Modifier.padding(start = 20.dp)
                         )
                         Image(
@@ -312,7 +312,7 @@ private fun RowScope.MenuButton(
                         LinkyText(
                             text = stringResource(R.string.link_menu_delete),
                             fontWeight = FontWeight.Medium,
-                            fontSize = 14.sp,
+                            fontSize = 14.dp,
                             color = ErrorColor,
                             modifier = Modifier.padding(start = 20.dp)
                         )

@@ -57,14 +57,14 @@ internal fun LinkModifierHeader(
         LinkyText(
             text = stringResource(titleRes),
             fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
+            fontSize = 18.dp,
             modifier = Modifier.padding(start = 6.dp)
         )
         Spacer(modifier = Modifier.weight(1f))
         LinkyText(
             text = stringResource(R.string.complete),
             fontWeight = FontWeight.Medium,
-            fontSize = 14.sp,
+            fontSize = 14.dp,
             color = textColor,
             modifier = Modifier
                 .padding(start = 6.dp)

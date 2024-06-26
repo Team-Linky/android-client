@@ -195,7 +195,7 @@ private fun LinkyLockScreen(
                 LinkyText(
                     text = stringResource(R.string.lock_text),
                     fontWeight = FontWeight.SemiBold,
-                    fontSize = 15.sp,
+                    fontSize = 15.dp,
                     modifier = Modifier.padding(start = 20.dp)
                 )
 
@@ -237,7 +237,7 @@ private fun LinkyLockScreen(
             ) {
                 LinkyText(
                     text = stringResource(R.string.lock_password_change_text),
-                    fontSize = 14.sp,
+                    fontSize = 14.dp,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.padding(start = 20.dp)
                 )
@@ -259,7 +259,7 @@ private fun LinkyLockScreen(
                 ) {
                     LinkyText(
                         text = stringResource(R.string.biometric_use_text),
-                        fontSize = 14.sp,
+                        fontSize = 14.dp,
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier.padding(start = 20.dp)
                     )
@@ -296,7 +296,7 @@ private fun LinkyLockScreen(
                     .padding(top = 14.dp),
                 text = stringResource(R.string.lock_description),
                 color = SubColor,
-                fontSize = 13.sp,
+                fontSize = 13.dp,
                 fontWeight = FontWeight.Medium
             )
         }

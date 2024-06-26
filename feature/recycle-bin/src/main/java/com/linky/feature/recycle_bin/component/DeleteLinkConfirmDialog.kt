@@ -50,7 +50,7 @@ internal fun DeleteLinkConfirmDialog(
                         text = stringResource(R.string.delete),
                         fontWeight = FontWeight.SemiBold,
                         color = ErrorColor,
-                        fontSize = 14.sp
+                        fontSize = 14.dp
                     )
                 }
             },
@@ -59,7 +59,7 @@ internal fun DeleteLinkConfirmDialog(
                     LinkyText(
                         text = stringResource(R.string.cancel),
                         fontWeight = FontWeight.Medium,
-                        fontSize = 14.sp
+                        fontSize = 14.dp
                     )
                 }
             }

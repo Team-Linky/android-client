@@ -33,7 +33,7 @@ internal fun ColumnScope.InputCompleteContent(onCreate: () -> Unit) {
         )
         LinkyText(
             text = stringResource(R.string.link_create_complete),
-            fontSize = 15.sp,
+            fontSize = 15.dp,
             fontWeight = FontWeight.Medium,
             color = ColorFamilyGray800AndGray300,
             modifier = Modifier.padding(top = 26.dp)

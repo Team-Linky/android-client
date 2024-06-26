@@ -53,7 +53,7 @@ internal fun PinSettingContent(
     ) {
         LinkyText(
             text = title,
-            fontSize = 22.sp,
+            fontSize = 22.dp,
             fontWeight = FontWeight.SemiBold
         )
         if (isFail) {
@@ -68,7 +68,7 @@ internal fun PinSettingContent(
                 )
                 LinkyText(
                     text = stringResource(R.string.pin_setting_fail_description),
-                    fontSize = 13.sp,
+                    fontSize = 13.dp,
                     fontWeight = FontWeight.Medium,
                     color = ErrorColor,
                 )
@@ -76,7 +76,7 @@ internal fun PinSettingContent(
         } else {
             LinkyText(
                 text = stringResource(R.string.pin_setting_description),
-                fontSize = 13.sp,
+                fontSize = 13.dp,
                 fontWeight = FontWeight.Medium,
                 color = ColorFamilyGray800AndGray300,
                 modifier = Modifier.padding(top = 8.dp)

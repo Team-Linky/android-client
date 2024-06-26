@@ -127,7 +127,7 @@ class TimeLineActivity : FragmentActivity() {
                                 LinkyText(
                                     text = tagName,
                                     fontWeight = FontWeight.SemiBold,
-                                    fontSize = 18.sp,
+                                    fontSize = 18.dp,
                                     color = ColorFamilyGray900AndGray100,
                                     modifier = Modifier.padding(start = 6.dp)
                                 )
@@ -172,7 +172,7 @@ class TimeLineActivity : FragmentActivity() {
                                                         text = stringResource(R.string.link_no_read_empty),
                                                         color = ColorFamilyGray800AndGray300,
                                                         fontWeight = FontWeight.Medium,
-                                                        fontSize = 15.sp,
+                                                        fontSize = 15.dp,
                                                     )
                                                 }
                                             }
@@ -188,7 +188,7 @@ class TimeLineActivity : FragmentActivity() {
                                                         text = stringResource(R.string.link_read_empty),
                                                         color = ColorFamilyGray800AndGray300,
                                                         fontWeight = FontWeight.Medium,
-                                                        fontSize = 15.sp,
+                                                        fontSize = 15.dp,
                                                     )
                                                 }
                                             }

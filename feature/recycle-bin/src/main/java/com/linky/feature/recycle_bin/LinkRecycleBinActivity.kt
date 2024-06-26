@@ -175,7 +175,7 @@ class LinkRecycleBinActivity : ComponentActivity() {
                         ) {
                             LinkyText(
                                 text = String.format(stringResource(R.string.recycle_bin_title), state.linksCount),
-                                fontSize = 22.sp,
+                                fontSize = 22.dp,
                                 fontWeight = FontWeight.SemiBold,
                                 color = ColorFamilyGray900AndGray100
                             )
@@ -186,7 +186,7 @@ class LinkRecycleBinActivity : ComponentActivity() {
                                     modifier = Modifier.height(36.dp),
                                     text = stringResource(R.string.recycle_bin_btn_name_recycle),
                                     enabled = isActiveButtons,
-                                    fontSize = 13.sp,
+                                    fontSize = 13.dp,
                                     onClick = { viewModel.doAction(RecycleBinAction.RecycleLinks(selectLinks)) },
                                     colors = ButtonDefaults.buttonColors(
                                         backgroundColor = ErrorColor,
@@ -198,7 +198,7 @@ class LinkRecycleBinActivity : ComponentActivity() {
                                     modifier = Modifier.height(36.dp),
                                     text = stringResource(R.string.recycle_bin_btn_name_clear),
                                     enabled = isActiveButtons,
-                                    fontSize = 13.sp,
+                                    fontSize = 13.dp,
                                     onClick = {
                                         linkDeleteDialogDirector = linkDeleteDialogDirector.copy(isShow = true)
                                     },
@@ -284,7 +284,7 @@ class LinkRecycleBinActivity : ComponentActivity() {
                                                     LinkyText(
                                                         text = link.openGraphData.title ?: link.memo,
                                                         color = ColorFamilyGray900AndGray100,
-                                                        fontSize = 15.sp,
+                                                        fontSize = 15.dp,
                                                         maxLines = 1,
                                                         overflow = TextOverflow.Ellipsis,
                                                         fontWeight = FontWeight.SemiBold
@@ -294,7 +294,7 @@ class LinkRecycleBinActivity : ComponentActivity() {
 
                                                     LinkyText(
                                                         text = link.openGraphData.url!!,
-                                                        fontSize = 13.sp,
+                                                        fontSize = 13.dp,
                                                         fontWeight = FontWeight.Medium,
                                                         maxLines = 1,
                                                         overflow = TextOverflow.Ellipsis,
@@ -309,7 +309,7 @@ class LinkRecycleBinActivity : ComponentActivity() {
                                                     ) {
                                                         LinkyText(
                                                             text = link.createAtFormat,
-                                                            fontSize = 11.sp,
+                                                            fontSize = 11.dp,
                                                             fontWeight = FontWeight.Medium,
                                                             color = ColorFamilyGray600AndGray400,
                                                         )
@@ -324,7 +324,7 @@ class LinkRecycleBinActivity : ComponentActivity() {
                                                         )
                                                         LinkyText(
                                                             text = link.readCountFormat,
-                                                            fontSize = 11.sp,
+                                                            fontSize = 11.dp,
                                                             fontWeight = FontWeight.Medium,
                                                             color = ColorFamilyGray600AndGray400,
                                                         )
@@ -394,7 +394,7 @@ private fun LinkRecycleBinHeader(
         LinkyText(
             text = stringResource(R.string.recycle_bin_header),
             fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
+            fontSize = 18.dp,
             color = ColorFamilyGray900AndGray100,
             modifier = Modifier.padding(start = 6.dp)
         )
@@ -416,7 +416,7 @@ private fun LinkRecycleBinHeader(
             LinkyText(
                 text = stringResource(R.string.select_all),
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 14.sp,
+                fontSize = 14.dp,
                 color = color,
             )
         }

@@ -170,7 +170,7 @@ private fun TagScreen(
                         LinkyText(
                             text = "# ${tag.name}",
                             fontWeight = FontWeight.SemiBold,
-                            fontSize = 14.sp,
+                            fontSize = 14.dp,
                             color = White,
                             style = TextStyle(
                                 shadow = Shadow(

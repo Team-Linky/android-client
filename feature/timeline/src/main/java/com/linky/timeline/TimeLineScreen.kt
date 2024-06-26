@@ -197,7 +197,7 @@ private fun TimeLineScreen(
                                         text = stringResource(R.string.link_no_read_empty),
                                         color = ColorFamilyGray800AndGray300,
                                         fontWeight = FontWeight.Medium,
-                                        fontSize = 15.sp,
+                                        fontSize = 15.dp,
                                     )
                                 }
                             }
@@ -213,7 +213,7 @@ private fun TimeLineScreen(
                                         text = stringResource(R.string.link_read_empty),
                                         color = ColorFamilyGray800AndGray300,
                                         fontWeight = FontWeight.Medium,
-                                        fontSize = 15.sp,
+                                        fontSize = 15.dp,
                                     )
                                 }
                             }

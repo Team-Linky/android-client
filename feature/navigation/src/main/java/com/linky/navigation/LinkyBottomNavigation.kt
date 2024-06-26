@@ -91,7 +91,7 @@ fun LinkyBottomNavigation(navController: NavHostController) {
                                 text = stringResource(navItem.title),
                                 color = LocalContentColor.current,
                                 fontWeight = fontWeight,
-                                fontSize = 11.sp
+                                fontSize = 11.dp
                             )
                         }
                     )

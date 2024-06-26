@@ -127,7 +127,7 @@ private fun RowScope.Keypad(
         ) {
             LinkyText(
                 text = text,
-                fontSize = 22.sp,
+                fontSize = 22.dp,
                 fontWeight = FontWeight.Medium
             )
         }

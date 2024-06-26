@@ -67,7 +67,7 @@ fun LinkyTagChip(
                 LinkyText(
                     text = text,
                     color = textColor,
-                    fontSize = 14.sp,
+                    fontSize = 14.dp,
                     fontWeight = FontWeight.Medium
                 )
                 onDelete?.also { callback ->

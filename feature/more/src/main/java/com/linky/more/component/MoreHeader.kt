@@ -22,7 +22,7 @@ internal fun MoreHeader() {
         LinkyText(
             text = stringResource(R.string.more_text),
             fontWeight = FontWeight.Bold,
-            fontSize = 22.sp,
+            fontSize = 22.dp,
             color = ColorFamilyGray900AndGray100
         )
     }

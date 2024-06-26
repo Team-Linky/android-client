@@ -37,7 +37,7 @@ internal fun TagEmptyScreen(
         )
         LinkyText(
             text = stringResource(R.string.tag_create_description),
-            fontSize = 15.sp,
+            fontSize = 15.dp,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center,
             color = ColorFamilyGray800AndGray300,

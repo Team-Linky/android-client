@@ -71,7 +71,7 @@ internal fun LinkModifierContent(
             Spacer(modifier = Modifier.padding(top = 32.dp))
             LinkyText(
                 text = stringResource(R.string.link_memo),
-                fontSize = 12.sp,
+                fontSize = 12.dp,
                 fontWeight = FontWeight.Medium,
                 color = ColorFamilyGray800AndGray300
             )
@@ -91,7 +91,7 @@ internal fun LinkModifierContent(
             Spacer(modifier = Modifier.padding(top = 32.dp))
             LinkyText(
                 text = stringResource(R.string.tag_add),
-                fontSize = 12.sp,
+                fontSize = 12.dp,
                 fontWeight = FontWeight.Medium,
                 color = ColorFamilyGray800AndGray300
             )
@@ -172,7 +172,7 @@ internal fun LinkModifierContent(
                 is OpenGraphStatus.Error -> {
                     LinkyText(
                         text = stringResource(R.string.open_graph_error),
-                        fontSize = 13.sp,
+                        fontSize = 13.dp,
                         fontWeight = FontWeight.Medium,
                         color = ColorFamilyGray800AndGray300,
                     )
@@ -188,20 +188,20 @@ internal fun LinkModifierContent(
                         LinkyText(
                             text = openGraphStatus.openGraphData.siteName ?: "null",
                             color = SubColor,
-                            fontSize = 13.sp,
+                            fontSize = 13.dp,
                             fontWeight = FontWeight.SemiBold
                         )
                         LinkyText(
                             text = openGraphStatus.openGraphData.title ?: "null",
                             color = ColorFamilyGray600AndGray400,
-                            fontSize = 13.sp,
+                            fontSize = 13.dp,
                             fontWeight = FontWeight.Medium,
                             modifier = Modifier.padding(start = 4.dp)
                         )
                     }
                     LinkyText(
                         text = openGraphStatus.openGraphData.url ?: "null",
-                        fontSize = 13.sp,
+                        fontSize = 13.dp,
                         fontWeight = FontWeight.Normal,
                         color = ColorFamilyGray800AndGray300,
                         overflow = TextOverflow.Ellipsis,

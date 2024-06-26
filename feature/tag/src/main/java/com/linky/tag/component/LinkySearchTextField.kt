@@ -50,7 +50,7 @@ internal fun LinkySearchTextField(
                 placeholder = {
                     LinkyText(
                         text = placeholder,
-                        fontSize = 16.sp,
+                        fontSize = 16.dp,
                         fontWeight = FontWeight.Medium,
                         color = ColorFamilyGray600AndGray400
                     )

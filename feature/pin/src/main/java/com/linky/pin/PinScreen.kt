@@ -144,7 +144,7 @@ internal fun PinScreen(
         ) {
             LinkyText(
                 text = stringResource(R.string.pin_title),
-                fontSize = 22.sp,
+                fontSize = 22.dp,
                 fontWeight = FontWeight.SemiBold
             )
             if (isFail) {
@@ -159,7 +159,7 @@ internal fun PinScreen(
                     )
                     LinkyText(
                         text = stringResource(R.string.pin_fail_description),
-                        fontSize = 13.sp,
+                        fontSize = 13.dp,
                         fontWeight = FontWeight.Medium,
                         color = ErrorColor,
                     )
@@ -167,7 +167,7 @@ internal fun PinScreen(
             } else {
                 LinkyText(
                     text = stringResource(R.string.pin_description),
-                    fontSize = 13.sp,
+                    fontSize = 13.dp,
                     fontWeight = FontWeight.Medium,
                     color = ColorFamilyGray800AndGray300,
                     modifier = Modifier.padding(top = 8.dp)

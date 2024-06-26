@@ -150,7 +150,7 @@ class TagModifierActivity : ComponentActivity() {
 
                     LinkyText(
                         text = stringResource(title),
-                        fontSize = 22.sp,
+                        fontSize = 22.dp,
                         fontWeight = FontWeight.SemiBold,
                         color = ColorFamilyGray900AndGray100
                     )
@@ -159,7 +159,7 @@ class TagModifierActivity : ComponentActivity() {
                         Spacer(modifier = Modifier.height(8.dp))
                         LinkyText(
                             text = stringResource(R.string.tag_modifier_desc),
-                            fontSize = 13.sp,
+                            fontSize = 13.dp,
                             fontWeight = FontWeight.Medium,
                             color = Gray600
                         )
@@ -234,7 +234,7 @@ private fun TagModifierHeader(
         LinkyText(
             text = stringResource(R.string.complete),
             fontWeight = FontWeight.Medium,
-            fontSize = 14.sp,
+            fontSize = 14.dp,
             color = textColor,
             modifier = Modifier
                 .padding(start = 6.dp)

@@ -9,10 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.linky.design_system.ui.theme.ColorFamilyGray600AndGray400
 import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
@@ -24,6 +27,7 @@ fun LinkyBaseTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
+    fontSize: Dp = 14.dp,
     singleLine: Boolean = true,
     maxLines: Int = 1,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -34,6 +38,8 @@ fun LinkyBaseTextField(
         handleColor = MainColor,
         backgroundColor = LocalTextSelectionColors.current.backgroundColor,
     )
+    val fontSizeSp = with(LocalDensity.current) { fontSize.toSp() }
+
     CompositionLocalProvider(LocalTextSelectionColors provides textSelectionColors) {
         BasicTextField(
             value = value,
@@ -42,7 +48,7 @@ fun LinkyBaseTextField(
             maxLines = maxLines,
             textStyle = TextStyle(
                 fontFamily = Pretendard,
-                fontSize = 14.sp,
+                fontSize = fontSizeSp,
                 fontWeight = FontWeight.Medium,
                 color = ColorFamilyGray900AndGray100,
                 textDecoration = TextDecoration.None,
