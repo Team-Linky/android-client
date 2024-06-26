@@ -10,6 +10,7 @@ android {
 
 dependencies {
     implementation(projects.core.designSystem)
+    implementation(projects.common.processLifecycle)
     implementation(projects.feature.navigation)
     implementation(projects.feature.linkUrlInput)
     implementation(projects.feature.linkModifier)

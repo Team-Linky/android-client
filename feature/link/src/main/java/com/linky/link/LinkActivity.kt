@@ -13,13 +13,19 @@ import androidx.compose.ui.Modifier
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.linky.design_system.animation.slideOut
 import com.linky.design_system.ui.theme.LinkyLinkTheme
+import com.linky.process_lifecycle.ActivityStackObserver
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LinkActivity : ComponentActivity() {
 
+    @Inject
+    lateinit var activityStackObserver: ActivityStackObserver
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             val navHostController = rememberAnimatedNavController()
             val scaffoldState = rememberScaffoldState()
@@ -34,9 +40,16 @@ class LinkActivity : ComponentActivity() {
                         LinkNavHost(
                             navHostController = navHostController,
                             scaffoldState = scaffoldState,
+                            activityStackObserver = activityStackObserver,
                             onFinishAndResult = {
                                 setResult(RESULT_OK, Intent().putExtras(it))
                                 finish()
+                            },
+                            onBack = {
+                                if (!navHostController.popBackStack()) {
+                                    setResult(RESULT_CANCELED)
+                                    finish()
+                                }
                             }
                         )
                     }
