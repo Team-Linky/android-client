@@ -32,6 +32,7 @@ internal fun MoreContent(
     modifier: Modifier = Modifier,
     onShowMoreActivity: (String) -> Unit,
     onShowTagSettingActivity: () -> Unit,
+    onShowLinkRecycleBinActivity: () -> Unit,
 ) {
     Card(
         shape = RoundedCornerShape(12.dp),
@@ -69,12 +70,12 @@ internal fun MoreContent(
                 textResource = R.string.more_content_tag,
                 onClick = onShowTagSettingActivity
             )
-//            MoreContentItemLine()
-//            MoreContentItem(
-//                iconResource = R.drawable.icon_content_link,
-//                textResource = R.string.more_content_link,
-//                onClick = { onClick.invoke(MoreNavType.Link.route) }
-//            )
+            MoreContentItemLine()
+            MoreContentItem(
+                iconResource = R.drawable.icon_content_link,
+                textResource = R.string.more_content_link,
+                onClick = onShowLinkRecycleBinActivity
+            )
         }
     }
 }

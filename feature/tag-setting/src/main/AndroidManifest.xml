@@ -4,7 +4,7 @@
         <activity android:name=".TagSettingActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"/>
-        <activity android:name=".add.TagModifierActivity"
+        <activity android:name=".modifier.TagModifierActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"/>
     </application>

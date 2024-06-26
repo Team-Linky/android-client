@@ -1,15 +1,20 @@
 package com.linky.data_base.link.entity
 
+import androidx.paging.PagingData
+import androidx.paging.map
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Junction
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import com.linky.data_base.link.entity.LinkEntity.Mapper.toLink
 import com.linky.data_base.tag.entity.TagEntity
 import com.linky.data_base.tag.entity.TagEntity.Companion.toTag
 import com.linky.model.Link
 import com.linky.model.open_graph.OpenGraphData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 @Entity(tableName = "link")
 data class LinkEntity(
@@ -32,7 +37,7 @@ data class LinkEntity(
     @ColumnInfo(name = "isRemove")
     val isRemove: Boolean = false
 ) {
-    companion object {
+    companion object Mapper {
         fun Link.toEntity(): LinkEntity = LinkEntity(
             id = id,
             memo = memo,
@@ -51,6 +56,11 @@ data class LinkEntity(
             createAt = createAt,
             isRemove = isRemove
         )
+
+        fun Flow<PagingData<LinkEntity>>.toLinks(): Flow<PagingData<Link>> {
+            return map { it.map { it.toLink() } }
+        }
+
     }
 }
 
@@ -72,4 +82,12 @@ data class LinkWithTags(
         )
     )
     val tags: List<TagEntity>
-)
+) {
+    companion object Mapper {
+
+        fun Flow<PagingData<LinkWithTags>>.toLinks(): Flow<PagingData<Link>> {
+            return map { it.map { it.link.toLink(it.tags) } }
+        }
+
+    }
+}

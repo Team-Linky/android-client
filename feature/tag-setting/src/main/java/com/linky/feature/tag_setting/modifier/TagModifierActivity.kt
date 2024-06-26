@@ -1,4 +1,4 @@
-package com.linky.feature.tag_setting.add
+package com.linky.feature.tag_setting.modifier
 
 import android.app.Activity
 import android.content.Intent

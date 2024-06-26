@@ -68,6 +68,7 @@ dependencies {
     implementation(projects.feature.link)
     implementation(projects.feature.moreActivity)
     implementation(projects.feature.pin)
+    implementation(projects.feature.recycleBin)
     implementation(projects.common.processLifecycle)
 
     implementation(libs.androidx.core.ktx)

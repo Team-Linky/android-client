@@ -37,6 +37,7 @@ include(
     ":feature:link-url-input",
     ":feature:link-modifier",
     ":feature:link-input-complete",
+    ":feature:recycle-bin",
     ":feature:tip",
     ":feature:more-activity",
     ":feature:lock",

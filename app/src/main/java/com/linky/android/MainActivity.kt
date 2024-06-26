@@ -17,6 +17,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.linky.common.safe_coroutine.builder.safeLaunch
 import com.linky.design_system.ui.component.floating.LinkyFloatingActionButton
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
+import com.linky.feature.recycle_bin.launchRecycleBinActivity
 import com.linky.feature.tag_setting.launchTagSettingActivity
 import com.linky.link.extension.launchLinkActivity
 import com.linky.link.extension.rememberLaunchLinkActivityResult
@@ -96,6 +97,7 @@ class MainActivity : ComponentActivity() {
                             onShowTimeLineActivity = ::launchTimeLineActivity,
                             onShowMoreActivity = ::launchMoreActivity,
                             onShowTagSettingActivity = ::launchTagSettingActivity,
+                            onShowLinkRecycleBinActivity = ::launchRecycleBinActivity,
                             onEdit = { link ->
                                 linkLauncher.launchLinkActivity(
                                     activity = this,

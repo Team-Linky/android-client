@@ -18,6 +18,7 @@ import com.linky.navigation.MainNavType
 fun NavGraphBuilder.moreScreen(
     onShowMoreActivity: (String) -> Unit,
     onShowTagSettingActivity: () -> Unit,
+    onShowLinkRecycleBinActivity: () -> Unit,
 ) {
     composable(
         route = MainNavType.More.route,
@@ -27,6 +28,7 @@ fun NavGraphBuilder.moreScreen(
         MoreRoute(
             onShowMoreActivity = onShowMoreActivity,
             onShowTagSettingActivity = onShowTagSettingActivity,
+            onShowLinkRecycleBinActivity = onShowLinkRecycleBinActivity
         )
     }
 }
@@ -35,17 +37,20 @@ fun NavGraphBuilder.moreScreen(
 private fun MoreRoute(
     onShowMoreActivity: (String) -> Unit,
     onShowTagSettingActivity: () -> Unit,
+    onShowLinkRecycleBinActivity: () -> Unit,
 ) {
     MoreScreen(
         onShowMoreActivity = onShowMoreActivity,
         onShowTagSettingActivity = onShowTagSettingActivity,
+        onShowLinkRecycleBinActivity = onShowLinkRecycleBinActivity
     )
 }
 
 @Composable
 private fun MoreScreen(
-    onShowMoreActivity: (String) -> Unit = {},
+    onShowMoreActivity: (String) -> Unit,
     onShowTagSettingActivity: () -> Unit,
+    onShowLinkRecycleBinActivity: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -57,6 +62,7 @@ private fun MoreScreen(
         MoreContent(
             onShowMoreActivity = onShowMoreActivity,
             onShowTagSettingActivity = onShowTagSettingActivity,
+            onShowLinkRecycleBinActivity = onShowLinkRecycleBinActivity
         )
     }
 }

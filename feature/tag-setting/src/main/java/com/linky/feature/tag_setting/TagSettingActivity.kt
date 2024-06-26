@@ -54,18 +54,18 @@ import com.linky.design_system.ui.component.button.LinkyButton
 import com.linky.design_system.ui.component.check.LinkyCheck
 import com.linky.design_system.ui.component.header.LinkyHeader
 import com.linky.design_system.ui.component.text.LinkyText
+import com.linky.design_system.ui.theme.ColorFamilyGray300AndGray800
 import com.linky.design_system.ui.theme.ColorFamilyGray600AndGray400
 import com.linky.design_system.ui.theme.ColorFamilyGray900AndGray100
 import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray999
-import com.linky.design_system.ui.theme.Gray300
 import com.linky.design_system.ui.theme.LinkyLinkTheme
 import com.linky.design_system.ui.theme.SubColor
 import com.linky.design_system.util.clickableRipple
 import com.linky.design_system.util.throttleClickRipple
-import com.linky.feature.tag_setting.add.launchTagModifierActivity
-import com.linky.feature.tag_setting.add.rememberLaunchTagModifierActivityResult
 import com.linky.feature.tag_setting.component.DeleteTagConfirmDialog
 import com.linky.feature.tag_setting.component.TagDeleteDialogDirector.Companion.Init
+import com.linky.feature.tag_setting.modifier.launchTagModifierActivity
+import com.linky.feature.tag_setting.modifier.rememberLaunchTagModifierActivityResult
 import com.linky.feature.tag_setting.state.SnackBarAction
 import com.linky.feature.tag_setting.state.TagSettingSideEffect
 import com.linky.model.Tag
@@ -265,7 +265,7 @@ class TagSettingActivity : FragmentActivity() {
                                                 modifier = Modifier
                                                     .fillMaxWidth()
                                                     .height(1.dp)
-                                                    .background(Gray300)
+                                                    .background(ColorFamilyGray300AndGray800)
                                             )
                                             Row(
                                                 modifier = Modifier

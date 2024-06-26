@@ -2,6 +2,7 @@ package com.linky.di
 
 import android.content.Context
 import com.linky.data_base.LinkDataBase
+import com.linky.data_base.backup.LinkTagCrossRefBackupDao
 import com.linky.data_base.link.dao.LinkDao
 import com.linky.data_base.link.dao.LinkTagCrossRefDao
 import com.linky.data_base.tag.dao.TagDao
@@ -44,5 +45,10 @@ class DaoModule {
     fun providesLinkTagCrossRefDao(
         linkDataBase: LinkDataBase
     ): LinkTagCrossRefDao = linkDataBase.getLinkTagCrossRefDao()
+
+    @Provides
+    fun providesLinkTagCrossRefBackupDao(
+        linkDataBase: LinkDataBase
+    ): LinkTagCrossRefBackupDao = linkDataBase.getLinkTagCrossRefBackupDao()
 
 }

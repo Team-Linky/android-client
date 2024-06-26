@@ -18,4 +18,7 @@ interface LinkTagCrossRefDao {
     @Query("DELETE FROM LinkTagCrossRef WHERE linkId = :linkId AND tagId IN (:tagIds)")
     suspend fun deleteLinkTagCrossRefs(linkId: Long, tagIds: List<Long>)
 
+    @Query("SELECT * FROM LinkTagCrossRef WHERE linkId = :linkId")
+    suspend fun getReferencesByLinkId(linkId: Long): List<LinkTagCrossRef>
+
 }
