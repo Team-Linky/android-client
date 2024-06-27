@@ -18,7 +18,7 @@ import com.linky.feature.link_modifier.navigatorLinkModifier
 import com.linky.link_input_complete.inputCompleteInputScreen
 import com.linky.link_url_input.urlInputScreen
 import com.linky.navigation.link.LinkNavType
-import com.linky.process_lifecycle.ActivityStackObserver
+import com.linky.common.activity_stack_counter.ActivityStackObserver
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -26,7 +26,7 @@ import java.nio.charset.StandardCharsets
 internal fun LinkNavHost(
     navHostController: NavHostController,
     scaffoldState: ScaffoldState,
-    activityStackObserver: ActivityStackObserver,
+    activityStackObserver: com.linky.common.activity_stack_counter.ActivityStackObserver,
     onFinishAndResult: (Bundle) -> Unit,
     onBack: () -> Unit,
 ) {
@@ -68,7 +68,7 @@ internal fun LinkNavHost(
 
 private fun NavGraphBuilder.defaultScreen(
     navController: NavController,
-    activityStackObserver: ActivityStackObserver
+    activityStackObserver: com.linky.common.activity_stack_counter.ActivityStackObserver
 ) {
     composable("startDestination") {
         val activity = LocalContext.current as Activity

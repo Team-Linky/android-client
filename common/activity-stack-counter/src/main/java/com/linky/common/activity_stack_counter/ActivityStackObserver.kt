@@ -1,4 +1,4 @@
-package com.linky.process_lifecycle
+package com.linky.common.activity_stack_counter
 
 import android.app.Activity
 import android.app.Application
@@ -7,9 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ActivityStackObserver @Inject constructor(
-
-) : Application.ActivityLifecycleCallbacks {
+class ActivityStackObserver @Inject constructor() : Application.ActivityLifecycleCallbacks {
 
     @Volatile
     var count = 0

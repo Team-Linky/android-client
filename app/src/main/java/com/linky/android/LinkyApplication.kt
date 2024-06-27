@@ -2,7 +2,7 @@ package com.linky.android
 
 import android.app.Application
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.linky.process_lifecycle.ActivityStackObserver
+import com.linky.common.activity_stack_counter.ActivityStackObserver
 import com.linky.process_lifecycle.ProcessLifecycleObserver
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject

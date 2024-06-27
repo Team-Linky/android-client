@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.linky.design_system.animation.slideOut
 import com.linky.design_system.ui.theme.LinkyLinkTheme
-import com.linky.process_lifecycle.ActivityStackObserver
+import com.linky.common.activity_stack_counter.ActivityStackObserver
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class LinkActivity : ComponentActivity() {
 
     @Inject
-    lateinit var activityStackObserver: ActivityStackObserver
+    lateinit var activityStackObserver: com.linky.common.activity_stack_counter.ActivityStackObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

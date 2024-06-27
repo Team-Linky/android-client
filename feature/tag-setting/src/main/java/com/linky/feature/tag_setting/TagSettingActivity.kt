@@ -363,7 +363,9 @@ internal fun TagSettingHeader(
         }
     }
 
-    LinkyHeader {
+    LinkyHeader(
+        modifier = Modifier.padding(start = 12.dp, end = 16.dp)
+    ) {
         LinkyBackArrowButton(onClick = onBack)
         LinkyText(
             text = stringResource(R.string.tag_setting),
@@ -387,7 +389,5 @@ internal fun TagSettingHeader(
             painter = painterResource(tagDeletePainter),
             contentDescription = "tag_edit"
         )
-
-        Spacer(modifier = Modifier.width(12.dp))
     }
 }
