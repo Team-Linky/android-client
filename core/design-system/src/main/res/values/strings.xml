@@ -37,6 +37,15 @@
     <string name="link_no_read_empty">안읽은 링크가 없어요.</string>
     <string name="link_read_empty">읽은 링크가 없어요.</string>
 
+    <!-- :feature:more -->
+    <string name="more_text">더보기</string>
+    <string name="more_content_notification">알림 설정</string>
+    <string name="more_content_tip">링키 120% 활용하기</string>
+    <string name="more_content_lock">화면 잠금 설정</string>
+    <string name="more_content_tag">태그 관리</string>
+    <string name="more_content_link">링크 휴지통</string>
+    <string name="more_content_ask">문의하기</string>
+
     <!-- :feature:tag -->
     <string name="tag_text">태그</string>
     <string name="tag_create_description">내가 추가한 링크를\n태그 별로 볼 수 있어요.</string>
@@ -81,5 +90,16 @@
     <string name="recycle_bin_btn_name_clear">비우기</string>
     <string name="recycle_bin_confirm_title_clear">선택한 링크를 모두 비울까요?</string>
     <string name="recycle_bin_confirm_desc_clear">제거된 링크는 복원할 수 없습니다.</string>
+
+    <!-- :feature:ask -->
+    <string name="ask_title">문의하기</string>
+    <string name="ask_send">제출하기</string>
+    <string name="ask_category">카테고리</string>
+    <string name="ask_content">문의 내용</string>
+    <string name="ask_content_placeholder">문의 내용을 압력해 주세요.</string>
+    <string name="ask_category_menu_none">문의 유형을 선택해 주세요.</string>
+    <string name="ask_category_menu_error">오류가 발생했어요.</string>
+    <string name="ask_category_menu_feature">이런 게 필요해요.</string>
+    <string name="ask_category_menu_more">기타문의</string>
 
 </resources>

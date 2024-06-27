@@ -4,6 +4,7 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.linky.feature.ask.askScreen
 import com.linky.model.Link
 import com.linky.more.moreScreen
 import com.linky.navigation.MainNavType
@@ -19,6 +20,7 @@ fun MainNavHost(
     onShowMoreActivity: (String) -> Unit,
     onShowTagSettingActivity: () -> Unit,
     onShowLinkRecycleBinActivity: () -> Unit,
+    onShowAskScreen: () -> Unit,
     onEdit: (Link) -> Unit,
 ) {
     AnimatedNavHost(
@@ -37,7 +39,12 @@ fun MainNavHost(
         moreScreen(
             onShowMoreActivity = onShowMoreActivity,
             onShowTagSettingActivity = onShowTagSettingActivity,
-            onShowLinkRecycleBinActivity = onShowLinkRecycleBinActivity
+            onShowLinkRecycleBinActivity = onShowLinkRecycleBinActivity,
+            onShowAskScreen = onShowAskScreen,
+        )
+        askScreen(
+            scaffoldState = scaffoldState,
+            onBack = navHostController::popBackStack,
         )
     }
 }

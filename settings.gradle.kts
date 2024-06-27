@@ -44,4 +44,5 @@ include(
     ":feature:pin",
     ":feature:pin-setting",
     ":feature:webview",
+    ":feature:ask"
 )

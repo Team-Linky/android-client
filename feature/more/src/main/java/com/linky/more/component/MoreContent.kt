@@ -19,12 +19,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.linky.design_system.R
 import com.linky.design_system.ui.component.text.LinkyText
 import com.linky.design_system.ui.theme.ColorFamilyGray100AndGray800
 import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray999
 import com.linky.design_system.util.clickableRipple
-import com.linky.more.R
 import com.linky.navigation.more.MoreNavType
 
 @Composable
@@ -33,6 +32,7 @@ internal fun MoreContent(
     onShowMoreActivity: (String) -> Unit,
     onShowTagSettingActivity: () -> Unit,
     onShowLinkRecycleBinActivity: () -> Unit,
+    onShowAskScreen: () -> Unit,
 ) {
     Card(
         shape = RoundedCornerShape(12.dp),
@@ -75,6 +75,12 @@ internal fun MoreContent(
                 iconResource = R.drawable.icon_content_link,
                 textResource = R.string.more_content_link,
                 onClick = onShowLinkRecycleBinActivity
+            )
+            MoreContentItemLine()
+            MoreContentItem(
+                iconResource = R.drawable.icon_warning,
+                textResource = R.string.more_content_ask,
+                onClick = onShowAskScreen
             )
         }
     }

@@ -5,19 +5,25 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.linky.common.safe_coroutine.builder.safeLaunch
 import com.linky.design_system.ui.component.floating.LinkyFloatingActionButton
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
+import com.linky.feature.ask.ASK_ROUTE
 import com.linky.feature.recycle_bin.launchRecycleBinActivity
 import com.linky.feature.tag_setting.launchTagSettingActivity
 import com.linky.link.LinkActivity
@@ -25,6 +31,7 @@ import com.linky.link.extension.launchLinkActivity
 import com.linky.link.extension.rememberLaunchLinkActivityResult
 import com.linky.more_activity.extension.launchMoreActivity
 import com.linky.navigation.LinkyBottomNavigation
+import com.linky.navigation.MainNavType
 import com.linky.pin.extension.launchPinActivity
 import com.linky.process_lifecycle.ProcessLifecycle
 import com.linky.timeline.external.launchTimeLineActivity
@@ -85,13 +92,25 @@ class MainActivity : ComponentActivity() {
                 }
             )
 
+            val backstack by navHostController.currentBackStackEntryAsState()
+
+            val showBottomNav by remember(backstack?.destination?.route) {
+                derivedStateOf {
+                    MainNavType.containsRoute(backstack?.destination?.route ?: "")
+                }
+            }
+
             LinkyDefaultTheme {
                 Scaffold(
                     bottomBar = {
-                        LinkyBottomNavigation(navHostController)
+                        AnimatedVisibility(visible = showBottomNav) {
+                            LinkyBottomNavigation(navHostController)
+                        }
                     },
                     floatingActionButton = {
-                        LinkyFloatingActionButton(::launchLinkActivity)
+                        AnimatedVisibility(visible = showBottomNav) {
+                            LinkyFloatingActionButton(::launchLinkActivity)
+                        }
                     },
                     floatingActionButtonPosition = FabPosition.End,
                     isFloatingActionButtonDocked = true,
@@ -110,6 +129,12 @@ class MainActivity : ComponentActivity() {
                             onShowMoreActivity = ::launchMoreActivity,
                             onShowTagSettingActivity = ::launchTagSettingActivity,
                             onShowLinkRecycleBinActivity = ::launchRecycleBinActivity,
+                            onShowAskScreen = {
+                                navHostController.navigate(ASK_ROUTE) {
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
                             onEdit = { link ->
                                 linkLauncher.launchLinkActivity(
                                     activity = this,

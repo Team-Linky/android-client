@@ -60,6 +60,7 @@ dependencies {
     implementation(projects.core.di)
     implementation(projects.core.data)
     implementation(projects.core.model)
+    implementation(projects.common.processLifecycle)
     implementation(projects.feature.navigation)
     implementation(projects.feature.timeline)
     implementation(projects.feature.tag)
@@ -69,7 +70,7 @@ dependencies {
     implementation(projects.feature.moreActivity)
     implementation(projects.feature.pin)
     implementation(projects.feature.recycleBin)
-    implementation(projects.common.processLifecycle)
+    implementation(projects.feature.ask)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.lifecycle.runtime)
