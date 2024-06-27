@@ -46,7 +46,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -139,8 +138,9 @@ class LinkRecycleBinActivity : ComponentActivity() {
                         if (isAllCheckList) {
                             viewModel.doAction(RecycleBinAction.ClearAll)
                         } else {
-                            viewModel.doAction(RecycleBinAction.DeleteLinks(selectLinks))
+                            viewModel.doAction(RecycleBinAction.DeleteLinks(selectLinks.toList()))
                         }
+                        selectLinks.clear()
                         linkDeleteDialogDirector = LinkDeleteDialogDirector.Init
                     }
                 )
@@ -187,7 +187,10 @@ class LinkRecycleBinActivity : ComponentActivity() {
                                     text = stringResource(R.string.recycle_bin_btn_name_recycle),
                                     enabled = isActiveButtons,
                                     fontSize = 13.dp,
-                                    onClick = { viewModel.doAction(RecycleBinAction.RecycleLinks(selectLinks)) },
+                                    onClick = {
+                                        viewModel.doAction(RecycleBinAction.RecycleLinks(selectLinks.toList()))
+                                        selectLinks.clear()
+                                    },
                                     colors = ButtonDefaults.buttonColors(
                                         backgroundColor = ErrorColor,
                                         disabledBackgroundColor = ColorFamilyGray400AndGray600,

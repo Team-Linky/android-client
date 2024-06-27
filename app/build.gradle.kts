@@ -70,7 +70,6 @@ dependencies {
     implementation(projects.feature.pin)
     implementation(projects.feature.recycleBin)
     implementation(projects.common.processLifecycle)
-    implementation(projects.common.activityStackCounter)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.lifecycle.runtime)

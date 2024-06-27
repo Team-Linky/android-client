@@ -1,5 +1,6 @@
 package com.linky.android
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,6 +20,7 @@ import com.linky.design_system.ui.component.floating.LinkyFloatingActionButton
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
 import com.linky.feature.recycle_bin.launchRecycleBinActivity
 import com.linky.feature.tag_setting.launchTagSettingActivity
+import com.linky.link.LinkActivity
 import com.linky.link.extension.launchLinkActivity
 import com.linky.link.extension.rememberLaunchLinkActivityResult
 import com.linky.more_activity.extension.launchMoreActivity
@@ -37,8 +39,18 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
 
+    private var lockJob: Job? = null
+    private var lockTimerCnt = 0
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        intentHandle(intent)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        intentHandle(intent)
 
         lifecycleScope.safeLaunch {
             if (viewModel.getEnableLock()) {
@@ -114,8 +126,20 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private var lockJob: Job? = null
-    private var lockTimerCnt = 0
+    private fun intentHandle(intent: Intent) {
+        if (intent.action == Intent.ACTION_SEND) {
+            if ("text/plain" == intent.type) {
+                val linkIntent = Intent(this, LinkActivity::class.java).apply {
+                    putExtra("startDestination", "link_edit")
+                    putExtra("url", intent.getStringExtra(Intent.EXTRA_TEXT) ?: "")
+                    putExtra("mode", 1)
+                    putExtra("linkId", -1L)
+                    putExtras(intent)
+                }
+                startActivity(linkIntent)
+            }
+        }
+    }
 
     private fun checkLock() {
         lockJob?.takeIf { it.isActive }?.cancel()

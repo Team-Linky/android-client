@@ -187,10 +187,10 @@ class TagSettingActivity : FragmentActivity() {
                                         tag = tag
                                     )
                                 }
+                                selectTags.clear()
                             },
                             onTagDelete = {
-                                tagDeleteDialogDirector =
-                                    tagDeleteDialogDirector.copy(isShow = true)
+                                tagDeleteDialogDirector = tagDeleteDialogDirector.copy(isShow = true)
                             },
                             onBack = ::finish
                         )

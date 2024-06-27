@@ -14,22 +14,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Linky"
         tools:targetApi="tiramisu">
+
         <activity
             android:name=".MainActivity"
             android:configChanges="uiMode"
             android:exported="true"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Linky">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <intent-filter>
-                <action android:name="com.linky.MAIN_ACTIVITY" />
+                <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
             </intent-filter>
+
         </activity>
+
     </application>
 
 </manifest>

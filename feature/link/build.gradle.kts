@@ -10,11 +10,13 @@ android {
 
 dependencies {
     implementation(projects.core.designSystem)
+    implementation(projects.core.data)
     implementation(projects.common.processLifecycle)
     implementation(projects.feature.navigation)
     implementation(projects.feature.linkUrlInput)
     implementation(projects.feature.linkModifier)
     implementation(projects.feature.linkInputComplete)
+    implementation(projects.feature.pin)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.lifecycle.runtime)

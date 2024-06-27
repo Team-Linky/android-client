@@ -84,9 +84,11 @@ class LinkModifierViewModel @Inject constructor(
     private fun getLink() {
         intent {
             savedStateHandle.get<Long>("linkId")?.let { linkId ->
-                val link = findLinkByIdUseCase.invoke(linkId)
+                if (linkId > -1) {
+                    val link = findLinkByIdUseCase.invoke(linkId)
 
-                reduce { state.copy(link = link) }
+                    reduce { state.copy(link = link) }
+                }
             }
         }
     }

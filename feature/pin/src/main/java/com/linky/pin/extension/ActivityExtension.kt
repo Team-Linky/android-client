@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import com.linky.pin.PinActivity
@@ -30,5 +31,11 @@ fun ManagedActivityResultLauncher<Intent, ActivityResult>.launchPinActivity(
 fun ComponentActivity.launchPinActivity() {
     Intent(this, PinActivity::class.java).apply {
         startActivity(this)
+    }
+}
+
+fun ActivityResultLauncher<Intent>.launchPinActivity(activity: ComponentActivity) {
+    Intent(activity, PinActivity::class.java).apply {
+        launch(this)
     }
 }
