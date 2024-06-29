@@ -85,6 +85,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material.compose)
     implementation(libs.androidx.lifecycle.process)
+    implementation(libs.androidx.splashscreen)
     implementation(libs.coil)
 
     testImplementation(libs.junit)

@@ -2,4 +2,15 @@
 <resources>
 
     <style name="Theme.Linky" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Linky.Starting" parent="Theme.SplashScreen">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="windowSplashScreenAnimatedIcon">@drawable/launch_background</item>
+        <item name="postSplashScreenTheme">@style/Theme.Linky</item>
+        <item name="windowSplashScreenBackground">@color/launcher_background</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/launcher_background</item>
+    </style>
+
 </resources>

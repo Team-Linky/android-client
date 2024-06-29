@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.ui)
+    implementation(libs.androidx.splashscreen)
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.activity.compose)
