@@ -108,7 +108,7 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     floatingActionButton = {
-                        AnimatedVisibility(visible = showBottomNav) {
+                        if (showBottomNav) {
                             LinkyFloatingActionButton(::launchLinkActivity)
                         }
                     },
