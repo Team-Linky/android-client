@@ -1,6 +1,5 @@
 package com.linky.design_system.ui.component.textfield
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -8,6 +7,9 @@ import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalDensity
@@ -43,31 +45,33 @@ fun LinkyBaseTextField(
     )
     val fontSizeSp = with(LocalDensity.current) { fontSize.toSp() }
 
-    Box {
-        CompositionLocalProvider(LocalTextSelectionColors provides textSelectionColors) {
-            BasicTextField(
-                value = value,
-                onValueChange = onValueChange,
-                singleLine = singleLine,
-                maxLines = maxLines,
-                textStyle = TextStyle(
-                    fontFamily = Pretendard,
-                    fontSize = fontSizeSp,
-                    fontWeight = FontWeight.Medium,
-                    color = ColorFamilyGray900AndGray100,
-                    textDecoration = TextDecoration.None,
-                    lineHeight = 0.sp,
-                    letterSpacing = 0.sp,
-                    textAlign = TextAlign.Start
-                ),
-                cursorBrush = SolidColor(ColorFamilyGray600AndGray400),
-                modifier = modifier,
-                keyboardOptions = keyboardOptions,
-                keyboardActions = keyboardActions,
-            )
-        }
+    val showPlaceholder by remember(value) {
+        derivedStateOf { value.isEmpty() }
+    }
 
-        if (value.isEmpty()) {
+    CompositionLocalProvider(LocalTextSelectionColors provides textSelectionColors) {
+        BasicTextField(
+            modifier = modifier,
+            value = value,
+            onValueChange = onValueChange,
+            singleLine = singleLine,
+            maxLines = maxLines,
+            textStyle = TextStyle(
+                fontFamily = Pretendard,
+                fontSize = fontSizeSp,
+                fontWeight = FontWeight.Medium,
+                color = ColorFamilyGray900AndGray100,
+                textDecoration = TextDecoration.None,
+                lineHeight = 0.sp,
+                letterSpacing = 0.sp,
+                textAlign = TextAlign.Start
+            ),
+            cursorBrush = SolidColor(ColorFamilyGray600AndGray400),
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+        )
+
+        if (showPlaceholder) {
             placeholder?.invoke()
         }
     }
@@ -91,8 +95,13 @@ fun LinkyBaseTextField(
     )
     val fontSizeSp = with(LocalDensity.current) { fontSize.toSp() }
 
+    val showPlaceholder by remember(value) {
+        derivedStateOf { value.text.isEmpty() }
+    }
+
     CompositionLocalProvider(LocalTextSelectionColors provides textSelectionColors) {
         BasicTextField(
+            modifier = modifier,
             value = value,
             onValueChange = onValueChange,
             singleLine = singleLine,
@@ -108,14 +117,11 @@ fun LinkyBaseTextField(
                 textAlign = TextAlign.Start
             ),
             cursorBrush = SolidColor(ColorFamilyGray600AndGray400),
-            modifier = modifier,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
         )
+        if (showPlaceholder) {
+            placeholder?.invoke()
+        }
     }
-
-    if (value.text.isEmpty()) {
-        placeholder?.invoke()
-    }
-
 }

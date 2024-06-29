@@ -10,7 +10,6 @@ import com.linky.data.usecase.link.IncrementLinkReadCountUseCase
 import com.linky.data.usecase.link.LinkSetIsRemoveUseCase
 import com.linky.data.usecase.link.SelectLinkByTagNameUseCase
 import com.linky.timeline.external.INTENT_KEY_TAG_NAME
-import com.linky.timeline.state.Sort
 import com.linky.timeline.state.TimeLineSideEffect
 import com.linky.timeline.state.TimeLineState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,7 +34,6 @@ class TimeLineViewModel @Inject constructor(
         when (action) {
             is TimeLineAction.IncrementReadCount -> incrementReadCount(action.id)
             is TimeLineAction.RemoveTimeLine -> removeTimeLine(action.id)
-//            is TimeLineAction.ChangeSort -> changeSort(action.sort)
         }
     }
 
@@ -51,12 +49,6 @@ class TimeLineViewModel @Inject constructor(
         }
     }
 
-//    private fun changeSort(sort: Sort) {
-//        intent {
-//            reduce { state.copy(sortType = sort) }
-//        }
-//    }
-
     init {
         intent {
             val links = savedStateHandle.get<String>(INTENT_KEY_TAG_NAME)
@@ -71,5 +63,4 @@ class TimeLineViewModel @Inject constructor(
 sealed interface TimeLineAction {
     data class IncrementReadCount(val id: Long?) : TimeLineAction
     data class RemoveTimeLine(val id: Long?) : TimeLineAction
-//    data class ChangeSort(val sort: Sort) : TimeLineAction
 }
