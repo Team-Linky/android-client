@@ -32,7 +32,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.paging.LoadState
@@ -142,9 +141,12 @@ private fun TagScreen(
         }
 
         LazyVerticalGrid(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 16.dp),
             columns = GridCells.FixedSize(160.dp),
             verticalArrangement = Arrangement.Top,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Start
         ) {
             items(
                 items = newTags,

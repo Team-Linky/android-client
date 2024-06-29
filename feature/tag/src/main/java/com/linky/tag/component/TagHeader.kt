@@ -49,7 +49,7 @@ internal fun TagHeader(
     var isFocused by rememberSaveable { mutableStateOf(false) }
 
     Row(
-        modifier = Modifier.padding(start = 20.dp, end = 16.dp),
+        modifier = Modifier.padding(start = 20.dp, end = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
