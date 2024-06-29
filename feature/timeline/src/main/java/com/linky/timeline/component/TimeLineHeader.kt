@@ -19,7 +19,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.linky.design_system.R
 import com.linky.design_system.ui.component.header.LinkyHeader
 import com.linky.design_system.ui.component.text.LinkyText
@@ -28,7 +27,6 @@ import com.linky.timeline.state.Sort
 
 @Composable
 internal fun TimeLineHeader(
-    sorts: List<Sort>,
     sortType: Sort,
     onChangeSort: (Sort) -> Unit,
 ) {
@@ -45,7 +43,7 @@ internal fun TimeLineHeader(
         )
         Spacer(modifier = Modifier.weight(1f))
         TimeLineMenuBox(
-            sorts = sorts,
+            sorts = arrayOf(Sort.All, Sort.Read, Sort.NoRead),
             sortType = sortType,
             onChangeSort = onChangeSort
         )
@@ -55,7 +53,7 @@ internal fun TimeLineHeader(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun TimeLineMenuBox(
-    sorts: List<Sort>,
+    vararg sorts: Sort,
     sortType: Sort,
     onChangeSort: (Sort) -> Unit,
 ) {

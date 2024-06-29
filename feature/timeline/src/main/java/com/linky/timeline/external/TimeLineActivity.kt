@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -20,20 +22,19 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -84,11 +85,21 @@ class TimeLineActivity : FragmentActivity() {
                 val viewModel = hiltViewModel<TimeLineViewModel>()
                 val scaffoldState = rememberScaffoldState()
                 val state by viewModel.collectAsState()
-                val links = state.links.collectAsLazyPagingItems()
-                val sortType = state.sortType
-                val sortList = state.sortList
+                val linksPager = state.links.collectAsLazyPagingItems()
+                var sortType by remember { mutableStateOf(Sort.All) }
 
-                val activity = LocalContext.current as ComponentActivity
+                val links by remember(linksPager, sortType) {
+                    derivedStateOf {
+                        linksPager.itemSnapshotList.items.filter { link ->
+                            when (sortType) {
+                                Sort.All -> true
+                                Sort.Read -> !link.isNoRead
+                                Sort.NoRead -> link.isNoRead
+                            }
+                        }
+                    }
+                }
+
                 val coroutineScope = rememberCoroutineScope()
                 val clipboard = LocalClipboardManager.current
                 val imageLoader = rememberImageLoader()
@@ -113,6 +124,18 @@ class TimeLineActivity : FragmentActivity() {
                     }
                 )
 
+                val showLoading by remember(linksPager.loadState.refresh) {
+                    derivedStateOf { linksPager.loadState.refresh is LoadState.Loading && linksPager.itemCount == 0 }
+                }
+
+                val showEmpty by remember(linksPager.loadState.refresh, links) {
+                    derivedStateOf { linksPager.loadState.refresh is LoadState.NotLoading && links.isEmpty() }
+                }
+
+                val showAppending by remember(linksPager.loadState.append) {
+                    derivedStateOf { linksPager.loadState.append is LoadState.Loading && linksPager.itemCount > 0 }
+                }
+
                 Scaffold(scaffoldState = scaffoldState) { paddingValues ->
                     Column(
                         modifier = Modifier
@@ -122,7 +145,9 @@ class TimeLineActivity : FragmentActivity() {
                         LinkyHeader(
                             modifier = Modifier.padding(start = 12.dp, end = 16.dp)
                         ) {
-                            LinkyBackArrowButton(onClick = ::finish)
+                            LinkyBackArrowButton(
+                                onClick = ::finish
+                            )
                             intent.getStringExtra(INTENT_KEY_TAG_NAME)?.let { tagName ->
                                 LinkyText(
                                     text = tagName,
@@ -132,80 +157,29 @@ class TimeLineActivity : FragmentActivity() {
                                     modifier = Modifier.padding(start = 6.dp)
                                 )
                             }
-                            Spacer(modifier = Modifier.weight(1f))
+                            Spacer(
+                                modifier = Modifier.weight(1f)
+                            )
                             TimeLineMenuBox(
+                                sorts = arrayOf(Sort.All, Sort.Read, Sort.NoRead),
                                 sortType = sortType,
-                                sorts = sortList,
-                                onChangeSort = { viewModel.doAction(TimeLineAction.ChangeSort(it)) }
+                                onChangeSort = { sortType = it }
                             )
                         }
                         Box(
                             modifier = Modifier.weight(1f),
                             contentAlignment = Alignment.TopCenter
                         ) {
-                            when (links.loadState.refresh) {
-                                is LoadState.Loading -> {
-                                    if (links.itemSnapshotList.isEmpty()) {
-                                        LinearProgressIndicator(
-                                            modifier = Modifier.align(Alignment.Center)
-                                        )
-                                    }
-                                }
-
-                                is LoadState.NotLoading -> {
-                                    if (links.itemSnapshotList.isEmpty()) {
-                                        when (sortType) {
-                                            is Sort.All -> {
-                                                TimeLineEmptyScreen(
-                                                    onShowLinkActivity = ::launchLinkActivity
-                                                )
-                                            }
-
-                                            is Sort.NoRead -> {
-                                                Column(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    horizontalAlignment = Alignment.CenterHorizontally
-                                                ) {
-                                                    Spacer(modifier = Modifier.weight(0.3f))
-                                                    LinkyText(
-                                                        modifier = Modifier.weight(0.7f),
-                                                        text = stringResource(R.string.link_no_read_empty),
-                                                        color = ColorFamilyGray800AndGray300,
-                                                        fontWeight = FontWeight.Medium,
-                                                        fontSize = 15.dp,
-                                                    )
-                                                }
-                                            }
-
-                                            is Sort.Read -> {
-                                                Column(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    horizontalAlignment = Alignment.CenterHorizontally
-                                                ) {
-                                                    Spacer(modifier = Modifier.weight(0.3f))
-                                                    LinkyText(
-                                                        modifier = Modifier.weight(0.7f),
-                                                        text = stringResource(R.string.link_read_empty),
-                                                        color = ColorFamilyGray800AndGray300,
-                                                        fontWeight = FontWeight.Medium,
-                                                        fontSize = 15.dp,
-                                                    )
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                is LoadState.Error -> {
-
-                                }
-                            }
-
-                            if (links.itemSnapshotList.isNotEmpty()) {
+                            androidx.compose.animation.AnimatedVisibility(
+                                visible = !showEmpty,
+                                enter = fadeIn(),
+                                exit = fadeOut(),
+                            ) {
                                 TimeLineList(
+                                    links = links,
                                     state = listState,
                                     imageLoader = imageLoader,
-                                    links = links,
+                                    showAppending = showAppending,
                                     onEdit = { link ->
                                         linkLauncher.launchLinkActivity(
                                             activity = this@TimeLineActivity,
@@ -218,7 +192,7 @@ class TimeLineActivity : FragmentActivity() {
                                     onRemove = { viewModel.doAction(TimeLineAction.RemoveTimeLine(it)) },
                                     onClick = { link ->
                                         link.openGraphData.url?.also { url ->
-                                            activity.launchWebViewActivity(url)
+                                            launchWebViewActivity(url)
                                             viewModel.doAction(TimeLineAction.IncrementReadCount(link.id))
                                         }
                                     },
@@ -230,15 +204,66 @@ class TimeLineActivity : FragmentActivity() {
                                                     .append(link.openGraphData.url)
                                                     .toAnnotatedString()
                                             )
-                                            scaffoldState.snackbarHostState.showSnackbar(
-                                                ContextCompat.getString(
-                                                    activity.applicationContext,
-                                                    R.string.copy_complete
-                                                )
-                                            )
+                                            scaffoldState.snackbarHostState.showSnackbar(getString(R.string.copy_complete))
                                         }
                                     },
                                 )
+                            }
+
+                            if (showLoading) {
+                                LinearProgressIndicator(
+                                    modifier = Modifier.align(Alignment.Center)
+                                )
+                            }
+
+                            androidx.compose.animation.AnimatedVisibility(
+                                visible = showEmpty,
+                                enter = fadeIn(),
+                                exit = fadeOut(),
+                            ) {
+                                when (sortType) {
+                                    Sort.All -> {
+                                        TimeLineEmptyScreen(
+                                            onShowLinkActivity = ::launchLinkActivity
+                                        )
+                                    }
+
+                                    Sort.NoRead -> {
+                                        Column(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            Spacer(
+                                                modifier = Modifier.weight(0.3f)
+                                            )
+                                            LinkyText(
+                                                modifier = Modifier.weight(0.7f),
+                                                text = stringResource(R.string.link_no_read_empty),
+                                                color = ColorFamilyGray800AndGray300,
+                                                fontWeight = FontWeight.Medium,
+                                                fontSize = 15.dp,
+                                            )
+                                        }
+                                    }
+
+                                    Sort.Read -> {
+                                        Column(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            Spacer(
+                                                modifier = Modifier.weight(0.3f)
+                                            )
+                                            LinkyText(
+                                                modifier = Modifier.weight(0.7f),
+                                                text = stringResource(R.string.link_read_empty),
+                                                color = ColorFamilyGray800AndGray300,
+                                                fontWeight = FontWeight.Medium,
+                                                fontSize = 15.dp,
+                                            )
+                                        }
+                                    }
+                                }
                             }
 
                             if (showScrollTop) {
@@ -254,9 +279,7 @@ class TimeLineActivity : FragmentActivity() {
                                             .background(Nav700.copy(alpha = 0.7f))
                                             .clickableRipple {
                                                 coroutineScope.safeLaunch {
-                                                    listState.animateScrollToItem(
-                                                        0
-                                                    )
+                                                    listState.animateScrollToItem(0)
                                                 }
                                             },
                                         contentAlignment = Alignment.Center

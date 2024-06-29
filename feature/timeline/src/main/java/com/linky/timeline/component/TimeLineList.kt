@@ -41,10 +41,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.paging.LoadState
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.itemContentType
-import androidx.paging.compose.itemKey
 import coil.ImageLoader
 import coil.compose.SubcomposeAsyncImage
 import com.linky.design_system.R
@@ -67,9 +63,10 @@ import com.skydoves.balloon.compose.setBackgroundColor
 @Composable
 internal fun TimeLineList(
     modifier: Modifier = Modifier,
+    links: List<Link>,
     state: LazyListState,
+    showAppending: Boolean,
     imageLoader: ImageLoader,
-    links: LazyPagingItems<Link>,
     onEdit: (Link) -> Unit,
     onRemove: (Long) -> Unit,
     onClick: (Link) -> Unit,
@@ -81,143 +78,141 @@ internal fun TimeLineList(
         contentPadding = PaddingValues(16.dp)
     ) {
         items(
-            count = links.itemCount,
-            key = links.itemKey { it.id ?: 0L },
-            contentType = links.itemContentType { "TimeLineItems" }
-        ) { index ->
-            links[index]?.let { link ->
-                Card(
+            items = links,
+            key = { it.id ?: 0L },
+            contentType = { "TimeLineItems" }
+        ) { link ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 10.dp)
+                    .clickableRipple(enableRipple = false) { onClick.invoke(link) },
+                shape = RoundedCornerShape(12.dp),
+                backgroundColor = ColorFamilyWhiteAndGray999
+            ) {
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 10.dp)
-                        .clickableRipple(enableRipple = false) { onClick.invoke(link) },
-                    shape = RoundedCornerShape(12.dp),
-                    backgroundColor = ColorFamilyWhiteAndGray999
+                        .padding(top = 10.dp, bottom = 12.dp, start = 12.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 10.dp, bottom = 12.dp, start = 12.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                LinkyText(
-                                    text = link.createAtFormat,
-                                    color = ColorFamilyGray800AndGray300,
-                                    fontSize = 11.dp,
-                                    fontWeight = FontWeight.Medium
-                                )
-                                Spacer(
-                                    modifier = Modifier
-                                        .padding(horizontal = 4.dp)
-                                        .width(1.dp)
-                                        .height(8.dp)
-                                        .background(ColorFamilyGray600AndGray400)
-                                )
-                                LinkyText(
-                                    text = link.readCountFormat,
-                                    color = ColorFamilyGray800AndGray300,
-                                    fontSize = 11.dp,
-                                    fontWeight = FontWeight.Medium
-                                )
-                            }
-                            MenuButton(
-                                onEdit = { onEdit.invoke(link) },
-                                onRemove = { onRemove.invoke(link.id!!) }
+                            LinkyText(
+                                text = link.createAtFormat,
+                                color = ColorFamilyGray800AndGray300,
+                                fontSize = 11.dp,
+                                fontWeight = FontWeight.Medium
+                            )
+                            Spacer(
+                                modifier = Modifier
+                                    .padding(horizontal = 4.dp)
+                                    .width(1.dp)
+                                    .height(8.dp)
+                                    .background(ColorFamilyGray600AndGray400)
+                            )
+                            LinkyText(
+                                text = link.readCountFormat,
+                                color = ColorFamilyGray800AndGray300,
+                                fontSize = 11.dp,
+                                fontWeight = FontWeight.Medium
                             )
                         }
-                        Row(
+                        MenuButton(
+                            onEdit = { onEdit.invoke(link) },
+                            onRemove = { onRemove.invoke(link.id!!) }
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        SubcomposeAsyncImage(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 10.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                                .size(98.dp)
+                                .clip(RoundedCornerShape(4.dp)),
+                            imageLoader = imageLoader,
+                            model = link.openGraphData.image,
+                            contentScale = ContentScale.Crop,
+                            contentDescription = "thumbnail"
+                        )
+                        Column(
+                            modifier = Modifier
+                                .height(98.dp)
+                                .padding(horizontal = 10.dp),
                         ) {
-                            SubcomposeAsyncImage(
-                                modifier = Modifier
-                                    .size(98.dp)
-                                    .clip(RoundedCornerShape(4.dp)),
-                                imageLoader = imageLoader,
-                                model = link.openGraphData.image,
-                                contentScale = ContentScale.Crop,
-                                contentDescription = "thumbnail"
-                            )
-                            Column(
-                                modifier = Modifier
-                                    .height(98.dp)
-                                    .padding(horizontal = 10.dp),
-                            ) {
-                                if (link.memo.isNotEmpty()) {
-                                    LinkyText(
-                                        text = link.memo,
-                                        color = ColorFamilyGray900AndGray100,
-                                        fontSize = 15.dp,
-                                        fontWeight = FontWeight.SemiBold,
-                                        lineHeight = 20.sp
-                                    )
-                                    Spacer(modifier = Modifier.padding(bottom = 7.dp))
-                                }
-                                LazyRow(
-                                    horizontalArrangement = Arrangement.Start,
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    items(link.tags) { tag ->
-                                        TimeLineTagChip(
-                                            modifier = Modifier.padding(end = 3.dp),
-                                            tagName = tag.name,
-                                        )
-                                    }
-                                }
-                                Spacer(modifier = Modifier.weight(1f))
-                                // 태그
-                                Spacer(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(1.dp)
-                                        .background(Gray400)
+                            if (link.memo.isNotEmpty()) {
+                                LinkyText(
+                                    text = link.memo,
+                                    color = ColorFamilyGray900AndGray100,
+                                    fontSize = 15.dp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    lineHeight = 20.sp
                                 )
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(top = 6.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    LinkyText(
-                                        text = link.openGraphData.title ?: "",
-                                        color = ColorFamilyGray800AndGray300,
-                                        fontSize = 12.dp,
-                                        fontWeight = FontWeight.SemiBold,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis,
-                                        modifier = Modifier.weight(0.7f),
-                                    )
-                                    Spacer(modifier = Modifier.weight(0.2f))
-
-                                    Image(
-                                        painter = painterResource(R.drawable.ico_tag_copy),
-                                        contentDescription = "copy",
-                                        modifier = Modifier
-                                            .weight(0.1f)
-                                            .clickableRipple(radius = 10.dp) {
-                                                onCopyLink.invoke(link)
-                                            },
+                                Spacer(modifier = Modifier.padding(bottom = 7.dp))
+                            }
+                            LazyRow(
+                                horizontalArrangement = Arrangement.Start,
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                items(link.tags) { tag ->
+                                    TimeLineTagChip(
+                                        modifier = Modifier.padding(end = 3.dp),
+                                        tagName = tag.name,
                                     )
                                 }
+                            }
+                            Spacer(
+                                modifier = Modifier.weight(1f)
+                            )
+                            // 태그
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(1.dp)
+                                    .background(Gray400)
+                            )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                LinkyText(
+                                    text = link.openGraphData.title ?: "",
+                                    color = ColorFamilyGray800AndGray300,
+                                    fontSize = 12.dp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                    modifier = Modifier.weight(0.7f),
+                                )
+                                Spacer(modifier = Modifier.weight(0.2f))
+
+                                Image(
+                                    painter = painterResource(R.drawable.ico_tag_copy),
+                                    contentDescription = "copy",
+                                    modifier = Modifier
+                                        .weight(0.1f)
+                                        .clickableRipple(radius = 10.dp) { onCopyLink.invoke(link) },
+                                )
                             }
                         }
                     }
                 }
             }
         }
-        if (links.loadState.append is LoadState.Loading) {
+        if (showAppending) {
             item {
                 Box(
                     modifier = Modifier

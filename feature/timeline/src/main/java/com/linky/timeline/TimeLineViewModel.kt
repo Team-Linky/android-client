@@ -35,7 +35,7 @@ class TimeLineViewModel @Inject constructor(
         when (action) {
             is TimeLineAction.IncrementReadCount -> incrementReadCount(action.id)
             is TimeLineAction.RemoveTimeLine -> removeTimeLine(action.id)
-            is TimeLineAction.ChangeSort -> changeSort(action.sort)
+//            is TimeLineAction.ChangeSort -> changeSort(action.sort)
         }
     }
 
@@ -51,11 +51,11 @@ class TimeLineViewModel @Inject constructor(
         }
     }
 
-    private fun changeSort(sort: Sort) {
-        intent {
-            reduce { state.copy(sortType = sort) }
-        }
-    }
+//    private fun changeSort(sort: Sort) {
+//        intent {
+//            reduce { state.copy(sortType = sort) }
+//        }
+//    }
 
     init {
         intent {
@@ -63,7 +63,7 @@ class TimeLineViewModel @Inject constructor(
                 ?.let { selectLinkByTagNameUseCase.invoke(it) }
                 ?: getLinksUseCase.invoke()
 
-            reduce { state.copy(linksState = links.cachedIn(viewModelScope)) }
+            reduce { state.copy(links = links.cachedIn(viewModelScope)) }
         }
     }
 }
@@ -71,5 +71,5 @@ class TimeLineViewModel @Inject constructor(
 sealed interface TimeLineAction {
     data class IncrementReadCount(val id: Long?) : TimeLineAction
     data class RemoveTimeLine(val id: Long?) : TimeLineAction
-    data class ChangeSort(val sort: Sort) : TimeLineAction
+//    data class ChangeSort(val sort: Sort) : TimeLineAction
 }
