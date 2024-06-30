@@ -1,4 +1,4 @@
-name: Android CI
+name: develop workflow
 
 on:
   push:
@@ -28,6 +28,6 @@ jobs:
       - name: Putting data
         env:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: echo $DATA | base64 -d > /home/runner/work/linky/android-client/app/google-services.json
+        run: echo $DATA > /home/runner/work/linky/android-client/app/google-services.json
       - name: Build with Gradle
         run: ./gradlew assembleDebug
