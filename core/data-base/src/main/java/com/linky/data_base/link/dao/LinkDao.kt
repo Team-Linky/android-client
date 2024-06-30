@@ -28,12 +28,14 @@ interface LinkDao {
     @Query("DELETE FROM link WHERE isRemove == 1")
     suspend fun deleteRemovedAll()
 
+    @Transaction
     @Query("SELECT * FROM link WHERE isRemove == 0")
     fun selectPage(): PagingSource<Int, LinkWithTags>
 
     @Query("SELECT * FROM link WHERE pk == :id")
     suspend fun findLinkById(id: Long): LinkEntity?
 
+    @Transaction
     @Query("SELECT * FROM link WHERE pk = :linkId")
     suspend fun findLinkWithTagsById(linkId: Long): LinkWithTags
 

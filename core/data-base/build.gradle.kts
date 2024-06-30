@@ -1,10 +1,15 @@
 plugins {
     id("linky.android.library")
     id("linky.android.hilt")
+    id("androidx.room")
 }
 
 android {
     namespace = "com.linky.data_base"
+
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
 }
 
 dependencies {

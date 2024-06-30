@@ -19,3 +19,5 @@ local.properties
 /build-logic/convention/build/
 /app/release/
 /keystore/
+/app/google-services.json
+/core/data-base/schemas/

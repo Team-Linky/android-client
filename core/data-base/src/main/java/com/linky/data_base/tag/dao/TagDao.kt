@@ -32,6 +32,7 @@ interface TagDao {
     @Query("SELECT COUNT(*) as tagCount FROM tag")
     fun getTagCount(): Flow<Int>
 
+    @Transaction
     @Query(
         """
         SELECT tag.*, COUNT(linktagcrossref.linkId) as linkCount
@@ -43,6 +44,7 @@ interface TagDao {
     )
     fun selectAll(): PagingSource<Int, TagEntity>
 
+    @Transaction
     @Query(
         """
         SELECT tag.*, COUNT(linktagcrossref.linkId) as linkCount FROM tag

@@ -4,7 +4,7 @@ hilt = "2.51.1"
 ksp = "2.0.0-1.0.21"
 
 androidDesugarJdkLibs = "2.0.4"
-androidGradle = "8.0.2"
+androidGradle = "8.5.0"
 androidxCoreKtx = "1.13.1"
 androidxComposeBom = "2024.06.00"
 androidxLifecycle = "2.8.2"
@@ -32,8 +32,8 @@ coil = "2.6.0"
 balloon = "1.5.4"
 json = "20230227"
 orbit = "6.0.0"
-firebaseBom = "33.1.0"
-firebaseCrashlyticsGradle = "3.0.1"
+firebaseBom = "33.1.1"
+firebaseCrashlyticsGradle = "3.0.2"
 webview = "0.33.2-alpha"
 
 androidPlayServices = "4.4.2"
@@ -41,8 +41,8 @@ androidPlayServices = "4.4.2"
 javax = "1"
 
 junit = "4.13.2"
-androidxJunit = "1.1.5"
-androidxEspressoCore = "3.5.1"
+androidxJunit = "1.2.1"
+androidxEspressoCore = "3.6.1"
 
 openGraph = "2.5.5"
 appcompat = "1.7.0"
@@ -133,6 +133,7 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 android-library = { id = "com.android.library", version.ref = "androidGradle" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+androidx-room = { id = "androidx.room", version.ref = "androidxRoom" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 jetbrains-kotlin-plugin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

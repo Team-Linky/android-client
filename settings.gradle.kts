@@ -28,6 +28,7 @@ include(
     ":core:data",
     ":core:data-base",
     ":core:model",
+    ":core:testing",
     ":feature:navigation",
     ":feature:timeline",
     ":feature:tag",

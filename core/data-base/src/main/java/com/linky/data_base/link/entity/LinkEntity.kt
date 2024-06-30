@@ -5,6 +5,7 @@ import androidx.paging.map
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.Junction
 import androidx.room.PrimaryKey
 import androidx.room.Relation
@@ -64,7 +65,10 @@ data class LinkEntity(
     }
 }
 
-@Entity(primaryKeys = ["linkId", "tagId"])
+@Entity(
+    primaryKeys = ["linkId", "tagId"],
+    indices = [Index(value = ["tagId"])]
+)
 data class LinkTagCrossRef(
     val linkId: Long,
     val tagId: Long
