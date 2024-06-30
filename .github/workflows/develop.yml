@@ -24,10 +24,10 @@ jobs:
         run: chmod +x gradlew
       - run: echo $KEY_BASE_64_DEBUG | base64 -d > debug.keystore
       - name: Create file
-        run: cat /home/runner/work/linky/android-client/app/google-services.json | base64
+        run: cat ./app/google-services.json
       - name: Putting data
         env:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: echo $DATA > /home/runner/work/linky/android-client/app/google-services.json
+        run: echo $DATA | base64 -d > ./app/google-services.json
       - name: Build with Gradle
         run: ./gradlew assembleDebug
