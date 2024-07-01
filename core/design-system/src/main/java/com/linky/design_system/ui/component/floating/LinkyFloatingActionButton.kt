@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.linky.design_system.ui.theme.ColorFamilyWhiteAndGray999
 import com.linky.design_system.ui.theme.MainColor
 import com.linky.design_system.util.clickableRipple
 
@@ -23,7 +24,7 @@ fun LinkyFloatingActionButton(onClick: () -> Unit = {}) {
         modifier = Modifier
             .padding(top = 40.dp, end = 10.dp)
             .size(68.dp)
-            .background(Color.White, CircleShape),
+            .background(ColorFamilyWhiteAndGray999, CircleShape),
         contentAlignment = Alignment.Center
     ) {
         Box(

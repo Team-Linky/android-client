@@ -50,10 +50,10 @@ fun LinkyBottomNavigation(navController: NavHostController) {
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(end = 26.dp)
-                .offset(y = -(15).dp)
+                .offset(y = -(14).dp)
                 .size(68.dp)
                 .shadow(8.dp, CircleShape)
-                .background(Color.White, CircleShape)
+                .background(ColorFamilyWhiteAndGray999, CircleShape)
         )
         BottomAppBar(
             modifier = Modifier
