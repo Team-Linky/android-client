@@ -17,7 +17,7 @@ androidxMaterialCompose = "1.6.8"
 androidxComposeNavigation = "2.7.7"
 navigationAnimation = "0.31.3-beta"
 androidxComposeHiltNavigation = "1.2.0"
-androidxPagingCompose = "3.3.0"
+androidxPaging = "3.3.0"
 androidxAppCompat = "1.6.1"
 androidxRoom = "2.6.1"
 androidxSplashScreen = "1.0.0"
@@ -42,7 +42,10 @@ androidPlayServices = "4.4.2"
 
 javax = "1"
 
-junit = "4.13.2"
+junit5 = "5.10.0"
+mannodermausPlugin = "1.10.0.0"
+mannodermaus = "1.4.0"
+mockk = "1.13.11"
 androidxTestRules = "1.6.1"
 androidxJunit = "1.2.1"
 androidxEspressoCore = "3.6.1"
@@ -58,12 +61,12 @@ ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devt
 
 coroutine-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine" }
 coroutine-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutine" }
+coroutine-guava = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "coroutine" }
+coroutine-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutine" }
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
-kotlinx-coroutines-guava = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "coroutine" }
-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutine" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
@@ -90,9 +93,10 @@ navigation-animation = { module = "com.google.accompanist:accompanist-navigation
 androidx-compose-hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxComposeHiltNavigation" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivityCompose" }
 androidx-material-compose = { module = "androidx.compose.material:material", version.ref = "androidxMaterialCompose" }
-androidx-paging = { module = "androidx.paging:paging-runtime", version.ref = "androidxPagingCompose" }
-androidx-paging-common = { module = "androidx.paging:paging-common-ktx", version.ref = "androidxPagingCompose" }
-androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidxPagingCompose" }
+androidx-paging = { module = "androidx.paging:paging-runtime", version.ref = "androidxPaging" }
+androidx-paging-common = { module = "androidx.paging:paging-common-ktx", version.ref = "androidxPaging" }
+androidx-paging-common-jvm = { group = "androidx.paging", name = "paging-common-jvm", version.ref = "androidxPaging" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidxPaging" }
 androidx-room = { module = "androidx.room:room-ktx", version.ref = "androidxRoom" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidxRoom" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidxRoom" }
@@ -115,13 +119,22 @@ javax = { module = "javax.inject:javax.inject", version.ref = "javax" }
 moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
 moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 
-junit = { module = "junit:junit", version.ref = "junit" }
+junit = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
+junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
+
+mannodermaus-test-core = { module = "de.mannodermaus.junit5:android-test-core", version.ref = "mannodermaus" }
+mannodermaus-test-runner = { module = "de.mannodermaus.junit5:android-test-runner", version.ref = "mannodermaus" }
+
+mockk-jvm = { module = "io.mockk:mockk-jvm", version.ref = "mockk" }
+mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockk" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidxJunit" }
 androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidxTestRules" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidxEspressoCore" }
 
 orbit-compose = { module = "org.orbit-mvi:orbit-compose", version.ref = "orbit" }
 orbit-viewmodel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbit" }
+orbit-test = { module = "org.orbit-mvi:orbit-test", version.ref = "orbit" }
 
 opengraph = { module = "com.github.Priyansh-Kedia:OpenGraphParser", version.ref = "openGraph" }
 webview = { module = "com.google.accompanist:accompanist-webview", version.ref = "webview" }
@@ -138,3 +151,4 @@ jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin"
 jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 jetbrains-kotlin-plugin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+de-mannodermaus-android-junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "mannodermausPlugin" }
