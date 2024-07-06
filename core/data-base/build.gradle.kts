@@ -28,6 +28,7 @@ dependencies {
 
     implementation(libs.androidx.room)
     implementation(libs.moshi)
+    implementation(libs.androidx.paging.testing.android)
     ksp(libs.moshi.codegen)
 
     implementation(libs.androidx.room.runtime)

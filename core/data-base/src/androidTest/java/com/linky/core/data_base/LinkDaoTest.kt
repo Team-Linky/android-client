@@ -1,6 +1,9 @@
 package com.linky.core.data_base
 
 import android.content.Context
+import androidx.paging.PagingConfig
+import androidx.paging.PagingSource
+import androidx.paging.testing.TestPager
 import androidx.test.core.app.ApplicationProvider
 import com.linky.core.data_base.link.dao.LinkDao
 import com.linky.core.data_base.link.entity.LinkEntity
@@ -34,7 +37,7 @@ class LinkDaoTest {
     }
 
     @Test
-    fun testInsertLink() = runBlocking {
+    fun test_LinkDao_insertLink(): Unit = runBlocking {
         val link = LinkEntity(
             id = null,
             memo = "test_memo",
@@ -55,5 +58,23 @@ class LinkDaoTest {
         }
 
         Assertions.assertTrue(id > 0L)
+    }
+
+    @Test
+    fun test_LinkDao_selectPage(): Unit = runBlocking {
+        val pager = TestPager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSource = linkDao.selectPage(),
+        )
+
+        val result = pager.refresh() as PagingSource.LoadResult.Page
+        val loadedData = result.data
+
+        println("loadedData.size: ${loadedData.size}")
+
+        Assertions.assertTrue(loadedData.isNotEmpty())
     }
 }
