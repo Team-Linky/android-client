@@ -3,11 +3,11 @@ package com.linky.data.repository.link
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.linky.data_base.link.data_source.LinkDataSource
-import com.linky.data_base.link.entity.LinkEntity.Mapper.toEntity
-import com.linky.data_base.link.entity.LinkEntity.Mapper.toLinks
-import com.linky.data_base.link.entity.LinkWithTags.Mapper.toLinks
-import com.linky.data_base.tag.entity.TagEntity.Companion.toEntity
+import com.linky.core.data_base.link.data_source.LinkDataSource
+import com.linky.core.data_base.link.entity.LinkEntity.Mapper.toEntity
+import com.linky.core.data_base.link.entity.LinkEntity.Mapper.toLinks
+import com.linky.core.data_base.link.entity.LinkWithTags.Mapper.toLinks
+import com.linky.core.data_base.tag.entity.TagEntity.Companion.toEntity
 import com.linky.model.Link
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

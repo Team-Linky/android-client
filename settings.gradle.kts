@@ -26,6 +26,7 @@ include(
     ":core:data-store",
     ":core:di",
     ":core:data",
+    ":core:data-test",
     ":core:data-base",
     ":core:model",
     ":core:testing",

@@ -1,9 +1,9 @@
 package com.linky.di
 
-import com.linky.data_base.link.data_source.LinkDataSource
-import com.linky.data_base.link.data_source.LinkDataSourceImpl
-import com.linky.data_base.tag.data_source.TagDataSource
-import com.linky.data_base.tag.data_source.TagDataSourceImpl
+import com.linky.core.data_base.link.data_source.LinkDataSource
+import com.linky.core.data_base.link.data_source.LinkDataSourceImpl
+import com.linky.core.data_base.tag.data_source.TagDataSource
+import com.linky.core.data_base.tag.data_source.TagDataSourceImpl
 import com.linky.data_store.data_source.pin.PinDataSource
 import com.linky.data_store.data_source.pin.PinDataSourceImpl
 import com.linky.data_store.data_source.lock.LockDataSource

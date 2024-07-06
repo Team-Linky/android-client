@@ -18,5 +18,6 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     implementation(libs.moshi)
+    implementation(libs.data.store)
     ksp(libs.moshi.codegen)
 }
