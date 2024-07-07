@@ -23,7 +23,7 @@
 - 직렬화/역직렬화: Moshi, Kotlinx Serialization
 - 생체 인식: Jetpack Biometric
 - DataBase
-  - 타임라인, 태그의 데이터는 Jetpack Room에서 관리하고있어요.
+  - 타임라인, 태그의 데이터는 Jetpack Room에서
   - 화면 잠금 여부, 생체 인식 여부, PIN 번호는 Preferences-DataStore에서 관리하고있어요.
 
 # 미리보기
