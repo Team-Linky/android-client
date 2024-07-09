@@ -23,13 +23,13 @@
 - 직렬화/역직렬화: Moshi, Kotlinx Serialization
 - 생체 인식: Jetpack Biometric
 - DataBase
-  - 타임라인, 태그의 데이터는 Jetpack Room에서
-  - 화면 잠금 여부, 생체 인식 여부, PIN 번호는 Preferences-DataStore에서 관리하고있어요.
+    - 타임라인, 태그의 데이터는 Jetpack Room에서
+    - 화면 잠금 여부, 생체 인식 여부, PIN 번호는 Preferences-DataStore에서 관리하고있어요.
 
 # 미리보기
 
-|타임라인|링크휴지통|링크수정|태그관리|
-|---|---|---|---|
-|<img src="/preview/home.gif" width="300" height="666"/>|<img src="/preview/link_del.gif" width="300" height="666"/>|<img src="/preview/link_edit.gif" width="300" height="666"/>|<img src="/preview/tag_set.gif" width="300" height="666"/>|
+<video width="300" height="666" controls>
+  <source src="/preview/preview.mp4" type="video/mp4">
+</video>
 
 ⓒ 2024 Linky - (강성범, 김예진, 추연학, 김민석)
