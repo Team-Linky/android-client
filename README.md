@@ -28,8 +28,6 @@
 
 # 미리보기
 
-<video width="300" height="666" controls>
-  <source src="/preview/preview.mp4" type="video/mp4">
-</video>
+<img src="/preview/preview.gif" alt="preview"/>
 
 ⓒ 2024 Linky - (강성범, 김예진, 추연학, 김민석)
