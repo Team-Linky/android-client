@@ -1,3 +1,7 @@
+# 미리보기
+
+https://github.com/Team-Linky/android-client/assets/13445643/cd13fdb5-6122-4d8a-997b-f20327b25faf
+
 ## 링키가 무엇인가요?
 
 링키는
@@ -25,9 +29,5 @@
 - DataBase
     - 타임라인, 태그의 데이터는 Jetpack Room에서
     - 화면 잠금 여부, 생체 인식 여부, PIN 번호는 Preferences-DataStore에서 관리하고있어요.
-
-# 미리보기
-
-https://github.com/Team-Linky/android-client/assets/13445643/cd13fdb5-6122-4d8a-997b-f20327b25faf
 
 ⓒ 2024 Linky - (강성범, 김예진, 추연학, 김민석)
