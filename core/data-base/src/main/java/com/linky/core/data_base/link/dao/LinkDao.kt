@@ -29,7 +29,7 @@ interface LinkDao {
     suspend fun deleteRemovedAll()
 
     @Transaction
-    @Query("SELECT * FROM link WHERE isRemove == 0")
+    @Query("SELECT * FROM link WHERE isRemove == 0 ORDER BY link.createAt DESC")
     fun selectPage(): PagingSource<Int, LinkWithTags>
 
     @Query("SELECT * FROM link WHERE pk == :id")
@@ -51,6 +51,7 @@ interface LinkDao {
             )
         )
         AND isRemove == 0
+        ORDER BY link.createAt DESC
     """
     )
     fun selectLinksByTagName(tagName: String): PagingSource<Int, LinkWithTags>
