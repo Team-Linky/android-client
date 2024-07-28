@@ -1,11 +1,11 @@
 package com.linky.timeline.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -65,6 +66,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun TimeLineList(
     modifier: Modifier = Modifier,
@@ -104,17 +106,28 @@ internal fun TimeLineList(
     LazyColumn(
         modifier = modifier,
         state = state,
-        contentPadding = PaddingValues(16.dp)
     ) {
         grouping.forEach { (groupName, groupItems) ->
-            item {
-                LinkyText(
-                    modifier = Modifier.padding(5.dp),
-                    text = groupName,
-                    color = ColorFamilyGray800AndGray400,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.dp
-                )
+            stickyHeader(
+                key = groupName,
+                contentType = "GroupName"
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = MaterialTheme.colors.background),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    LinkyText(
+                        modifier = Modifier
+                            .padding(5.dp)
+                            .padding(start = 21.dp),
+                        text = groupName,
+                        color = ColorFamilyGray800AndGray400,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.dp
+                    )
+                }
             }
             items(
                 items = groupItems,
@@ -125,6 +138,7 @@ internal fun TimeLineList(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 10.dp)
+                        .padding(horizontal = 16.dp)
                         .clickableRipple(enableRipple = false) { onClick.invoke(link) },
                     shape = RoundedCornerShape(12.dp),
                     backgroundColor = ColorFamilyWhiteAndGray999
@@ -165,6 +179,7 @@ internal fun TimeLineList(
                                 )
                             }
                             MenuButton(
+                                key = link.id,
                                 onEdit = { onEdit.invoke(link) },
                                 onRemove = { onRemove.invoke(link.id!!) }
                             )
@@ -243,7 +258,9 @@ internal fun TimeLineList(
                                         contentDescription = "copy",
                                         modifier = Modifier
                                             .weight(0.1f)
-                                            .clickableRipple(radius = 10.dp) { onCopyLink.invoke(link) },
+                                            .clickableRipple(radius = 10.dp) {
+                                                onCopyLink.invoke(link)
+                                            },
                                     )
                                 }
                             }
@@ -269,6 +286,7 @@ internal fun TimeLineList(
 
 @Composable
 private fun RowScope.MenuButton(
+    key: Any?,
     onEdit: () -> Unit,
     onRemove: () -> Unit
 ) {
@@ -282,6 +300,7 @@ private fun RowScope.MenuButton(
         }
     }
     Balloon(
+        key = key,
         modifier = Modifier
             .align(Alignment.CenterVertically)
             .padding(end = 10.dp),
