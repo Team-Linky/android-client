@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -197,7 +198,14 @@ internal fun TimeLineList(
                                 imageLoader = imageLoader,
                                 model = link.openGraphData.image,
                                 contentScale = ContentScale.Crop,
-                                contentDescription = "thumbnail"
+                                contentDescription = "thumbnail",
+                                error = {
+                                    Image(
+                                        modifier = Modifier.fillMaxSize(),
+                                        painter = painterResource(R.drawable.image_default_link_thumbnail),
+                                        contentDescription = "thumbnail"
+                                    )
+                                }
                             )
                             Column(
                                 modifier = Modifier
