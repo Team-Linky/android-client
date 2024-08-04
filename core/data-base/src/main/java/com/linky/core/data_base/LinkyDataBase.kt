@@ -24,7 +24,7 @@ import com.squareup.moshi.Moshi
         LinkTagCrossRef::class,
         LinkTagCrossRefBackupEntity::class
     ],
-    version = 1
+    version = 2
 )
 @TypeConverters(value = [LongTypeListConverter::class, OpenGraphDataConverter::class])
 abstract class LinkyDataBase : RoomDatabase() {
