@@ -102,4 +102,7 @@
     <string name="ask_category_menu_feature">이런 게 필요해요.</string>
     <string name="ask_category_menu_more">기타문의</string>
 
+    <!-- :feature:backup-restore -->
+    <string name="backup_restore_title">백업 및 복원</string>
+
 </resources>

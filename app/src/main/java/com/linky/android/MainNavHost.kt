@@ -22,6 +22,7 @@ fun MainNavHost(
     onShowLinkRecycleBinActivity: () -> Unit,
     onShowAskScreen: () -> Unit,
     onEdit: (Link) -> Unit,
+    onShowBackupAndRestoreActivity: () -> Unit,
 ) {
     AnimatedNavHost(
         navController = navHostController,
@@ -41,6 +42,7 @@ fun MainNavHost(
             onShowTagSettingActivity = onShowTagSettingActivity,
             onShowLinkRecycleBinActivity = onShowLinkRecycleBinActivity,
             onShowAskScreen = onShowAskScreen,
+            onShowBackupAndRestoreActivity = onShowBackupAndRestoreActivity,
         )
         askScreen(
             scaffoldState = scaffoldState,

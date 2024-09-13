@@ -71,6 +71,7 @@ dependencies {
     implementation(projects.feature.pin)
     implementation(projects.feature.recycleBin)
     implementation(projects.feature.ask)
+    implementation(projects.feature.backupRestore)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.lifecycle.runtime)

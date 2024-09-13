@@ -1,5 +1,7 @@
 package com.linky.di
 
+import com.linky.data.repository.backup.DatabaseBackupRepository
+import com.linky.data.repository.backup.DatabaseBackupRepositoryImpl
 import com.linky.data.repository.link.LinkRepository
 import com.linky.data.repository.link.LinkRepositoryImpl
 import com.linky.data.repository.lock.LockRepository
@@ -41,5 +43,11 @@ interface RepositoryModule {
     fun bindsLinkRepository(
         linkRepository: LinkRepositoryImpl
     ): LinkRepository
+
+    @Binds
+    @Singleton
+    fun bindsDatabaseBackupRepository(
+        databaseBackupRepository: DatabaseBackupRepositoryImpl
+    ): DatabaseBackupRepository
 
 }

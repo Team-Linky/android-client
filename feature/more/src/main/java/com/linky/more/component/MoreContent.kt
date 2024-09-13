@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -33,6 +34,7 @@ internal fun MoreContent(
     onShowTagSettingActivity: () -> Unit,
     onShowLinkRecycleBinActivity: () -> Unit,
     onShowAskScreen: () -> Unit,
+    onShowBackupAndRestoreActivity: () -> Unit,
 ) {
     Card(
         shape = RoundedCornerShape(12.dp),
@@ -82,13 +84,19 @@ internal fun MoreContent(
                 textResource = R.string.more_content_ask,
                 onClick = onShowAskScreen
             )
+            MoreContentItemLine()
+            MoreContentItem(
+                iconResource = null,
+                textResource = R.string.backup_restore_title,
+                onClick = onShowBackupAndRestoreActivity
+            )
         }
     }
 }
 
 @Composable
 private fun MoreContentItem(
-    @DrawableRes iconResource: Int,
+    @DrawableRes iconResource: Int?,
     @StringRes textResource: Int,
     onClick: () -> Unit = {}
 ) {
@@ -102,16 +110,25 @@ private fun MoreContentItem(
                 onClick = onClick
             )
     ) {
-        Image(
-            painter = painterResource(iconResource),
-            contentDescription = "icon",
-            modifier = Modifier.padding(start = 12.dp)
-        )
+        if (iconResource != null) {
+            Image(
+                painter = painterResource(iconResource),
+                contentDescription = "icon",
+                modifier = Modifier.padding(start = 12.dp)
+            )
+        }
+        val textModifier = remember {
+            if (iconResource != null) {
+                Modifier.padding(start = 8.dp)
+            } else {
+                Modifier.padding(start = 12.dp)
+            }
+        }
         LinkyText(
             text = stringResource(textResource),
             fontSize = 16.dp,
             fontWeight = FontWeight.Medium,
-            modifier = Modifier.padding(start = 8.dp)
+            modifier = textModifier
         )
     }
 }

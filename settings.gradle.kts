@@ -46,5 +46,6 @@ include(
     ":feature:pin",
     ":feature:pin-setting",
     ":feature:webview",
-    ":feature:ask"
+    ":feature:ask",
+    ":feature:backup-restore",
 )

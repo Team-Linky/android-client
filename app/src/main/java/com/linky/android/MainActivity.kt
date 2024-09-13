@@ -24,6 +24,7 @@ import com.linky.common.safe_coroutine.builder.safeLaunch
 import com.linky.design_system.ui.component.floating.LinkyFloatingActionButton
 import com.linky.design_system.ui.theme.LinkyDefaultTheme
 import com.linky.feature.ask.ASK_ROUTE
+import com.linky.feature.backup_restore.launchBackupAndRestoreActivity
 import com.linky.feature.recycle_bin.launchRecycleBinActivity
 import com.linky.feature.tag_setting.launchTagSettingActivity
 import com.linky.link.LinkActivity
@@ -143,7 +144,8 @@ class MainActivity : ComponentActivity() {
                                     url = link.openGraphData.url,
                                     linkId = link.id,
                                 )
-                            }
+                            },
+                            onShowBackupAndRestoreActivity = ::launchBackupAndRestoreActivity
                         )
                     }
                 }

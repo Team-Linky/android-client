@@ -20,6 +20,7 @@ fun NavGraphBuilder.moreScreen(
     onShowTagSettingActivity: () -> Unit,
     onShowLinkRecycleBinActivity: () -> Unit,
     onShowAskScreen: () -> Unit,
+    onShowBackupAndRestoreActivity: () -> Unit,
 ) {
     composable(
         route = MainNavType.More.route,
@@ -30,7 +31,8 @@ fun NavGraphBuilder.moreScreen(
             onShowMoreActivity = onShowMoreActivity,
             onShowTagSettingActivity = onShowTagSettingActivity,
             onShowLinkRecycleBinActivity = onShowLinkRecycleBinActivity,
-            onShowAskScreen = onShowAskScreen
+            onShowAskScreen = onShowAskScreen,
+            onShowBackupAndRestoreActivity = onShowBackupAndRestoreActivity,
         )
     }
 }
@@ -41,12 +43,14 @@ private fun MoreRoute(
     onShowTagSettingActivity: () -> Unit,
     onShowLinkRecycleBinActivity: () -> Unit,
     onShowAskScreen: () -> Unit,
+    onShowBackupAndRestoreActivity: () -> Unit,
 ) {
     MoreScreen(
         onShowMoreActivity = onShowMoreActivity,
         onShowTagSettingActivity = onShowTagSettingActivity,
         onShowLinkRecycleBinActivity = onShowLinkRecycleBinActivity,
         onShowAskScreen = onShowAskScreen,
+        onShowBackupAndRestoreActivity = onShowBackupAndRestoreActivity,
     )
 }
 
@@ -56,6 +60,7 @@ private fun MoreScreen(
     onShowTagSettingActivity: () -> Unit,
     onShowLinkRecycleBinActivity: () -> Unit,
     onShowAskScreen: () -> Unit,
+    onShowBackupAndRestoreActivity: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -68,7 +73,8 @@ private fun MoreScreen(
             onShowMoreActivity = onShowMoreActivity,
             onShowTagSettingActivity = onShowTagSettingActivity,
             onShowLinkRecycleBinActivity = onShowLinkRecycleBinActivity,
-            onShowAskScreen = onShowAskScreen
+            onShowAskScreen = onShowAskScreen,
+            onShowBackupAndRestoreActivity = onShowBackupAndRestoreActivity,
         )
     }
 }
