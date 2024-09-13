@@ -1,6 +1,7 @@
 package com.linky.timeline
 
 import androidx.activity.ComponentActivity
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
@@ -179,16 +180,22 @@ private fun TimeLineScreen(
         derivedStateOf { linksPager.loadState.append is LoadState.Loading && linksPager.itemCount > 0 }
     }
 
+    val showHeader by remember(listState) {
+        derivedStateOf { listState.firstVisibleItemIndex < 1 }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TimeLineHeader(
-            sortType = sortType,
-            onChangeSort = onChangeSort,
-        )
+        AnimatedVisibility(visible = showHeader) {
+            TimeLineHeader(
+                sortType = sortType,
+                onChangeSort = onChangeSort,
+            )
+        }
         Box(
             modifier = Modifier.weight(1f),
             contentAlignment = Alignment.TopCenter

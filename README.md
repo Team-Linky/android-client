@@ -1,5 +1,15 @@
 <a href='https://play.google.com/store/apps/details?id=com.linky.android'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height="80"/></a>
 
+https://github.com/Team-Linky/android-client/assets/13445643/cd13fdb5-6122-4d8a-997b-f20327b25faf
+
+# 미리보기
+
+<video width="300" height="666" controls>
+  <source src="/preview/preview.mp4" type="video/mp4">
+</video>
+
+=======
+
 ## 링키가 무엇인가요?
 
 링키는
@@ -27,11 +37,5 @@
 - DataBase
     - 타임라인, 태그의 데이터는 Jetpack Room에서
     - 화면 잠금 여부, 생체 인식 여부, PIN 번호는 Preferences-DataStore에서 관리하고있어요.
-
-# 미리보기
-
-<video width="300" height="666" controls>
-  <source src="/preview/preview.mp4" type="video/mp4">
-</video>
 
 ⓒ 2024 Linky - (강성범, 김예진, 추연학, 김민석)

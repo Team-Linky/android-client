@@ -49,7 +49,7 @@ class TimeLineViewModel @Inject constructor(
         }
     }
 
-    init {
+    private fun getLinks() {
         intent {
             val links = savedStateHandle.get<String>(INTENT_KEY_TAG_NAME)
                 ?.let { selectLinkByTagNameUseCase.invoke(it) }
@@ -57,6 +57,10 @@ class TimeLineViewModel @Inject constructor(
 
             reduce { state.copy(links = links.cachedIn(viewModelScope)) }
         }
+    }
+
+    init {
+        getLinks()
     }
 }
 
