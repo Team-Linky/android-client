@@ -4,8 +4,6 @@
 
 https://github.com/Team-Linky/android-client/assets/13445643/cd13fdb5-6122-4d8a-997b-f20327b25faf
 
-=======
-
 ## 링키가 무엇인가요?
 
 링키는
