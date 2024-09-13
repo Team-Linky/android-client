@@ -127,7 +127,7 @@ class LinkRecycleBinActivity : ComponentActivity() {
                     mutableStateOf(LinkDeleteDialogDirector.Init)
                 }
 
-                LaunchedEffect(selectLinks, state.linksCount) {
+                LaunchedEffect(selectLinks.size, state.linksCount) {
                     isAllCheckList = selectLinks.size == state.linksCount && state.linksCount > 0
                 }
 
@@ -164,6 +164,10 @@ class LinkRecycleBinActivity : ComponentActivity() {
 
                                 if (!isAllCheckList) {
                                     selectLinks.clear()
+                                } else {
+                                    (0..<links.itemCount).forEach { index ->
+                                        links[index]?.also { selectLinks.add(it) }
+                                    }
                                 }
                             }
                         )
