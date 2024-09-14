@@ -37,7 +37,12 @@ fun NavGraphBuilder.urlInputScreen(navController: NavController) {
 
         URLInputRoute(
             onNext = { url ->
-                val encodedUrl = URLEncoder.encode(url, StandardCharsets.UTF_8.toString())
+                val newUrl = if (url.startsWith("http")) {
+                    url
+                } else {
+                    "https://$url"
+                }
+                val encodedUrl = URLEncoder.encode(newUrl, StandardCharsets.UTF_8.toString())
                 val route = LinkNavType.LinkModifier.route
                     .replace("{url}", encodedUrl)
                     .replace("{mode}", "1")
@@ -86,7 +91,7 @@ private fun URLInputScreen(
         }
     }
     val isNextActive by remember(text) {
-        derivedStateOf { text.startsWith("https://") }
+        derivedStateOf { text.isNotEmpty() && text.isNotBlank() }
     }
 
     DisposableEffect(backDispatcher, onBackPressCallback) {
