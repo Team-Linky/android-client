@@ -26,7 +26,7 @@ https://github.com/Team-Linky/android-client/assets/13445643/cd13fdb5-6122-4d8a-
 - UI 작업: Jetpack Compose, ViewModel, Lifecycle, Paging, Coil, Material, Balloon
 - 아키텍처: Orbit-MVI, Clean Architecture, Multi Module
 - 의존성 주입: Hilt
-- 직렬화/역직렬화: Moshi, Kotlinx Serialization
+- 직렬화/역직렬화: Kotlinx Serialization
 - 생체 인식: Jetpack Biometric
 - DataBase
     - 타임라인, 태그의 데이터는 Jetpack Room에서
